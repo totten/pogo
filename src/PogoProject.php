@@ -36,7 +36,10 @@ class PogoProject {
         'files' => ['.pogolib.php'],
       ],
       'extra' => [
-        'pogo.expires' => strtotime($this->scriptMetadata->ttl),
+        'expires' => [
+          'expires' => strtotime($this->scriptMetadata->ttl),
+          'script' => realpath($this->path),
+        ],
       ],
     ];
   }
@@ -52,7 +55,10 @@ class PogoProject {
       return 'empty';
     }
     $composerJson = json_decode(file_get_contents("{$this->path}/composer.json"), 1);
-    if (isset($composerJson['extra']['pogo.expires']) && $composerJson['extra']['pogo.expires'] < time()) {
+    if (isset($composerJson['extra']['pogo']['expires']) && $composerJson['extra']['pogo']['expires'] < time()) {
+      return 'stale';
+    }
+    if (isset($composerJson['extra']['pogo']['script']) && realpath($composerJson['extra']['pogo']['script']) !== realpath($this->path)) {
       return 'stale';
     }
 

@@ -26,7 +26,7 @@ class RunCommand {
     if (!empty($target) && file_exists($target)) {
       $scriptMetadata = \Pogo\ScriptMetadata::parse($target);
       $path = $this->pickBaseDir($input, $target, function() use ($scriptMetadata) {
-        return sha1($scriptMetadata->getDigest() . $this->getCodeDigest());
+        return basename($scriptMetadata->file) . '-' . sha1($scriptMetadata->getDigest() . $this->getCodeDigest() . realpath($scriptMetadata->file));
       });
       $project = new PogoProject($scriptMetadata, $path);
 
@@ -89,7 +89,7 @@ class RunCommand {
     else {
       $base = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'pogo';
     }
-    return $result ? $result : $base . DIRECTORY_SEPARATOR . $hintCb();
+    return $base . DIRECTORY_SEPARATOR . $hintCb();
   }
 
   public function pickRunner($file) {
