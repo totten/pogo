@@ -9,8 +9,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "totten/process-helper": "^1.0.1"
+        "php": ">=5.3.3"
     },
     "autoload": {
         "psr-4": {
