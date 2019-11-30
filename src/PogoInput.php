@@ -39,7 +39,7 @@ class PogoInput {
    * @var string
    *   The name of the current program being run.
    */
-  public $program;
+  public $interpreter;
 
   /**
    * @var array
@@ -47,7 +47,7 @@ class PogoInput {
    *   If the option specifies a value, it is given here.
    *   Otherwise, the value defaults to TRUE.
    */
-  public $options;
+  public $interpreterOptions;
 
   /**
    * @var string
@@ -56,22 +56,16 @@ class PogoInput {
   public $action;
 
   /**
-   * @var array
-   *   Any words which are not inputs
-   */
-  public $arguments;
-
-  /**
    * @var string
    *   The PHP file to scan/execute.
    */
-  public $file;
+  public $script;
 
   /**
    * @var array
-   *   Any/all items which appear after the '--' separator
+   *   Any/all items being passed to the downstream script.
    */
-  public $suffix;
+  public $scriptArgs;
 
   /**
    * @param array $args
@@ -86,41 +80,41 @@ class PogoInput {
   }
 
   public function parse($args) {
-    $this->program = $this->action = $this->file = NULL;
-    $this->options = $this->suffix = [];
+    $this->interpreter = $this->action = $this->script = NULL;
+    $this->interpreterOptions = $this->scriptArgs = [];
     $isSuffix = FALSE;
 
-    $this->program = array_shift($args);
+    $this->interpreter = array_shift($args);
     foreach ($args as $arg) {
       if ($isSuffix) {
-        $this->suffix[] = $arg;
+        $this->scriptArgs[] = $arg;
       }
       elseif ($arg === '--') {
         $isSuffix = TRUE;
       }
       elseif (preg_match('/^--([^=]+)=(.*)$/', $arg, $m)) {
-        $this->options[$m[1]] = $m[2];
+        $this->interpreterOptions[$m[1]] = $m[2];
       }
       elseif (preg_match('/^-([^=])=(.*)$/', $arg, $m)) {
-        $this->options[$m[1]] = $m[2];
+        $this->interpreterOptions[$m[1]] = $m[2];
       }
       elseif (preg_match('/^--([^=]+)$/', $arg, $m)) {
-        $this->options[$m[1]] = TRUE;
+        $this->interpreterOptions[$m[1]] = TRUE;
       }
       elseif (preg_match('/^-([a-zA-Z0-9])+$/', $arg, $m)) {
         for ($i = 0; $i < strlen($m[1]); $i++) {
-          $this->options[$m[1]{$i}] = TRUE;
+          $this->interpreterOptions[$m[1]{$i}] = TRUE;
         }
       }
       elseif ($this->action === NULL) {
         $this->action = $arg;
       }
-      elseif ($this->file === NULL) {
-        $this->file = $arg;
+      elseif ($this->script === NULL) {
+        $this->script = $arg;
       }
       else {
         $isSuffix = TRUE;
-        $this->suffix[] = $arg;
+        $this->scriptArgs[] = $arg;
       }
     }
   }
@@ -135,8 +129,8 @@ class PogoInput {
   public function getOption($names, $default = NULL) {
     $names = (array) $names;
     foreach ($names as $name) {
-      if (isset($this->options[$name])) {
-        return $this->options[$name];
+      if (isset($this->interpreterOptions[$name])) {
+        return $this->interpreterOptions[$name];
       }
     }
     return $default;

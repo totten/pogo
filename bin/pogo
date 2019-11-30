@@ -28,7 +28,7 @@ function pogo_main(\Pogo\PogoInput $input) {
     'parse' => new \Pogo\Command\ParseCommand(),
     'help' => new \Pogo\Command\HelpCommand(),
   ];
-  $default = empty($input->suffix) ? 'help' : 'run';
+  $default = empty($input->scriptArgs) ? 'help' : 'run';
 
   if (isset($actions[$input->action])) {
     $exit = $actions[$input->action]->run($input);

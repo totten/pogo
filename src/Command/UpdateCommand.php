@@ -7,7 +7,7 @@ use Pogo\Pwd;
 class UpdateCommand {
 
   public function run(PogoInput $input) {
-    if (!empty($input->file)) {
+    if (!empty($input->script)) {
       throw new \Exception("[pogo up] Unexpected file argument.");
     }
 
@@ -25,8 +25,8 @@ class UpdateCommand {
       throw new \Exception("[pogo up] This project references a non-existent source script ($target).");
     }
 
-    $subInput = new PogoInput([
-      $input->program,
+    $subInput = PogoInput::create([
+      $input->interpreter,
       'dl',
       $target,
       '--force',

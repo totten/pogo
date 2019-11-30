@@ -6,7 +6,7 @@ use Pogo\PogoInput;
 class HelpCommand {
 
   public function run(PogoInput $input) {
-    $cmd = basename($input->program);
+    $cmd = basename($input->interpreter);
     echo "Example: Run a script\n";
     echo "  $cmd run [download-options] <script-file> [--] [script-options]\n";
     echo "\n";
