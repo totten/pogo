@@ -13,6 +13,9 @@ class HelpCommand {
     echo "Example: Download dependencies for a script\n";
     echo "  $cmd dl [download-options] <script-file>\n";
     echo "\n";
+    echo "Example: Preview the metadata for a script\n";
+    echo "  $cmd parse <script-file>\n";
+    echo "\n";
     echo "Example: Update dependencies in an existing project directory\n";
     echo "  cd <out-dir>\n";
     echo "  $cmd up\n";
