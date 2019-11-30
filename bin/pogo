@@ -22,6 +22,7 @@ if (!$found) {
 function pogo_main(\Pogo\PogoInput $input) {
   $actions = [
     'run' => new \Pogo\Command\RunCommand(),
+    'dl' => new \Pogo\Command\DownloadCommand(),
     'help' => new \Pogo\Command\HelpCommand(),
   ];
   $default = empty($input->suffix) ? 'help' : 'run';
