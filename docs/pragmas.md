@@ -46,16 +46,16 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
     * `eval`: Loosely, this runs `php -r 'require_once $autoloader; eval(cleanup($your_script))'`. This fixes the
       erroneous output, but backtraces and debugging may not be as pleasant.
     * `dash-b`: Loosely, this runs `echo | php -B 'require_once $autoloader;' -F $your_script`. This avoids the
-      erroneous output and gives decent backtraces, but it will not handle piped-input normally.
+      erroneous output and gives decent backtraces, but it will not handle STDIN normally.
         * If want to use `dash-b` and you *know* that there will be piped input, then set `buffer:true`.
-          The input will be available in an alternate file:
+          The input will be available in an alternate location:
           ```php
           #!run {with: dash-b, buffer: true}
           $data = file_get_contents(pogo_stdin()));
           printf("Received input %s:\n%s\n", md5($data), $data);
           ```
-    * `data`: This is every similar to `eval`. At the moment, I dont' think it has any real advantage over `eval`,
-      but I've kept it as a potential inspiration.
+    * `data`: This is very similar to `eval`, but it replaces `eval(...)` with `include 'data://text/...'`.
+      At the moment, I don't think it has any real advantage over `eval`, but I've kept it as potential inspiration.
 
 # YAML (Subset)
 
