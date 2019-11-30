@@ -29,9 +29,8 @@ class PogoProject {
   }
 
   public function createComposerJson() {
-    return [
-      'name' => 'local/pogo',
-      'require' => $this->scriptMetadata->require,
+    $composerJson = [
+      'name' => 'pogo/' . preg_replace('[^a-zA-Z0-9_\-]', '', basename($this->scriptMetadata->file)),
       'autoload' => [
         'files' => ['.pogolib.php'],
       ],
@@ -42,6 +41,10 @@ class PogoProject {
         ],
       ],
     ];
+    if ($this->scriptMetadata->require) {
+      $composerJson['require'] = $this->scriptMetadata->require;
+    }
+    return $composerJson;
   }
 
   /**
@@ -60,6 +63,9 @@ class PogoProject {
     }
     if (isset($composerJson['extra']['pogo']['script']) && realpath($composerJson['extra']['pogo']['script']) !== realpath($this->path)) {
       return 'stale';
+    }
+    if (!isset($composerJson['require'])) {
+      $composerJson['require'] = [];
     }
 
     $sortedReq = $this->scriptMetadata->require;
@@ -87,7 +93,7 @@ class PogoProject {
 
   public function buildComposer() {
     $path = $this->path;
-    file_put_contents("$path/composer.json", json_encode($this->createComposerJson()));
+    file_put_contents("$path/composer.json", json_encode($this->createComposerJson(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     if (file_exists("$path/composer.lock")) {
       unlink("$path/composer.lock");
     }
