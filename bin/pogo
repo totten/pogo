@@ -23,12 +23,14 @@ function pogo_main(\Pogo\PogoInput $input) {
     'run' => new \Pogo\Command\RunCommand(),
     'help' => new \Pogo\Command\HelpCommand(),
   ];
+  $default = empty($input->suffix) ? 'help' : 'run';
+
   if (isset($actions[$input->action])) {
     $exit = $actions[$input->action]->run($input);
     exit($exit === NULL ? 0 : $exit);
   }
   else {
-    $actions['help']->run($input);
+    $actions[$default]->run($input);
     return 1;
   }
 }
