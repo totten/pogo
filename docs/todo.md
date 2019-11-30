@@ -19,3 +19,4 @@
 * Reconsider symfony/console. (Pro: All the runners have good thread-isolation. Con: We probably need ven more specialized arg parsing for simpler shebangs.)
 * Consider integration with multifile composer projects. (Scan `**.php` and update `composer.json`)
 * Windows...
+* Add command `pogo phar my-script.php -o=my-script.phar`
