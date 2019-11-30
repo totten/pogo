@@ -32,7 +32,7 @@ class IncludeRunner {
       escapeshellarg($launcher)
     );
     $cmd .= ' ' . implode(' ', array_map('escapeshellarg', $cliArgs));
-    printf("[%s] Running command: $cmd\n", __CLASS__, $cmd);
+    // printf("[%s] Running command: $cmd\n", __CLASS__, $cmd);
     $process = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);
     return proc_close($process);
   }
