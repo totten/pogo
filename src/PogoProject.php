@@ -30,7 +30,7 @@ class PogoProject {
 
   public function createComposerJson() {
     $composerJson = [
-      'name' => 'pogo/' . preg_replace('[^a-zA-Z0-9_\-]', '', basename($this->scriptMetadata->file)),
+      'name' => 'pogo/' . preg_replace(';[^a-zA-Z0-9_\-];', '', basename($this->scriptMetadata->file)),
       'autoload' => [
         'files' => ['.pogolib.php'],
       ],
@@ -48,7 +48,7 @@ class PogoProject {
   }
 
   /**
-   * @return bool
+   * @return string
    *   'current': The build exists and is up to date
    *   'stale': The build exists but is old
    *   'empty': The build does not exist
@@ -61,7 +61,7 @@ class PogoProject {
     if (isset($composerJson['extra']['pogo']['expires']) && $composerJson['extra']['pogo']['expires'] < time()) {
       return 'stale';
     }
-    if (isset($composerJson['extra']['pogo']['script']) && realpath($composerJson['extra']['pogo']['script']) !== realpath($this->path)) {
+    if (isset($composerJson['extra']['pogo']['script']) && realpath($composerJson['extra']['pogo']['script']) !== realpath($this->scriptMetadata->file)) {
       return 'stale';
     }
     if (!isset($composerJson['require'])) {
