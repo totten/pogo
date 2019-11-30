@@ -157,6 +157,7 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
     * Update dependencies after editing a script (`#!require:...`)
     * Do NOT update dependencies after editing a script (same requirement list)
     * Run a standalone download
+    * Run the parse command
     * Attempt to run a script with an invalid set of requirements
     * Ini handling
 * Add more verbosity options. Cleanup output.
