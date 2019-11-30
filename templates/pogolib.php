@@ -1,10 +1,10 @@
 <?php
 /**
  * @return string
- *   The content of QP_SCRIPT, without any leading shebangs.
+ *   The content of POGO_SCRIPT, without any leading shebangs.
  */
 function pogo_script() {
-  return pogo_clean_script(file_get_contents(getenv('QP_SCRIPT')));
+  return pogo_clean_script(file_get_contents(getenv('POGO_SCRIPT')));
 }
 
 /**

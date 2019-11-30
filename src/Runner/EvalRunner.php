@@ -24,9 +24,9 @@ class EvalRunner {
    * @return int
    */
   public function run($autoloader, $script, $cliArgs) {
-    $launcher = 'require_once getenv("QP_AUTOLOAD");eval("?" . ">" . pogo_script());';
+    $launcher = 'require_once getenv("POGO_AUTOLOAD");eval("?" . ">" . pogo_script());';
 
-    $cmd = sprintf('QP_SCRIPT=%s QP_AUTOLOAD=%s php -r %s',
+    $cmd = sprintf('POGO_SCRIPT=%s POGO_AUTOLOAD=%s php -r %s',
       escapeshellarg($script),
       escapeshellarg($autoloader),
       escapeshellarg($launcher)

@@ -1,7 +1,8 @@
 #!/usr/bin/env php
 <?php
 ini_set('display_errors', 1);
-putenv('QP_SCRIPT=');
+putenv('POGO_SCRIPT=');
+putenv('POGO_AUTOLOAD=');
 $found = 0;
 $autoloaders = array(
   dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',

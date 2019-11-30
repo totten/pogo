@@ -21,7 +21,9 @@ class HelpCommand {
     echo "\n";
     echo "\n";
     echo "Environment:\n";
-    echo "  QP_BASE   Default location for output folders\n";
+    echo "  POGO_BASE   Default location for output folders\n";
+    echo "              To store in-situ as a dot folder, use POGO_BASE=.\n";
+    echo "              If omitted, defaults to ~/.cache/pogo or /tmp/pogo\n";
     echo "\n";
     return 0;
   }

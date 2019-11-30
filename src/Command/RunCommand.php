@@ -75,11 +75,11 @@ class RunCommand {
 
     // Pick a base and calculate a hint/digested name.
 
-    if (getenv('QP_BASE')) {
-      if (getenv('QP_BASE') === '.') {
+    if (getenv('POGO_BASE')) {
+      if (getenv('POGO_BASE') === '.') {
         return dirname($target) . DIRECTORY_SEPARATOR . '.pogo';
       }
-      $base = getenv('QP_BASE');
+      $base = getenv('POGO_BASE');
     }
     elseif (getenv('HOME')) {
       $base = getenv('HOME') . DIRECTORY_SEPARATOR . '.cache' . DIRECTORY_SEPARATOR . 'pogo';

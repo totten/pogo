@@ -28,7 +28,7 @@ class FileRunner {
 //    $code = file_get_contents($script);
 //    $launcher = trim(preg_replace('/^\s*<' . '\?php/', '', $launcher, 1));
 //
-//    $cmd = sprintf('QP_SCRIPT=%s QP_AUTOLOAD=%s php %s -r %s',
+//    $cmd = sprintf('POGO_SCRIPT=%s POGO_AUTOLOAD=%s php %s -r %s',
 //      escapeshellarg($script),
 //      escapeshellarg($autoloader),
 //      $defines,

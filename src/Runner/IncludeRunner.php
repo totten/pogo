@@ -24,9 +24,9 @@ class IncludeRunner {
    * @return int
    */
   public function run($autoloader, $script, $cliArgs) {
-    $launcher = 'require_once getenv("QP_AUTOLOAD");include getenv("QP_SCRIPT");';
+    $launcher = 'require_once getenv("POGO_AUTOLOAD");include getenv("POGO_SCRIPT");';
 
-    $cmd = sprintf('QP_SCRIPT=%s QP_AUTOLOAD=%s php -r %s',
+    $cmd = sprintf('POGO_SCRIPT=%s POGO_AUTOLOAD=%s php -r %s',
       escapeshellarg($script),
       escapeshellarg($autoloader),
       escapeshellarg($launcher)

@@ -25,8 +25,8 @@ class DataRunner {
    * @return int
    */
   public function run($autoloader, $script, $cliArgs) {
-    $launcher = 'require_once getenv("QP_AUTOLOAD"); include "data://text/plain;base64,".base64_encode(pogo_script());';
-    $cmd = sprintf('QP_SCRIPT=%s QP_AUTOLOAD=%s php -d allow_url_include=1 -r %s',
+    $launcher = 'require_once getenv("POGO_AUTOLOAD"); include "data://text/plain;base64,".base64_encode(pogo_script());';
+    $cmd = sprintf('POGO_SCRIPT=%s POGO_AUTOLOAD=%s php -d allow_url_include=1 -r %s',
       escapeshellarg($script),
       escapeshellarg($autoloader),
       escapeshellarg($launcher)
