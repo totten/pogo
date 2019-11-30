@@ -23,6 +23,7 @@ function pogo_main(\Pogo\PogoInput $input) {
   $actions = [
     'run' => new \Pogo\Command\RunCommand(),
     'dl' => new \Pogo\Command\DownloadCommand(),
+    'up' => new \Pogo\Command\UpdateCommand(),
     'help' => new \Pogo\Command\HelpCommand(),
   ];
   $default = empty($input->suffix) ? 'help' : 'run';

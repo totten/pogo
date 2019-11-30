@@ -7,19 +7,19 @@ class HelpCommand {
 
   public function run(PogoInput $input) {
     $cmd = basename($input->program);
-    echo "Example: Run the given script\n";
+    echo "Example: Run a script\n";
     echo "  $cmd run [download-options] <script-file> [--] [script-options]\n";
     echo "\n";
-    echo "Example: Download dependencies to the given folder\n";
+    echo "Example: Download dependencies for a script\n";
     echo "  $cmd dl [download-options] <script-file>\n";
     echo "\n";
-    //    echo "Example: Update dependencies in an existing project directory\n";
-    //    echo "  $cmd update\n";
-    //    echo "\n";
+    echo "Example: Update dependencies in an existing project directory\n";
+    echo "  cd <out-dir>\n";
+    echo "  $cmd up\n";
+    echo "\n";
     //    echo "Example: Remove any expired builds from the base folder\n";
     //    echo "  $cmd clean\n";
     //    echo "\n";
-
     echo "Download Options:\n";
     echo "  -f        Force; recreate project, even if it appears current\n";
     echo "  -o=<out>  Output directory\n";
