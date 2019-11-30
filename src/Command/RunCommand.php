@@ -1,7 +1,6 @@
 <?php
 namespace Pogo\Command;
 
-use Pogo\PogoProject;
 use Pogo\PogoInput;
 use Pogo\Runner\EvalRunner;
 use Pogo\Runner\FileRunner;
@@ -63,6 +62,5 @@ class RunCommand {
       return 'include';
     }
   }
-
 
 }
