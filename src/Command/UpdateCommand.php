@@ -7,8 +7,8 @@ use Pogo\Pwd;
 class UpdateCommand {
 
   public function run(PogoInput $input) {
-    if (!empty($input->arguments)) {
-      throw new \Exception("[pogo up] No arguments expected.");
+    if (!empty($input->file)) {
+      throw new \Exception("[pogo up] Unexpected file argument.");
     }
 
     if (!file_exists('composer.json')) {

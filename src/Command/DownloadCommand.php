@@ -8,25 +8,18 @@ class DownloadCommand {
   use DownloadCommandTrait;
 
   public function run(PogoInput $input) {
-    if (empty($input->arguments)) {
+    if (empty($input->file)) {
       throw new \Exception("[pogo dl] Missing required file name");
-    }
-
-    if (count($input->arguments) > 1 && $input->getOption(['out', 'o'])) {
-      throw new \Exception("[pogo dl] The --out=<path> can only be used with one script at a time.");
     }
 
     // TODO: realpath($target) but using getenv(PWD) or `pwd` to preserve symlink structure
 
-    foreach ($input->arguments as $target) {
-      if (!file_exists($target)) {
-        throw new \Exception("[pogo dl] Non-existent file: $target");
-      }
+    if (!file_exists($input->file)) {
+      throw new \Exception("[pogo dl] Non-existent file: {$input->file}");
     }
 
-    foreach ($input->arguments as $target) {
-      $this->initProject($input, $target);
-    }
+    $this->initProject($input, $input->file);
+
     return 0;
   }
 

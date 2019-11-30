@@ -13,13 +13,12 @@ class RunCommand {
   use DownloadCommandTrait;
 
   public function run(PogoInput $input) {
-    $combo = array_merge($input->arguments, $input->suffix);
-    if (count($combo) < 1) {
+    if (empty($input->file)) {
       throw new \Exception("[pogo run] Missing required file name");
     }
 
     // TODO: realpath($target) but using getenv(PWD) or `pwd` to preserve symlink structure
-    $target = array_shift($combo);
+    $target = $input->file;
     if (!file_exists($target)) {
       throw new \Exception("[pogo run] Non-existent file: $target");
     }
@@ -45,7 +44,7 @@ class RunCommand {
         throw new \Exception("Invalid run mode: $runMode");
       }
 
-      return $runners[$runMode]->run($autoloader, $project->scriptMetadata, $combo);
+      return $runners[$runMode]->run($autoloader, $project->scriptMetadata, $input->suffix);
     }
     else {
       fwrite(STDERR, "[pogo run] Script not found ($target)");

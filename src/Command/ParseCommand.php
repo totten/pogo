@@ -8,22 +8,19 @@ class ParseCommand {
   use DownloadCommandTrait;
 
   public function run(PogoInput $input) {
-    if (empty($input->arguments)) {
+    if (empty($input->file)) {
       throw new \Exception("[pogo dl] Missing required file name");
     }
 
-    foreach ($input->arguments as $target) {
-      if (!file_exists($target)) {
-        throw new \Exception("[pogo dl] Non-existent file: $target");
-      }
+    if (!file_exists($input->file)) {
+      throw new \Exception("[pogo dl] Non-existent file: {$input->file}");
     }
 
-    foreach ($input->arguments as $target) {
-      $scriptMetadata = \Pogo\ScriptMetadata::parse($target);
-      $scriptMetadata = (array) $scriptMetadata;
-      echo json_encode($scriptMetadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-      echo "\n";
-    }
+    $scriptMetadata = \Pogo\ScriptMetadata::parse($input->file);
+    $scriptMetadata = (array) $scriptMetadata;
+    echo json_encode($scriptMetadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    echo "\n";
+
     return 0;
   }
 

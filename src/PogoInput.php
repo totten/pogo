@@ -8,9 +8,28 @@ namespace Pogo;
  *
  * Represents command-line input.
  *
- * Ex: 'do some -a --bee -c=123 --dee=456 thing -- extra'
+ * A key issue is the DX-norm of calling an interpreter with
+ * '#!/usr/bin/env my-interp'. This produces two levels of options.
+ *
+ * For example, suppose we have
+ * - `/usr/local/bin/my-interp' which accepts argument `--interp-arg'
+ * - `/home/me/myscript` which accepts argument `--script-arg`
+ *
+ * Inside of `myscript, you can use a declaration like:
+ *
+ * #!/usr/bin/env my-interp --interp-arg
+ *
+ * When the user calls `./myscript --script-arg`, the full command will be:
+ *
+ * /usr/local/bin/my-interp --interp-arg ./myscript --script-arg
+ *
+ * Observe that file-name `./myscript` is a demarcation point - before that, all
+ * args should go to the interpreter. After that, all args should go to
+ * the script.
+ *
+ * Ex: 'do myfile -a --bee -c=123 --dee=456 thing -- extra'
  *   action: 'do'
- *   arguments: ['some', 'thing']
+ *   file: 'myfile'
  *   options: ['a'=>TRUE,'bee'=>TRUE, 'c'=>123, 'dee'=>456]
  *   suffix: ['extra']
  */
@@ -43,6 +62,12 @@ class PogoInput {
   public $arguments;
 
   /**
+   * @var string
+   *   The PHP file to scan/execute.
+   */
+  public $file;
+
+  /**
    * @var array
    *   Any/all items which appear after the '--' separator
    */
@@ -61,8 +86,8 @@ class PogoInput {
   }
 
   public function parse($args) {
-    $this->program = $this->action = NULL;
-    $this->options = $this->arguments = $this->suffix = [];
+    $this->program = $this->action = $this->file = NULL;
+    $this->options = $this->suffix = [];
     $isSuffix = FALSE;
 
     $this->program = array_shift($args);
@@ -90,8 +115,12 @@ class PogoInput {
       elseif ($this->action === NULL) {
         $this->action = $arg;
       }
+      elseif ($this->file === NULL) {
+        $this->file = $arg;
+      }
       else {
-        $this->arguments[] = $arg;
+        $isSuffix = TRUE;
+        $this->suffix[] = $arg;
       }
     }
   }
