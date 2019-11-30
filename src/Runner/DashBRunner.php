@@ -1,10 +1,10 @@
 <?php
 
-namespace Qp\Runner;
+namespace Pogo\Runner;
 
 /**
  * Class DashBRunner
- * @package Qp\Runner
+ * @package Pogo\Runner
  *
  * Execute via 'php -B requireAutoLoader -F theScript.php'
  *

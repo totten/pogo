@@ -1,34 +1,34 @@
 <?php
-namespace Qp\Command;
+namespace Pogo\Command;
 
-use Qp\QpProject;
-use Qp\QpInput;
-use Qp\Runner\EvalRunner;
-use Qp\Runner\FileRunner;
-use Qp\Runner\DashBRunner;
-use Qp\Runner\DataRunner;
-use Qp\Runner\IncludeRunner;
+use Pogo\PogoProject;
+use Pogo\PogoInput;
+use Pogo\Runner\EvalRunner;
+use Pogo\Runner\FileRunner;
+use Pogo\Runner\DashBRunner;
+use Pogo\Runner\DataRunner;
+use Pogo\Runner\IncludeRunner;
 
 class RunCommand {
 
-  public function run(QpInput $input) {
+  public function run(PogoInput $input) {
     $combo = array_merge($input->arguments, $input->suffix);
     if (count($combo) < 1) {
-      throw new \Exception("[qp run] Missing required file name");
+      throw new \Exception("[pogo run] Missing required file name");
     }
 
     // TODO: realpath($target) but using getenv(PWD) or `pwd` to preserve symlink structure
     $target = array_shift($combo);
     if (!file_exists($target)) {
-      throw new \Exception("[qp run] Non-existent file: $target");
+      throw new \Exception("[pogo run] Non-existent file: $target");
     }
 
     if (!empty($target) && file_exists($target)) {
-      $scriptMetadata = \Qp\ScriptMetadata::parse($target);
+      $scriptMetadata = \Pogo\ScriptMetadata::parse($target);
       $path = $this->pickBaseDir($input, function() use ($scriptMetadata) {
         return sha1($scriptMetadata->getDigest() . $this->getCodeDigest());
       });
-      $project = new QpProject($scriptMetadata, $path);
+      $project = new PogoProject($scriptMetadata, $path);
 
       $project->buildHelpers();
       if ($input->getOption(['force','f']) || in_array($project->getStatus(), ['empty', 'stale'])) {
@@ -56,21 +56,21 @@ class RunCommand {
       return $runners[$runMode]->run($autoloader, $target, $combo);
     }
     else {
-      fwrite(STDERR, "[qp run] Script not found ($target)");
+      fwrite(STDERR, "[pogo run] Script not found ($target)");
       return 1;
     }
   }
 
   /**
-   * @param \Qp\QpInput $input
+   * @param \Pogo\PogoInput $input
    * @param callable $hintCb
    *   Function which generates
    * @return string
    */
-  public function pickBaseDir(QpInput $input, $hintCb) {
+  public function pickBaseDir(PogoInput $input, $hintCb) {
     $base = getenv('QP_BASE')
       ? getenv('QP_BASE')
-      : sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'qp';
+      : sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'pogo';
     $result = $input->getOption(['out', 'o']);
     // Only run hintCb() if needed.
     return $result ? $result : $base . DIRECTORY_SEPARATOR . $hintCb();
@@ -94,7 +94,7 @@ class RunCommand {
     if ($value === NULL) {
       $base = dirname(dirname(__DIR__));
       $files = [
-        "$base/templates/qplib.php",
+        "$base/templates/pogolib.php",
       ];
       $digests = array_map(function($f){
         return sha1_file($f);

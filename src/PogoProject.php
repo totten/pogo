@@ -1,11 +1,11 @@
 <?php
 
-namespace Qp;
+namespace Pogo;
 
 use ProcessHelper\ProcessHelper as PH;
 use Symfony\Component\Process\Process;
 
-class QpProject {
+class PogoProject {
 
   /**
    * @var ScriptMetadata
@@ -20,22 +20,22 @@ class QpProject {
 
   /**
    * Project constructor.
-   * @param \Qp\ScriptMetadata $scriptMetadata
+   * @param \Pogo\ScriptMetadata $scriptMetadata
    */
-  public function __construct(\Qp\ScriptMetadata $scriptMetadata, $path) {
+  public function __construct(\Pogo\ScriptMetadata $scriptMetadata, $path) {
     $this->scriptMetadata = $scriptMetadata;
     $this->path = $path;
   }
 
   public function createComposerJson() {
     return [
-      'name' => 'local/qp',
+      'name' => 'local/pogo',
       'require' => $this->scriptMetadata->require,
       'autoload' => [
-        'files' => ['.qplib.php'],
+        'files' => ['.pogolib.php'],
       ],
       'extra' => [
-        'qp.expires' => strtotime($this->scriptMetadata->ttl),
+        'pogo.expires' => strtotime($this->scriptMetadata->ttl),
       ],
     ];
   }
@@ -51,7 +51,7 @@ class QpProject {
       return 'empty';
     }
     $composerJson = json_decode(file_get_contents("{$this->path}/composer.json"), 1);
-    if (isset($composerJson['extra']['qp.expires']) && $composerJson['extra']['qp.expires'] < time()) {
+    if (isset($composerJson['extra']['pogo.expires']) && $composerJson['extra']['pogo.expires'] < time()) {
       return 'stale';
     }
 
@@ -73,7 +73,7 @@ class QpProject {
     if (!file_exists($path)) {
       mkdir($path, 0777, TRUE);
     }
-    foreach (['qplib'] as $helper) {
+    foreach (['pogolib'] as $helper) {
       file_put_contents("$path/.{$helper}.php", file_get_contents(dirname(__DIR__) . "/templates/{$helper}.php"));
     }
   }

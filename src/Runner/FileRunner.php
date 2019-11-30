@@ -1,10 +1,10 @@
 <?php
 
-namespace Qp\Runner;
+namespace Pogo\Runner;
 
 /**
  * Class FileRunner
- * @package Qp\Runner
+ * @package Pogo\Runner
  *
  * Make a filtered copy of the script and execute it
  *

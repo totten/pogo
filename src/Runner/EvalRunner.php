@@ -1,10 +1,10 @@
 <?php
 
-namespace Qp\Runner;
+namespace Pogo\Runner;
 
 /**
  * Class DataRunner
- * @package Qp\Runner
+ * @package Pogo\Runner
  *
  * Execute via 'eval(...cleanup($code)...)'
  *
@@ -24,7 +24,7 @@ class EvalRunner {
    * @return int
    */
   public function run($autoloader, $script, $cliArgs) {
-    $launcher = 'require_once getenv("QP_AUTOLOAD");eval("?" . ">" . qp_script());';
+    $launcher = 'require_once getenv("QP_AUTOLOAD");eval("?" . ">" . pogo_script());';
 
     $cmd = sprintf('QP_SCRIPT=%s QP_AUTOLOAD=%s php -r %s',
       escapeshellarg($script),

@@ -1,5 +1,5 @@
 {
-    "name": "totten/qp",
+    "name": "totten/pogo",
     "description": "TODO",
     "license": "MIT",
     "authors": [
@@ -14,11 +14,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Qp\\": "src/"
+            "Pogo\\": "src/"
          }
     },
     "bin": [
-        "bin/qp.php"
+        "bin/pogo.php"
     ],
     "config": {
         "bin-dir": "bin"

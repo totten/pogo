@@ -1,10 +1,10 @@
 <?php
 
-namespace Qp\Runner;
+namespace Pogo\Runner;
 
 /**
  * Class IncludeRunner
- * @package Qp\Runner
+ * @package Pogo\Runner
  *
  * Execute via 'php -r 'require $autoload; include $script;'
  *

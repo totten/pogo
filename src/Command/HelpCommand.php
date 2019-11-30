@@ -1,10 +1,10 @@
 <?php
-namespace Qp\Command;
-use Qp\QpInput;
+namespace Pogo\Command;
+use Pogo\PogoInput;
 
 class HelpCommand {
 
-  public function run(QpInput $input) {
+  public function run(PogoInput $input) {
     $cmd = basename($input->program);
     echo "Example: Run the given script\n";
     echo "  $cmd run [build-options] <script-file> [--] [script-options]\n";

@@ -18,10 +18,10 @@ if (!$found) {
   die("Failed to find autoloader");
 }
 
-function qp_main(\Qp\QpInput $input) {
+function pogo_main(\Pogo\PogoInput $input) {
   $actions = [
-    'run' => new \Qp\Command\RunCommand(),
-    'help' => new \Qp\Command\HelpCommand(),
+    'run' => new \Pogo\Command\RunCommand(),
+    'help' => new \Pogo\Command\HelpCommand(),
   ];
   if (isset($actions[$input->action])) {
     $exit = $actions[$input->action]->run($input);
@@ -33,4 +33,4 @@ function qp_main(\Qp\QpInput $input) {
   }
 }
 
-qp_main(\Qp\QpInput::create($argv));
+pogo_main(\Pogo\PogoInput::create($argv));

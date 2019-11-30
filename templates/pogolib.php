@@ -3,8 +3,8 @@
  * @return string
  *   The content of QP_SCRIPT, without any leading shebangs.
  */
-function qp_script() {
-  return qp_clean_script(file_get_contents(getenv('QP_SCRIPT')));
+function pogo_script() {
+  return pogo_clean_script(file_get_contents(getenv('QP_SCRIPT')));
 }
 
 /**
@@ -13,7 +13,7 @@ function qp_script() {
  * @return string
  *   PHP code, without a shebang
  */
-function qp_clean_script($c) {
+function pogo_clean_script($c) {
   $lines = explode("\n", $c, 3);
   $hasShebang = substr($lines[0], 0, 3) === '#!/';
   if (!$hasShebang) {

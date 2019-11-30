@@ -1,10 +1,10 @@
 <?php
 
-namespace Qp\Runner;
+namespace Pogo\Runner;
 
 /**
  * Class DataRunner
- * @package Qp\Runner
+ * @package Pogo\Runner
  *
  * Execute via 'include data://text/plain...cleanup($code)...'
  *
@@ -25,7 +25,7 @@ class DataRunner {
    * @return int
    */
   public function run($autoloader, $script, $cliArgs) {
-    $launcher = 'require_once getenv("QP_AUTOLOAD"); include "data://text/plain;base64,".base64_encode(qp_script());';
+    $launcher = 'require_once getenv("QP_AUTOLOAD"); include "data://text/plain;base64,".base64_encode(pogo_script());';
     $cmd = sprintf('QP_SCRIPT=%s QP_AUTOLOAD=%s php -d allow_url_include=1 -r %s',
       escapeshellarg($script),
       escapeshellarg($autoloader),

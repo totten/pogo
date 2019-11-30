@@ -1,10 +1,10 @@
 <?php
 
-namespace Qp;
+namespace Pogo;
 
 /**
- * Class QpInput
- * @package Qp
+ * Class PogoInput
+ * @package Pogo
  *
  * Represents command-line input.
  *
@@ -14,7 +14,7 @@ namespace Qp;
  *   options: ['a'=>TRUE,'bee'=>TRUE, 'c'=>123, 'dee'=>456]
  *   suffix: ['extra']
  */
-class QpInput {
+class PogoInput {
 
   /**
    * @var string

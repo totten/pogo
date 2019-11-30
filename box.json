@@ -12,7 +12,7 @@
         }
     ],
     "git-version": "package_version",
-    "main": "bin/qp",
-    "output": "bin/qp.phar",
+    "main": "bin/pogo",
+    "output": "bin/pogo.phar",
     "stub": true
 }
