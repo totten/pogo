@@ -42,9 +42,11 @@ trait DownloadCommandTrait {
 
     if (getenv('POGO_BASE')) {
       if (getenv('POGO_BASE') === '.') {
-        return dirname($scriptMetadata->file) . DIRECTORY_SEPARATOR . '.pogo';
+        $base = dirname($scriptMetadata->file) . DIRECTORY_SEPARATOR . '.pogo';
       }
-      $base = getenv('POGO_BASE');
+      else {
+        $base = getenv('POGO_BASE');
+      }
     }
     elseif (getenv('HOME')) {
       $base = getenv('HOME') . DIRECTORY_SEPARATOR . '.cache' . DIRECTORY_SEPARATOR . 'pogo';
