@@ -25,9 +25,7 @@ class RunCommand {
 
     if (!empty($target) && file_exists($target)) {
       $scriptMetadata = \Pogo\ScriptMetadata::parse($target);
-      $path = $this->pickBaseDir($input, $target, function() use ($scriptMetadata) {
-        return basename($scriptMetadata->file) . '-' . sha1($scriptMetadata->getDigest() . $this->getCodeDigest() . realpath($scriptMetadata->file));
-      });
+      $path = $this->pickBaseDir($input, $scriptMetadata);
       $project = new PogoProject($scriptMetadata, $path);
 
       $project->buildHelpers();
@@ -63,23 +61,21 @@ class RunCommand {
 
   /**
    * @param \Pogo\PogoInput $input
-   * @param string $target
-   *   The script file to execute.
-   * @param callable $hintCb
-   *   Function which generates a short-name for the script.
+   * @param \Pogo\ScriptMetadata $scriptMetadata
    * @return string
    */
-  public function pickBaseDir(PogoInput $input, $target, $hintCb) {
+  public function pickBaseDir(PogoInput $input, $scriptMetadata) {
     $result = $input->getOption(['out', 'o']);
     if ($result) {
       return $result;
     }
 
     // Pick a base and calculate a hint/digested name.
+    $hint = basename($scriptMetadata->file) . '-' . sha1($scriptMetadata->getDigest() . $this->getCodeDigest() . realpath($scriptMetadata->file));
 
     if (getenv('POGO_BASE')) {
       if (getenv('POGO_BASE') === '.') {
-        return dirname($target) . DIRECTORY_SEPARATOR . '.pogo';
+        return dirname($scriptMetadata->file) . DIRECTORY_SEPARATOR . '.pogo';
       }
       $base = getenv('POGO_BASE');
     }
@@ -89,7 +85,7 @@ class RunCommand {
     else {
       $base = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'pogo';
     }
-    return $base . DIRECTORY_SEPARATOR . $hintCb();
+    return $base . DIRECTORY_SEPARATOR . $hint;
   }
 
   public function pickRunner($file) {
