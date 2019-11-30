@@ -35,9 +35,9 @@ class PogoProject {
         'files' => ['.pogolib.php'],
       ],
       'extra' => [
-        'expires' => [
+        'pogo' => [
           'expires' => strtotime($this->scriptMetadata->ttl),
-          'script' => realpath($this->path),
+          'script' => realpath($this->scriptMetadata->file),
         ],
       ],
     ];
