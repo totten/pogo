@@ -26,14 +26,7 @@ class RunCommand {
     }
 
     if (!empty($target) && file_exists($target)) {
-      $scriptMetadata = \Pogo\ScriptMetadata::parse($target);
-      $path = $this->pickBaseDir($input, $scriptMetadata);
-      $project = new PogoProject($scriptMetadata, $path);
-
-      $project->buildHelpers();
-      if ($input->getOption(['force', 'f']) || in_array($project->getStatus(), ['empty', 'stale'])) {
-        $project->buildComposer();
-      }
+      $project = $this->initProject($input, $target);
 
       $autoloader = $project->path . '/vendor/autoload.php';
       if (!file_exists($autoloader)) {
@@ -47,7 +40,7 @@ class RunCommand {
         'file' => new FileRunner(),
         'include' => new IncludeRunner(),
       ];
-      $runMode = $input->getOption('run-mode', $scriptMetadata->runMode);
+      $runMode = $input->getOption('run-mode', $project->scriptMetadata->runMode);
       $runMode = ($runMode === 'auto') ? $this->pickRunner($target) : $runMode;
       if (!isset($runners[$runMode])) {
         throw new \Exception("Invalid run mode: $runMode");
@@ -70,5 +63,6 @@ class RunCommand {
       return 'include';
     }
   }
+
 
 }

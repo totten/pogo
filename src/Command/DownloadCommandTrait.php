@@ -2,8 +2,29 @@
 namespace Pogo\Command;
 
 use Pogo\PogoInput;
+use Pogo\PogoProject;
 
 trait DownloadCommandTrait {
+
+  /**
+   * @param \Pogo\PogoInput $input
+   * @param string $target
+   * @return \Pogo\PogoProject
+   */
+  public function initProject(PogoInput $input, $target) {
+    $scriptMetadata = \Pogo\ScriptMetadata::parse($target);
+    $path = $this->pickBaseDir($input, $scriptMetadata);
+    $project = new PogoProject($scriptMetadata, $path);
+
+    $project->buildHelpers();
+    if ($input->getOption(['force', 'f'])
+      || in_array($project->getStatus(), ['empty', 'stale'])
+    ) {
+      $project->buildComposer();
+      return $project;
+    }
+    return $project;
+  }
 
   /**
    * @param \Pogo\PogoInput $input
