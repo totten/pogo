@@ -2,9 +2,6 @@
 
 namespace Pogo;
 
-use ProcessHelper\ProcessHelper as PH;
-use Symfony\Component\Process\Process;
-
 class PogoProject {
 
   /**
@@ -97,7 +94,16 @@ class PogoProject {
     if (file_exists("$path/composer.lock")) {
       unlink("$path/composer.lock");
     }
-    PH::runOk(new Process('composer install', $path));
+
+    $cmd = sprintf('cd %s && composer install -n', escapeshellarg($path));
+    $process = proc_open($cmd, [['pipe', 'r'], STDERR, STDERR], $pipes);
+    if (is_resource($process)) {
+      fclose($pipes[0]);
+    }
+    $result = proc_close($process);
+    if ($result !== 0) {
+      throw new \RuntimeException("Composer failed to complete.");
+    }
   }
 
 }
