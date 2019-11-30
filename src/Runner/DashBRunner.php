@@ -19,16 +19,18 @@ class DashBRunner {
 
   /**
    * @param string $autoloader
-   * @param string $script
+   * @param \Pogo\ScriptMetadata $scriptMetadata
    * @param array $cliArgs
    * @return int
    */
-  public function run($autoloader, $script, $cliArgs) {
+  public function run($autoloader, $scriptMetadata, $cliArgs) {
+    $script = $scriptMetadata->file;
     // `php -B ... -F ...` will loop through every line of input; we coerce
     // this to prevent multiple invocations
     $doAutoload = sprintf('require_once %s;', var_export($autoloader, 1));
     $cmd = sprintf('echo | php -B %s -F %s', escapeshellarg($doAutoload), escapeshellarg($script));
 
+    $cmd .= \Pogo\Php::iniToArgv($scriptMetadata->ini);
     $cmd .= ' ' . implode(' ', array_map('escapeshellarg', $cliArgs));
     // printf("[%s] Running command: $cmd\n", __CLASS__, $cmd);
     $process = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);

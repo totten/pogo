@@ -11,6 +11,12 @@ class ScriptMetadata {
 
   /**
    * @var array
+   *   Ex: ['allow_url_include'=>1]
+   */
+  public $ini = [];
+
+  /**
+   * @var array
    *   List of required packages
    *   Ex: ['symfony/yaml' => '~3.0`]
    */

@@ -19,11 +19,12 @@ class FileRunner {
 
   /**
    * @param string $autoloader
-   * @param string $script
+   * @param ScriptMetadata $scriptMetadata
    * @param array $cliArgs
    * @return int
    */
-  public function run($autoloader, $script, $cliArgs) {
+  public function run($autoloader, $scriptMetadata, $cliArgs) {
+    $script = $scriptMetadata->file;
     throw new \Exception('Not implemented: FileRunner');
     //    $code = file_get_contents($script);
     //    $launcher = trim(preg_replace('/^\s*<' . '\?php/', '', $launcher, 1));
@@ -34,6 +35,7 @@ class FileRunner {
     //      $defines,
     //      escapeshellarg($launcher)
     //    );
+    //    $cmd .= \Pogo\Php::iniToArgv($scriptMetadata->ini);
     //    $cmd .= ' ' . implode(' ', array_map('escapeshellarg', $cliArgs));
     //    printf("[%s] Running command: $cmd\n", __CLASS__, $cmd);
     //    $process = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);

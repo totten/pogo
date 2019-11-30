@@ -19,11 +19,12 @@ class IncludeRunner {
 
   /**
    * @param string $autoloader
-   * @param string $script
+   * @param ScriptMetadata $scriptMetadata
    * @param array $cliArgs
    * @return int
    */
-  public function run($autoloader, $script, $cliArgs) {
+  public function run($autoloader, $scriptMetadata, $cliArgs) {
+    $script = $scriptMetadata->file;
     $launcher = 'require_once getenv("POGO_AUTOLOAD");include getenv("POGO_SCRIPT");';
 
     $cmd = sprintf('POGO_SCRIPT=%s POGO_AUTOLOAD=%s php -r %s',
@@ -31,6 +32,8 @@ class IncludeRunner {
       escapeshellarg($autoloader),
       escapeshellarg($launcher)
     );
+
+    $cmd .= \Pogo\Php::iniToArgv($scriptMetadata->ini);
     $cmd .= ' ' . implode(' ', array_map('escapeshellarg', $cliArgs));
     // printf("[%s] Running command: $cmd\n", __CLASS__, $cmd);
     $process = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);
