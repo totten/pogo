@@ -40,7 +40,7 @@ $dompdf->stream();
 Execute the script as one might normally do in the CLI, but change the `php` command to `pogo`.
 
 ```bash
-pogo yaml-pdf.php < myfile.yml > myfile.pdf
+pogo code2pdf.php < myfile.yml > myfile.pdf
 ```
 
 That's it!
