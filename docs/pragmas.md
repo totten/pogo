@@ -33,11 +33,12 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
   a great, one-size-fits-all technique for this delegation. The defaults should *execute correctly* in most scripting scenarios - but
   support for *nice backtraces* might be compromised if you use a `#!/usr/bin/env pogo...` header. In that case, you might want to
   try a different mode.
-* __Signature__: `#!run <yaml-string>`
+* __Signature__: `#!run <yaml-string|yaml-key-value>`
 * __Example__: `#!run dash-b`
+* __Example__: `#!run {with: dash-b, buffer: true}`
 * __Options__:
     * `auto`: Let `pogo` pick a mechanism. Generally, it will use `include` or `eval` (depending on whether the
-      script begins with `#!/usr/bin/env pogo` (or similar).
+      script begins with `#!/usr/bin/env pogo...` (or similar).
     * `include`: Loosely, this runs `php -r 'require_once $autoloader; include $your_script;'. Among these runners,
       it should behave the most intuitively with respect to debugging, avoiding unnecessary file IO/duplication, CLI
       inputs/outputs, etc. However, if `$your_script` is a standalone program (`#!/usr/bin/env pogo run --`), then
@@ -45,7 +46,14 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
     * `eval`: Loosely, this runs `php -r 'require_once $autoloader; eval(cleanup($your_script))'`. This fixes the
       erroneous output, but backtraces and debugging may not be as pleasant.
     * `dash-b`: Loosely, this runs `echo | php -B 'require_once $autoloader;' -F $your_script`. This avoids the
-      erroneous output and gives decent backtraces, but it will not handle piped-input correctly.
+      erroneous output and gives decent backtraces, but it will not handle piped-input normally.
+        * If want to use `dash-b` and you *know* that there will be piped input, then set `buffer:true`.
+          The input will be available in an alternate file:
+          ```php
+          #!run {with: dash-b, buffer: true}
+          $data = file_get_contents(pogo_stdin()));
+          printf("Received input %s:\n%s\n", md5($data), $data);
+          ```
     * `data`: This is every similar to `eval`. At the moment, I dont' think it has any real advantage over `eval`,
       but I've kept it as a potential inspiration.
 

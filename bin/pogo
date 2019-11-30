@@ -3,6 +3,7 @@
 ini_set('display_errors', 1);
 putenv('POGO_SCRIPT=');
 putenv('POGO_AUTOLOAD=');
+putenv('POGO_STDIN=');
 $found = 0;
 $autoloaders = array(
   dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php',

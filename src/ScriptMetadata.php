@@ -33,10 +33,13 @@ class ScriptMetadata {
   public $ttl = '7 days';
 
   /**
-   * @var string
-   *   One of: 'auto', 'include', 'dash-b', etc
+   * @var array
+   *   A list of properties describing the runner.
+   *   - with: string, e.g. 'auto' or 'include' or 'eval'
+   *
+   *   Additional, per-runner properties may be added.
    */
-  public $runMode = 'auto';
+  public $runner = ['with' => 'auto'];
 
   /**
    * Return first doc comment found in this file.
@@ -65,8 +68,14 @@ class ScriptMetadata {
       elseif (preg_match(';#!\s*ttl \s*(\d+\s+(sec|min|hour|day|week|month|year)s?)$;', $pragma[1], $m)) {
         $metadata->ttl = trim($m[1]);
       }
-      elseif (preg_match(';#!\s*run \s*([a-zA-Z0-9\-_]+)\s*$;', $pragma[1], $m)) {
-        $metadata->runMode = $m[1];
+      elseif (preg_match(';#!\s*run \s*(.*)$;', $pragma[1], $m)) {
+        $yaml = Yaml::parse(trim($m[1]));
+        if (is_string($yaml)) {
+          $metadata->runner = ['with' => $yaml];
+        }
+        else {
+          $metadata->runner = $yaml;
+        }
       }
       elseif (preg_match(';#!\s*ini (.*)$;', $pragma[1], $m)) {
         $yaml = Yaml::parse(trim($m[1]));

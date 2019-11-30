@@ -39,7 +39,7 @@ class RunCommand {
         'file' => new FileRunner(),
         'include' => new IncludeRunner(),
       ];
-      $runMode = $input->getOption('run-mode', $project->scriptMetadata->runMode);
+      $runMode = $input->getOption('run-mode', $project->scriptMetadata->runner['with']);
       $runMode = ($runMode === 'auto') ? $this->pickRunner($target) : $runMode;
       if (!isset($runners[$runMode])) {
         throw new \Exception("Invalid run mode: $runMode");

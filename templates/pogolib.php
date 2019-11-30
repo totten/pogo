@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @return string
  *   The content of POGO_SCRIPT, without any leading shebangs.
@@ -34,5 +35,15 @@ function pogo_clean_script($c) {
     // We strip it to be function correctly, but line-numbers won't match up.
     return $lines[1] . "\n" . $tail;
   }
+}
 
+/**
+ * Get the name of the STDIN stream.
+ *
+ * For most use-cases and runners, this is just the standard `php://stdin`.
+ * However, this could return a different result with special runner.
+ */
+function pogo_stdin() {
+  // TODO: Maybe this could be done as a stream wrapper? `pogo://input`?
+  return getenv('POGO_STDIN') ? getenv('POGO_STDIN') : 'php://stdin';
 }
