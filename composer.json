@@ -1,0 +1,26 @@
+{
+    "name": "totten/qp",
+    "description": "TODO",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tim Otten",
+            "email": "totten@civicrm.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "totten/process-helper": "^1.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qp\\": "src/"
+         }
+    },
+    "bin": [
+        "bin/qp.php"
+    ],
+    "config": {
+        "bin-dir": "bin"
+    }
+}

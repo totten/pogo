@@ -1,7 +1,8 @@
 {
     "chmod": "0755",
     "directories": [
-        "src"
+        "src",
+        "templates"
     ],
     "finder": [
         {
@@ -11,7 +12,7 @@
         }
     ],
     "git-version": "package_version",
-    "main": "bin/pjn",
-    "output": "bin/pjn.phar",
+    "main": "bin/qp",
+    "output": "bin/qp.phar",
     "stub": true
 }
