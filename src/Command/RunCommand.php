@@ -25,7 +25,7 @@ class RunCommand {
 
     if (!empty($target) && file_exists($target)) {
       $scriptMetadata = \Pogo\ScriptMetadata::parse($target);
-      $path = $this->pickBaseDir($input, function() use ($scriptMetadata) {
+      $path = $this->pickBaseDir($input, $target, function() use ($scriptMetadata) {
         return sha1($scriptMetadata->getDigest() . $this->getCodeDigest());
       });
       $project = new PogoProject($scriptMetadata, $path);
@@ -67,12 +67,26 @@ class RunCommand {
    *   Function which generates
    * @return string
    */
-  public function pickBaseDir(PogoInput $input, $hintCb) {
-    $base = getenv('QP_BASE')
-      ? getenv('QP_BASE')
-      : sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'pogo';
+  public function pickBaseDir(PogoInput $input, $target, $hintCb) {
     $result = $input->getOption(['out', 'o']);
-    // Only run hintCb() if needed.
+    if ($result) {
+      return $result;
+    }
+
+    // Pick a base and calculate a hint/digested name.
+
+    if (getenv('QP_BASE')) {
+      if (getenv('QP_BASE') === '.') {
+        return dirname($target) . DIRECTORY_SEPARATOR . '.pogo';
+      }
+      $base = getenv('QP_BASE');
+    }
+    elseif (getenv('HOME')) {
+      $base = getenv('HOME') . DIRECTORY_SEPARATOR . '.cache' . DIRECTORY_SEPARATOR . 'pogo';
+    }
+    else {
+      $base = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'pogo';
+    }
     return $result ? $result : $base . DIRECTORY_SEPARATOR . $hintCb();
   }
 
