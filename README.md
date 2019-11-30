@@ -2,15 +2,9 @@
 
 Pogo allows you to write small PHP scripts which use PHP libraries (courtesy
 of `composer`/`packagist`)...  but it *doesn't* require you setup a
-special-purpose folder, project, or repository. To use a dependency, you can
-simply drop a small pragma into your script, e.g.
-
-```php
-#!require symfony/yaml: ~3.0
-$parsedYaml = Symfony\Component\Yaml\Yaml::parse($rawYaml);
-```
-
-This makes it easier to use PHP libraries when:
+special-purpose folder, project, or repository.  To use a dependency, simply
+add a small pragma into your script.  This makes it easier to use PHP
+libraries when:
 
 * Experimenting or learning
 * Writing random system-automation scripts and one-off scripts
@@ -18,8 +12,8 @@ This makes it easier to use PHP libraries when:
 ## Example
 
 Let's pick some small task that requires a few libraries -- suppose we want
-to read a YAML file and pretty-print the content as a PDF file.  Call this
-script `yaml2pdf.php`:
+to read a YAML file and pretty-print the content as a PDF file.  Create the
+standalone script `yaml2pdf.php`:
 
 ```php
 <?php
