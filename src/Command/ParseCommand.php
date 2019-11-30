@@ -9,11 +9,11 @@ class ParseCommand {
 
   public function run(PogoInput $input) {
     if (empty($input->script)) {
-      throw new \Exception("[pogo dl] Missing required file name");
+      throw new \Exception("[parse] Missing required file name");
     }
 
     if (!file_exists($input->script)) {
-      throw new \Exception("[pogo dl] Non-existent file: {$input->script}");
+      throw new \Exception("[parse] Non-existent file: {$input->script}");
     }
 
     $scriptMetadata = \Pogo\ScriptMetadata::parse($input->script);

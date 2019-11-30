@@ -32,7 +32,7 @@ trait DownloadCommandTrait {
    * @return string
    */
   public function pickBaseDir(PogoInput $input, $scriptMetadata) {
-    $result = $input->getOption(['out', 'o']);
+    $result = $input->getOption('d');
     if ($result) {
       return $result;
     }

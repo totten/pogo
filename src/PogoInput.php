@@ -72,25 +72,26 @@ class PogoInput {
    * @return static
    */
   public static function create($args) {
-    return new static($args);
+    $actions = ['run', 'get', 'parse', 'up', 'help'];
+    return new static($args, $actions, $actions);
   }
 
-  public function __construct($args = []) {
-    $this->parse($args);
+  public function __construct($args = [], $actions = []) {
+    $this->parse($args, $actions);
   }
 
-  public function parse($args) {
+  public function parse($args, $actions) {
     $this->interpreter = $this->action = $this->script = NULL;
     $this->interpreterOptions = $this->scriptArgs = [];
-    $isSuffix = FALSE;
+    $isScriptArg = FALSE;
 
     $this->interpreter = array_shift($args);
     foreach ($args as $arg) {
-      if ($isSuffix) {
+      if ($isScriptArg) {
         $this->scriptArgs[] = $arg;
       }
-      elseif ($arg === '--') {
-        $isSuffix = TRUE;
+      elseif ('--' === $arg) {
+        $isScriptArg = TRUE;
       }
       elseif (preg_match('/^--([^=]+)=(.*)$/', $arg, $m)) {
         $this->interpreterOptions[$m[1]] = $m[2];
@@ -99,22 +100,29 @@ class PogoInput {
         $this->interpreterOptions[$m[1]] = $m[2];
       }
       elseif (preg_match('/^--([^=]+)$/', $arg, $m)) {
-        $this->interpreterOptions[$m[1]] = TRUE;
+        if (in_array($m[1], $actions)) {
+          if ($this->action === NULL) {
+            $this->action = $m[1];
+          }
+          else {
+            throw new \Exception("Too many actions specified: {$this->action} " . $m[1]);
+          }
+        }
+        else {
+          $this->interpreterOptions[$m[1]] = TRUE;
+        }
       }
       elseif (preg_match('/^-([a-zA-Z0-9])+$/', $arg, $m)) {
         for ($i = 0; $i < strlen($m[1]); $i++) {
           $this->interpreterOptions[$m[1]{$i}] = TRUE;
         }
       }
-      elseif ($this->action === NULL) {
-        $this->action = $arg;
-      }
       elseif ($this->script === NULL) {
         $this->script = $arg;
+        $isScriptArg = TRUE;
       }
       else {
-        $isSuffix = TRUE;
-        $this->scriptArgs[] = $arg;
+        throw new \Exception("Failed to parse argument: $arg");
       }
     }
   }

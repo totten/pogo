@@ -34,7 +34,7 @@ class IncludeRunner {
     );
 
     $cmd .= \Pogo\Php::iniToArgv($scriptMetadata->ini);
-    $cmd .= ' ' . implode(' ', array_map('escapeshellarg', $cliArgs));
+    $cmd .= ' -- ' . implode(' ', array_map('escapeshellarg', $cliArgs));
     // printf("[%s] Running command: $cmd\n", __CLASS__, $cmd);
     $process = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);
     return proc_close($process);

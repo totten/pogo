@@ -23,19 +23,22 @@ if (!$found) {
 function pogo_main(\Pogo\PogoInput $input) {
   $actions = [
     'run' => new \Pogo\Command\RunCommand(),
-    'dl' => new \Pogo\Command\DownloadCommand(),
+    'get' => new \Pogo\Command\DownloadCommand(),
     'up' => new \Pogo\Command\UpdateCommand(),
     'parse' => new \Pogo\Command\ParseCommand(),
     'help' => new \Pogo\Command\HelpCommand(),
   ];
-  $default = empty($input->scriptArgs) ? 'help' : 'run';
 
-  if (isset($actions[$input->action])) {
+  if (empty($input->action) && !empty($input->script)) {
+    $exit = $actions['run']->run($input);
+    exit($exit === NULL ? 0 : $exit);
+  }
+  elseif (isset($actions[$input->action])) {
     $exit = $actions[$input->action]->run($input);
     exit($exit === NULL ? 0 : $exit);
   }
   else {
-    $actions[$default]->run($input);
+    $actions['help']->run($input);
     return 1;
   }
 }

@@ -14,13 +14,13 @@ class RunCommand {
 
   public function run(PogoInput $input) {
     if (empty($input->script)) {
-      throw new \Exception("[pogo run] Missing required file name");
+      throw new \Exception("[run] Missing required file name");
     }
 
     // TODO: realpath($target) but using getenv(PWD) or `pwd` to preserve symlink structure
     $target = $input->script;
     if (!file_exists($target)) {
-      throw new \Exception("[pogo run] Non-existent file: $target");
+      throw new \Exception("[run] Non-existent file: $target");
     }
 
     if (!empty($target) && file_exists($target)) {
@@ -47,7 +47,7 @@ class RunCommand {
       return $runners[$runMode]->run($autoloader, $project->scriptMetadata, $input->scriptArgs);
     }
     else {
-      fwrite(STDERR, "[pogo run] Script not found ($target)");
+      fwrite(STDERR, "[run] Script not found ($target)");
       return 1;
     }
   }

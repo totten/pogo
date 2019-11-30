@@ -7,26 +7,32 @@ class HelpCommand {
 
   public function run(PogoInput $input) {
     $cmd = basename($input->interpreter);
+
+    echo "Usage: $cmd [--<action>] [action-options] <script-file> [--] [script-options]\n";
+    echo "\n";
     echo "Example: Run a script\n";
-    echo "  $cmd run [download-options] <script-file> [--] [script-options]\n";
+    echo "  $cmd my-script.php\n";
     echo "\n";
-    echo "Example: Download dependencies for a script\n";
-    echo "  $cmd dl [download-options] <script-file>\n";
-    echo "\n";
-    echo "Example: Preview the metadata for a script\n";
-    echo "  $cmd parse <script-file>\n";
+    echo "Example: Download dependencies for a script to a specific location\n";
+    echo "  $cmd --get -d=/tmp/deps my-script.php\n";
     echo "\n";
     echo "Example: Update dependencies in an existing project directory\n";
     echo "  cd <out-dir>\n";
-    echo "  $cmd up\n";
+    echo "  $cmd --up\n";
     echo "\n";
-    //    echo "Example: Remove any expired builds from the base folder\n";
-    //    echo "  $cmd clean\n";
+    //    echo "Example: Remove any expired code from the common base folder\n";
+    //    echo "  $cmd --clean\n";
     //    echo "\n";
-    echo "Download Options:\n";
-    echo "  -f        Force; recreate project, even if it appears current\n";
-    echo "  -o=<out>  Output directory\n";
+    echo "Actions:\n";
+    echo "  --get       Download dependencies, but do not execute.\n";
+    echo "  --run       Run the script. Download anything necessary. (*default*)\n";
+    echo "  --parse     Extract any pragmas or metadata from the script.\n";
+    echo "  --up        Update dependencies (in current directory).\n";
+    echo "  --help      Show help screen.\n";
     echo "\n";
+    echo "Action-Options:\n";
+    echo "  -f          Force; recreate project, even if it appears current\n";
+    echo "  -d=<out>    Output dependencies in this directory\n";
     echo "\n";
     echo "Environment:\n";
     echo "  POGO_BASE   Default location for output folders\n";

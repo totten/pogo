@@ -14,11 +14,10 @@
 * Add more verbosity options. Cleanup output.
 * Make signature more like `php`
     * Accept code via stdin (if no files given)
-    * Make `--` unnecessary. Change 'action' params to options. Everything after
-      the first file (non-option) is treated as passthru data.
+    * ~~Make `--` unnecessary. Change 'action' params to options. Everything after the first file (non-option) is treated as passthru data.~~
 * Reconsider symfony/console. (Pro: All the runners have good thread-isolation. Con: We probably need ven more specialized arg parsing for simpler shebangs.)
 * Consider integration with multifile composer projects. (Scan `**.php` and update `composer.json`)
-* Add command `pogo phar my-script.php -o=my-script.phar`
+* Add command `pogo --phar=my-script.phar my-script.php`
 * When updating deps, be thread-safe/multi-process-safe
 * If there are no `require` pragmas, then don't run `composer`. (Use a placeholder for `vendor/autoload.php`?)
 * Windows...
