@@ -1,13 +1,7 @@
 <?php
 namespace Pogo\Command;
 
-use Pogo\PogoProject;
 use Pogo\PogoInput;
-use Pogo\Runner\EvalRunner;
-use Pogo\Runner\FileRunner;
-use Pogo\Runner\DashBRunner;
-use Pogo\Runner\DataRunner;
-use Pogo\Runner\IncludeRunner;
 
 class DownloadCommand {
 
