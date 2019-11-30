@@ -5,7 +5,7 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
 ## require
 
 * __Description__: Download a package via composer/packagist
-* __Signature__: `#!require <yaml>`
+* __Signature__: `#!require <yaml-key-value>`
 * __Example__: `#!require symfony/yaml: ~3.0`
 * __Example__: `#!require {symfony/yaml: ~3.0, symfony/finder: ~3.0}`
 * __Comment__: The `<package>` and `<version>` notations match [composer's `require`](https://getcomposer.org/doc/04-schema.md#require).
@@ -13,7 +13,7 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
 ## ini
 
 * __Description__: Set the value of `php.ini` option *before* launching the script.
-* __Signature__: `#!ini <yaml>`
+* __Signature__: `#!ini <yaml-key-value>`
 * __Example__: `#!ini variables_order: EGPS`
 * __Example__: `#!ini {max_upload_size: 1m, memory_limit: 1g}`
 
@@ -33,7 +33,7 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
   a great, one-size-fits-all technique for this delegation. The defaults should *execute correctly* in most scripting scenarios - but
   support for *nice backtraces* might be compromised if you use a `#!/usr/bin/env pogo...` header. In that case, you might want to
   try a different mode.
-* __Signature__: `#!run <mode>`
+* __Signature__: `#!run <yaml-string>`
 * __Example__: `#!run dash-b`
 * __Options__:
     * `auto`: Let `pogo` pick a mechanism. Generally, it will use `include` or `eval` (depending on whether the
@@ -48,3 +48,22 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
       erroneous output and gives decent backtraces, but it will not handle piped-input correctly.
     * `data`: This is every similar to `eval`. At the moment, I dont' think it has any real advantage over `eval`,
       but I've kept it as a potential inspiration.
+
+# YAML (Subset)
+
+Most pragmas accept either strings or key-value pairs, e.g.
+
+```php
+#!foo somestring
+#!bar {key1: value1, key2: value2}
+```
+
+To simplify implementation, `pogo` uses a YAML library to parse these. YAML is the most forgiving
+of the widely-known formats, so it's reasonably easy to read+write.
+
+In this context, we don't use the full YAML. There are no new-lines, multi-line content, indentation, 
+anchors, or aliases.
+
+Consequently, you should regard these inputs as a subset of YAML -- or, perhaps more precisely, consider
+the inputs as JSON without the mandatory double-quotes. If the parsing library ever needs to be changed,
+it will be checked against this subset - but may not be required to have full YAML compliance.
