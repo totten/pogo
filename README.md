@@ -43,8 +43,8 @@ pogo run yaml-pdf.php < myfile.yml > myfile.pdf
 
 ## More information
 
-* [Pogo and Composer](docs/composer.md): How the tools interact
-* [Pogo and Executables](docs/exec.md): How to use pogo with other executables
-* [Pragmas](doc/pragmas.md): List of all supported pragmas
-* [Install](docs/install.md): System requirements along with download/install steps
+* [Installation](docs/install.md): System requirements along with download/install steps
+* [Composer integration](docs/composer.md): How `pogo` works with `composer`
+* [Execution](docs/exec.md): Ways to invoke scripts via `pogo`
+* [Pragmas](docs/pragmas.md): List of all supported pragmas
 * [Todo](docs/todo.md): Misc things that should be done
