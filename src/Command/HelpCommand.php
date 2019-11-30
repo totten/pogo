@@ -1,5 +1,6 @@
 <?php
 namespace Pogo\Command;
+
 use Pogo\PogoInput;
 
 class HelpCommand {
@@ -27,4 +28,5 @@ class HelpCommand {
     echo "\n";
     return 0;
   }
+
 }

@@ -98,6 +98,9 @@ class PogoInput {
 
   /**
    * @param string|array $names
+   *   List of option-names to check. The first extant one will be returned.
+   * @param string|NULL $default
+   *   The value to return if none of the `$names` are defined.
    * @return string
    */
   public function getOption($names, $default = NULL) {

@@ -28,7 +28,7 @@ class ScriptMetadata {
    * @var string
    *   One of: 'auto', 'include', 'dash-b', etc
    */
-   public $runMode = 'auto';
+  public $runMode = 'auto';
 
   /**
    * Return first doc comment found in this file.
@@ -56,9 +56,9 @@ class ScriptMetadata {
       elseif (preg_match(';#!\s*ttl:\s*(\d+\s+(sec|min|hour|day|week|month|year)s?)$;', $pragma[1], $m)) {
         $metadata->ttl = trim($m[1]);
       }
-       elseif (preg_match(';#!\s*run:\s*([a-zA-Z0-9\-_]+)\s*$;', $pragma[1], $m)) {
+      elseif (preg_match(';#!\s*run:\s*([a-zA-Z0-9\-_]+)\s*$;', $pragma[1], $m)) {
         $metadata->runMode = $m[1];
-       }
+      }
       else {
         self::warn(sprintf("Unrecognized pragma \"%s\" on line %d of %s", trim($pragma[1]), $pragma[2], $file));
       }
@@ -81,4 +81,5 @@ class ScriptMetadata {
     // trigger_error($msg, E_USER_NOTICE);
     fwrite(STDERR, "WARNING: $msg\n");
   }
+
 }

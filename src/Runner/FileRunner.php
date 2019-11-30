@@ -25,19 +25,19 @@ class FileRunner {
    */
   public function run($autoloader, $script, $cliArgs) {
     throw new \Exception('Not implemented: FileRunner');
-//    $code = file_get_contents($script);
-//    $launcher = trim(preg_replace('/^\s*<' . '\?php/', '', $launcher, 1));
-//
-//    $cmd = sprintf('POGO_SCRIPT=%s POGO_AUTOLOAD=%s php %s -r %s',
-//      escapeshellarg($script),
-//      escapeshellarg($autoloader),
-//      $defines,
-//      escapeshellarg($launcher)
-//    );
-//    $cmd .= ' ' . implode(' ', array_map('escapeshellarg', $cliArgs));
-//    printf("[%s] Running command: $cmd\n", __CLASS__, $cmd);
-//    $process = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);
-//    return proc_close($process);
+    //    $code = file_get_contents($script);
+    //    $launcher = trim(preg_replace('/^\s*<' . '\?php/', '', $launcher, 1));
+    //
+    //    $cmd = sprintf('POGO_SCRIPT=%s POGO_AUTOLOAD=%s php %s -r %s',
+    //      escapeshellarg($script),
+    //      escapeshellarg($autoloader),
+    //      $defines,
+    //      escapeshellarg($launcher)
+    //    );
+    //    $cmd .= ' ' . implode(' ', array_map('escapeshellarg', $cliArgs));
+    //    printf("[%s] Running command: $cmd\n", __CLASS__, $cmd);
+    //    $process = proc_open($cmd, [STDIN, STDOUT, STDERR], $pipes);
+    //    return proc_close($process);
   }
 
 }

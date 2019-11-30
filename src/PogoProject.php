@@ -17,10 +17,11 @@ class PogoProject {
    */
   public $path;
 
-
   /**
    * Project constructor.
    * @param \Pogo\ScriptMetadata $scriptMetadata
+   * @param string $path
+   *   The location to store this project in.
    */
   public function __construct(\Pogo\ScriptMetadata $scriptMetadata, $path) {
     $this->scriptMetadata = $scriptMetadata;

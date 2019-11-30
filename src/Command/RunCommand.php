@@ -31,7 +31,7 @@ class RunCommand {
       $project = new PogoProject($scriptMetadata, $path);
 
       $project->buildHelpers();
-      if ($input->getOption(['force','f']) || in_array($project->getStatus(), ['empty', 'stale'])) {
+      if ($input->getOption(['force', 'f']) || in_array($project->getStatus(), ['empty', 'stale'])) {
         $project->buildComposer();
       }
 
@@ -63,8 +63,10 @@ class RunCommand {
 
   /**
    * @param \Pogo\PogoInput $input
+   * @param string $target
+   *   The script file to execute.
    * @param callable $hintCb
-   *   Function which generates
+   *   Function which generates a short-name for the script.
    * @return string
    */
   public function pickBaseDir(PogoInput $input, $target, $hintCb) {
@@ -110,7 +112,7 @@ class RunCommand {
       $files = [
         "$base/templates/pogolib.php",
       ];
-      $digests = array_map(function($f){
+      $digests = array_map(function($f) {
         return sha1_file($f);
       }, $files);
       $value = sha1(implode('', $digests));
