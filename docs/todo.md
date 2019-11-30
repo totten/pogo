@@ -20,4 +20,5 @@
 * Consider integration with multifile composer projects. (Scan `**.php` and update `composer.json`)
 * Add command `pogo phar my-script.php -o=my-script.phar`
 * When updating deps, be thread-safe/multi-process-safe
+* If there are no `require` pragmas, then don't run `composer`. (Use a placeholder for `vendor/autoload.php`?)
 * Windows...
