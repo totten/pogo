@@ -12,16 +12,24 @@ libraries when:
 ## Example
 
 Let's pick some small task that requires a few libraries -- suppose we want
-to read a YAML file and pretty-print the content as a PDF file.  Create the
-standalone script `yaml2pdf.php`:
+to generate a pretty PDF from a source-code file (`.php`, `*.json`, etc).
+We'll need a pretty-printer ([scrivo/highlight.php](https://github.com/scrivo/highlight.php))
+and a PDF generator ([dompdf/dompdf](https://github.com/dompdf/dompdf)).
+
+Create the standalone script `code2pdf.php`:
 
 ```php
 <?php
-#!require symfony/yaml: ~3.0
-#!require dompdf/dompdf: ~0.8.3
-$yaml = Symfony\Component\Yaml\Yaml::parse(file_get_contents('php://stdin'));
-$html = '<pre>' . htmlentities(print_r($yaml, 1)) . '</pre>';
+$code = file_get_contents('php://stdin');
 
+#!require scrivo/highlight.php: ~9.15
+$hl = new \Highlight\Highlighter();
+$hl->setAutodetectLanguages(['php', 'css', 'yaml', 'json', 'js']);
+$highlighted = $hl->highlightAuto($code);
+$html = sprintf('<link rel="stylesheet" href="file://%s"/>', \HighlightUtilities\getStyleSheetPath('sunburst.css'));
+$html .= sprintf("<pre><code class=\"hljs %s\">%s</code></pre>", $highlighted->language, $highlighted->value);
+
+#!require dompdf/dompdf: ~0.8.3
 $dompdf = new \Dompdf\Dompdf();
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'landscape');
@@ -34,6 +42,8 @@ Execute the script as one might normally do in the CLI, but change the `php` com
 ```bash
 pogo run yaml-pdf.php < myfile.yml > myfile.pdf
 ```
+
+That's it!
 
 ## More information
 
