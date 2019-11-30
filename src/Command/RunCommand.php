@@ -45,7 +45,7 @@ class RunCommand {
         throw new \Exception("Invalid run mode: $runMode");
       }
 
-      return $runners[$runMode]->run($autoloader, $target, $combo);
+      return $runners[$runMode]->run($autoloader, $project->scriptMetadata, $combo);
     }
     else {
       fwrite(STDERR, "[pogo run] Script not found ($target)");

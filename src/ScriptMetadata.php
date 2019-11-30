@@ -2,6 +2,8 @@
 
 namespace Pogo;
 
+use Symfony\Component\Yaml\Yaml;
+
 class ScriptMetadata {
 
   /**
@@ -56,14 +58,19 @@ class ScriptMetadata {
     $metadata = new static();
     $metadata->file = $file;
     foreach ($pragmas as $pragma) {
-      if (preg_match(';#!\s*require:\s*([a-zA-Z0-9_\-/]+)\s+(.*)$;', $pragma[1], $m)) {
-        $metadata->require[trim($m[1])] = trim($m[2]);
+      if (preg_match(';#!\s*require \s*(.*)$;', $pragma[1], $m)) {
+        $yaml = Yaml::parse(trim($m[1]));
+        $metadata->require = array_merge($metadata->require, $yaml);
       }
-      elseif (preg_match(';#!\s*ttl:\s*(\d+\s+(sec|min|hour|day|week|month|year)s?)$;', $pragma[1], $m)) {
+      elseif (preg_match(';#!\s*ttl \s*(\d+\s+(sec|min|hour|day|week|month|year)s?)$;', $pragma[1], $m)) {
         $metadata->ttl = trim($m[1]);
       }
-      elseif (preg_match(';#!\s*run:\s*([a-zA-Z0-9\-_]+)\s*$;', $pragma[1], $m)) {
+      elseif (preg_match(';#!\s*run \s*([a-zA-Z0-9\-_]+)\s*$;', $pragma[1], $m)) {
         $metadata->runMode = $m[1];
+      }
+      elseif (preg_match(';#!\s*ini (.*)$;', $pragma[1], $m)) {
+        $yaml = Yaml::parse(trim($m[1]));
+        $metadata->ini = array_merge($metadata->ini, $yaml);
       }
       else {
         self::warn(sprintf("Unrecognized pragma \"%s\" on line %d of %s", trim($pragma[1]), $pragma[2], $file));

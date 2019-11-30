@@ -6,7 +6,7 @@ special-purpose folder, project, or repository. To use a dependency, you can
 simply drop a small pragma into your script, e.g.
 
 ```php
-#!require: symfony/yaml ~3.0
+#!require symfony/yaml: ~3.0
 $parsedYaml = Symfony\Component\Yaml\Yaml::parse($rawYaml);
 ```
 
@@ -23,8 +23,8 @@ script `yaml2pdf.php`:
 
 ```php
 <?php
-#!require: symfony/yaml ~3.0
-#!require: dompdf/dompdf ~0.8.3
+#!require symfony/yaml: ~3.0
+#!require dompdf/dompdf: ~0.8.3
 $yaml = Symfony\Component\Yaml\Yaml::parse(file_get_contents('php://stdin'));
 $html = '<pre>' . htmlentities(print_r($yaml, 1)) . '</pre>';
 
@@ -116,15 +116,21 @@ $ sudo cp bin/pogo.phar /usr/local/bin/pogo
 
 # Pragmas
 
-Pogo accepts instructions using a `#!foo: bar` notation. The following are supported:
+Pogo accepts instructions using a `#!foo` notation. The following are supported:
 
-* `#!require: <package> <version>`
+* `#!require {...yaml...}`
     * The `<package>` and `<version>` notations match [composer's `require`](https://getcomposer.org/doc/04-schema.md#require).
-* `#!ttl: <qty> <unit>`
+    * Ex: `#!require symfony/yaml: ~3.0`
+    * Ex: `#!require {symfony/yaml: ~3.0, symfony/finder: ~3.0}`
+* `#!ini {...yaml...}`
+    * Set the value of `php.ini` option *before* launching the script.
+    * Ex: `#!ini variables_order: EGPS`
+    * Ex: `#!ini {max_upload_size: 1m, memory_limit: 1g}`
+* `#!ttl <qty> <unit>`
     * The time-to-live determines the maximum time to retain previously downloaded dependencies.
     * The `<unit>` can be `sec`, `min`, `hour`, `day`, `week`, `month`, `year`.
     * The `<qty> <unit>` notation is a strict subset of [PHP `strtotime()`](php.net/strtotime).
-* `#!run: <mode>`
+* `#!run <mode>`
     * After `pogo` updates the dependencies, it needs to call `php` and execute your script. Unfortunately, I have not found
       a perfect technique for this delegation. The defaults should generally execute correctly. However, if a script begins
       with `#!/usr/bin/env ...`, and if you're doing some debugging, then you may want to try a different mode. Options:
@@ -152,5 +158,9 @@ Pogo accepts instructions using a `#!foo: bar` notation. The following are suppo
     * Do NOT update dependencies after editing a script (same requirement list)
     * Run a standalone download
     * Attempt to run a script with an invalid set of requirements
+    * Ini handling
 * Add more verbosity options. Cleanup output.
+* Remove includes
 * Reconsider symfony/console. (Pro: All the runners have good thread-isolation. Con: We probably need ven more specialized arg parsing for simpler shebangs.)
+* Consider integration with multifile composer projects. (Scan `**.php` and update `composer.json`)
+* Windows...
