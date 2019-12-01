@@ -27,10 +27,10 @@ class UpdateCommand {
 
     $subInput = PogoInput::create([
       $input->interpreter,
-      'dl',
+      '--get',
+      '-f',
+      '-d=' . Pwd::getPwd(),
       $target,
-      '--force',
-      '--out=' . Pwd::getPwd(),
     ]);
     return pogo_main($subInput);
   }
