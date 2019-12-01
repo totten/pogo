@@ -27,11 +27,12 @@ namespace Pogo;
  * args should go to the interpreter. After that, all args should go to
  * the script.
  *
- * Ex: 'do myfile -a --bee -c=123 --dee=456 thing -- extra'
- *   action: 'do'
- *   file: 'myfile'
- *   options: ['a'=>TRUE,'bee'=>TRUE, 'c'=>123, 'dee'=>456]
- *   suffix: ['extra']
+ * Ex: '/usr/bin/pogo --get -a --bee -c=123 --dee=456 myfile --extra'
+ *   interpreter: '/usr/bin/pogo'
+ *   interpreterOptions: ['a'=>TRUE,'bee'=>TRUE, 'c'=>123, 'dee'=>456]
+ *   action: 'get'
+ *   script: 'myfile'
+ *   scriptArgs: ['--extra']
  */
 class PogoInput {
 
