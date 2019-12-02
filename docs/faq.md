@@ -9,7 +9,7 @@ For web-apps, you may want to divide the world into:
 * Traditional PHP environments -- nginx/apache plus php-fpm/php-cgi, etc
 * Async PHP environments -- [amphp](https://amphp.org/amp/), [reactphp](https://reactphp.org/), etc
 
-You may find it easier to use `pogo` for micro-services in async environments, as in [examples/reactphp.php](https://github.com/totten/pogo/blob/master/examples/reactphp.php)
+You may find it easier to use `pogo` for micro-services in async environments, as in [examples/httpd-react.php](https://github.com/totten/pogo/blob/master/examples/httpd-react.php)
 (*trivially adapted from [reactphp/http:01-hello-world.php](https://github.com/reactphp/http/blob/v0.8.5/examples/01-hello-world.php)*).
 
 ### The examples are mostly single-page scripts/apps. Does it work with includes?
