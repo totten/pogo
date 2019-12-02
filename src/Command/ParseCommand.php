@@ -1,25 +1,35 @@
 <?php
 namespace Pogo\Command;
 
-use Pogo\PogoInput;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class ParseCommand {
+class ParseCommand extends BaseCommand {
 
-  use DownloadCommandTrait;
+  protected function configure() {
+    $this
+      ->setName('parse')
+      ->setDescription('Extract any pragmas or metadata from the script')
+      ->addArgument('script', InputArgument::REQUIRED, 'PHP script');
+  }
 
-  public function run(PogoInput $input) {
-    if (empty($input->script)) {
+  protected function execute(InputInterface $input, OutputInterface $output) {
+    $script = $input->getArgument('script');
+
+    if (empty($script)) {
       throw new \Exception("[parse] Missing required file name");
     }
 
-    if (!file_exists($input->script)) {
-      throw new \Exception("[parse] Non-existent file: {$input->script}");
+    if (!file_exists($script)) {
+      throw new \Exception("[parse] Non-existent file: {$script}");
     }
 
-    $scriptMetadata = \Pogo\ScriptMetadata::parse($input->script);
+    $scriptMetadata = \Pogo\ScriptMetadata::parse($script);
     $scriptMetadata = (array) $scriptMetadata;
-    echo json_encode($scriptMetadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    echo "\n";
+
+    $output->writeln(json_encode($scriptMetadata, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
+      OutputInterface::OUTPUT_RAW);
 
     return 0;
   }

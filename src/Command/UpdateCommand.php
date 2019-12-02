@@ -1,12 +1,19 @@
 <?php
 namespace Pogo\Command;
 
-use Pogo\PogoInput;
 use Pogo\Pwd;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class UpdateCommand {
+class UpdateCommand extends BaseCommand {
 
-  public function run(PogoInput $input) {
+  protected function configure() {
+    $this
+      ->setName('up')
+      ->setDescription('Get dependencies for a PHP script');
+  }
+
+  protected function execute(InputInterface $input, OutputInterface $output) {
     if (!empty($input->script)) {
       throw new \Exception("[up] Unexpected file argument.");
     }
@@ -25,14 +32,14 @@ class UpdateCommand {
       throw new \Exception("[up] This project references a non-existent source script ($target).");
     }
 
-    $subInput = PogoInput::create([
-      $input->interpreter,
+    global $argv;
+    return \Pogo\Application::main([
+      $argv[0],
       '--get',
       '-f',
       '-D=' . Pwd::getPwd(),
       $target,
     ]);
-    return pogo_main($subInput);
   }
 
 }

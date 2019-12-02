@@ -1,23 +1,23 @@
 <?php
 namespace Pogo\Command;
 
-use Pogo\PogoInput;
 use Pogo\PogoProject;
+use Symfony\Component\Console\Input\InputInterface;
 
 trait DownloadCommandTrait {
 
   /**
-   * @param \Pogo\PogoInput $input
+   * @param \Symfony\Component\Console\Input\InputInterface $input
    * @param string $target
    * @return \Pogo\PogoProject
    */
-  public function initProject(PogoInput $input, $target) {
+  public function initProject(InputInterface $input, $target) {
     $scriptMetadata = \Pogo\ScriptMetadata::parse($target);
     $path = $this->pickBaseDir($input, $scriptMetadata);
     $project = new PogoProject($scriptMetadata, $path);
 
     $project->buildHelpers();
-    if ($input->getOption(['force', 'f'])
+    if ($input->getOption('force')
       || in_array($project->getStatus(), ['empty', 'stale'])
     ) {
       $project->buildComposer();
@@ -27,12 +27,12 @@ trait DownloadCommandTrait {
   }
 
   /**
-   * @param \Pogo\PogoInput $input
+   * @param \Symfony\Component\Console\Input\InputInterface $input
    * @param \Pogo\ScriptMetadata $scriptMetadata
    * @return string
    */
-  public function pickBaseDir(PogoInput $input, $scriptMetadata) {
-    $result = $input->getOption('D');
+  public function pickBaseDir(InputInterface $input, $scriptMetadata) {
+    $result = $input->getOption('dl');
     if ($result) {
       return $result;
     }

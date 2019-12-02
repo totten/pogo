@@ -1,24 +1,38 @@
 <?php
 namespace Pogo\Command;
 
-use Pogo\PogoInput;
 use Pogo\Runner\EvalRunner;
 use Pogo\Runner\FileRunner;
 use Pogo\Runner\DashBRunner;
 use Pogo\Runner\DataRunner;
 use Pogo\Runner\IncludeRunner;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class RunCommand {
+class RunCommand extends BaseCommand {
 
   use DownloadCommandTrait;
 
-  public function run(PogoInput $input) {
-    if (empty($input->script)) {
+  protected function configure() {
+    $this
+      ->setName('run')
+      ->setDescription('Execute a PHP script')
+      ->addArgument('script', InputArgument::REQUIRED, 'PHP script')
+      ->addArgument('script-args', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Arguments to pass through ')
+      ->addOption('dl', 'D', InputOption::VALUE_REQUIRED, 'Dependency download directory')
+      ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force download of any dependencies')
+      ->addOption('run-mode', NULL, InputOption::VALUE_REQUIRED, 'How to launch PHP subscripts (ex: include, eval)');
+  }
+
+  protected function execute(InputInterface $input, OutputInterface $output) {
+    $target = $input->getArgument('script');
+    if (empty($target)) {
       throw new \Exception("[run] Missing required file name");
     }
 
     // TODO: realpath($target) but using getenv(PWD) or `pwd` to preserve symlink structure
-    $target = $input->script;
     if (!file_exists($target)) {
       throw new \Exception("[run] Non-existent file: $target");
     }
@@ -38,13 +52,15 @@ class RunCommand {
         'file' => new FileRunner(),
         'include' => new IncludeRunner(),
       ];
-      $runMode = $input->getOption('run-mode', $project->scriptMetadata->runner['with']);
+      $runMode = $input->getOption('run-mode');
+      $runMode = empty($runMode) ? $project->scriptMetadata->runner['with'] : $runMode;
       $runMode = ($runMode === 'auto') ? $this->pickRunner($target) : $runMode;
       if (!isset($runners[$runMode])) {
         throw new \Exception("Invalid run mode: $runMode");
       }
 
-      return $runners[$runMode]->run($autoloader, $project->scriptMetadata, $input->scriptArgs);
+      $scriptArgs = $input->getArgument('script-args');
+      return $runners[$runMode]->run($autoloader, $project->scriptMetadata, $scriptArgs);
     }
     else {
       fwrite(STDERR, "[run] Script not found ($target)");

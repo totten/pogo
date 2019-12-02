@@ -1,47 +1,54 @@
 <?php
 namespace Pogo\Command;
 
-use Pogo\PogoInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class HelpCommand {
+class HelpCommand extends \Symfony\Component\Console\Command\HelpCommand {
 
-  public function run(PogoInput $input) {
-    $cmd = basename($input->interpreter);
+  protected function execute(InputInterface $input, OutputInterface $output) {
+    if (!empty($input->getArgument('command')) && $input->getArgument('command') !== 'help') {
+      return parent::execute($input, $output);
+    }
+
+    global $argv;
+    $cmd = basename($argv[0]);
     $version = '@package_version@';
     $name = ($version{0} === '@') ? 'pogo (local version)' : 'pogo @package_version@';
 
-    echo "$name\n";
-    echo "Usage: $cmd [--<action>] [action-options] <script-file> [--] [script-options]\n";
-    echo "\n";
-    echo "Example: Run a script\n";
-    echo "  $cmd my-script.php\n";
-    echo "\n";
-    echo "Example: Download dependencies for a script to a specific location\n";
-    echo "  $cmd --get -D=/tmp/deps my-script.php\n";
-    echo "\n";
-    echo "Example: Update dependencies in an existing project directory\n";
-    echo "  cd <out-dir>\n";
-    echo "  $cmd --up\n";
-    echo "\n";
-    //    echo "Example: Remove any expired code from the common base folder\n";
-    //    echo "  $cmd --clean\n";
-    //    echo "\n";
-    echo "Actions:\n";
-    echo "  --get       Download dependencies, but do not execute.\n";
-    echo "  --run       Run the script. Download anything necessary. (*default*)\n";
-    echo "  --parse     Extract any pragmas or metadata from the script.\n";
-    echo "  --up        Update dependencies (in current directory).\n";
-    echo "  --help      Show help screen.\n";
-    echo "\n";
-    echo "Action-Options:\n";
-    echo "  -f          Force; recreate project, even if it appears current\n";
-    echo "  -D=<out>    Output dependencies in this directory\n";
-    echo "\n";
-    echo "Environment:\n";
-    echo "  POGO_BASE   Default location for output folders\n";
-    echo "              To store in-situ as a dot folder, use POGO_BASE=.\n";
-    echo "              If omitted, defaults to ~/.cache/pogo or /tmp/pogo\n";
-    echo "\n";
+    $output->writeln("$name");
+    $output->writeln("<comment>Usage:</comment>");
+    $output->writeln("  $cmd [<action>] [action-options] <script-file> [--] [script-options]");
+    $output->writeln("");
+    $output->writeln("<comment>Example: Run a script</comment>");
+    $output->writeln("  $cmd my-script.php");
+    $output->writeln("");
+    $output->writeln("<comment>Example: Download dependencies for a script to a specific location</comment>");
+    $output->writeln("  $cmd --get -D=/tmp/deps my-script.php");
+    $output->writeln("");
+    $output->writeln("<comment>Example: Update dependencies in an existing project directory</comment>");
+    $output->writeln("  cd <out-dir>");
+    $output->writeln("  $cmd --up");
+    $output->writeln("");
+    //    $output->writeln("Example: Remove any expired code from the common base folder");
+    //    $output->writeln("  $cmd --clean");
+    //    $output->writeln("");
+    $output->writeln("<comment>Actions:</comment>");
+    $output->writeln("  <info>--get</info>       Download dependencies, but do not execute.");
+    $output->writeln("  <info>--run</info>       Run the script. Download anything necessary. (<comment>default</comment>)");
+    $output->writeln("  <info>--parse</info>     Extract any pragmas or metadata from the script.");
+    $output->writeln("  <info>--up</info>        Update dependencies (in current directory).");
+    $output->writeln("  <info>--help</info>      Show help screen.");
+    $output->writeln("");
+    $output->writeln("<comment>Action-Options:</comment>");
+    $output->writeln("  <info>-f</info>          Force; recreate project, even if it appears current");
+    $output->writeln("  <info>-D=DIR</info>      Output dependencies in this directory");
+    $output->writeln("");
+    $output->writeln("<comment>Environment:</comment>");
+    $output->writeln("  <info>POGO_BASE</info>   Default location for output folders");
+    $output->writeln("              To store in-situ as a dot folder, use POGO_BASE=.");
+    $output->writeln("              If omitted, defaults to ~/.cache/pogo or /tmp/pogo");
+    $output->writeln("");
     return 0;
   }
 

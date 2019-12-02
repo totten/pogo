@@ -74,7 +74,8 @@ class PogoInput {
    * @return static
    */
   public static function create($args) {
-    $actions = ['run', 'get', 'parse', 'up', 'help'];
+    $actions = ['run', 'get', 'parse', 'up', 'list'];
+    // 'help'
     return new static($args, $actions, $actions);
   }
 
@@ -95,12 +96,6 @@ class PogoInput {
       elseif ('--' === $arg) {
         $isScriptArg = TRUE;
       }
-      elseif (preg_match('/^--([^=]+)=(.*)$/', $arg, $m)) {
-        $this->interpreterOptions[$m[1]] = $m[2];
-      }
-      elseif (preg_match('/^-([^=])=(.*)$/', $arg, $m)) {
-        $this->interpreterOptions[$m[1]] = $m[2];
-      }
       elseif (preg_match('/^--([^=]+)$/', $arg, $m)) {
         if (in_array($m[1], $actions)) {
           if ($this->action === NULL) {
@@ -111,22 +106,44 @@ class PogoInput {
           }
         }
         else {
-          $this->interpreterOptions[$m[1]] = TRUE;
+          $this->interpreterOptions[] = $arg;
         }
       }
-      elseif (preg_match('/^-([a-zA-Z0-9])+$/', $arg, $m)) {
-        for ($i = 0; $i < strlen($m[1]); $i++) {
-          $this->interpreterOptions[$m[1]{$i}] = TRUE;
-        }
+      elseif (preg_match('/^-/', $arg, $m)) {
+        $this->interpreterOptions[] = $arg;
       }
       elseif ($this->script === NULL) {
         $this->script = $arg;
-        $isScriptArg = TRUE;
+        $isScriptArg = !in_array('--', $args);
       }
       else {
         throw new \Exception("Failed to parse argument: $arg");
       }
     }
+
+    if (empty($this->action)) {
+      if (array_intersect($this->interpreterOptions, ['-h', '--help'])) {
+        $this->action = 'help';
+      }
+      else {
+        // For piped mode, switch to 'run'... and implement support...
+        $this->action = 'help';
+      }
+    }
+  }
+
+  public function encode() {
+    $fakeArgv = [$this->interpreter, $this->action];
+    if ($this->script) {
+      $fakeArgv[] = $this->script;
+    }
+    $fakeArgv = array_merge($fakeArgv, $this->interpreterOptions);
+    if (!empty($this->scriptArgs)) {
+      // $fakeArgv[] = base64_encode(json_encode($pogoInput->scriptArgs));
+      $fakeArgv[] = '--';
+      $fakeArgv = array_merge($fakeArgv, $this->scriptArgs);
+    }
+    return $fakeArgv;
   }
 
   /**

@@ -20,27 +20,4 @@ if (!$found) {
   die("Failed to find autoloader");
 }
 
-function pogo_main(\Pogo\PogoInput $input) {
-  $actions = [
-    'run' => new \Pogo\Command\RunCommand(),
-    'get' => new \Pogo\Command\DownloadCommand(),
-    'up' => new \Pogo\Command\UpdateCommand(),
-    'parse' => new \Pogo\Command\ParseCommand(),
-    'help' => new \Pogo\Command\HelpCommand(),
-  ];
-
-  if (empty($input->action) && !empty($input->script)) {
-    $exit = $actions['run']->run($input);
-    exit($exit === NULL ? 0 : $exit);
-  }
-  elseif (isset($actions[$input->action])) {
-    $exit = $actions[$input->action]->run($input);
-    exit($exit === NULL ? 0 : $exit);
-  }
-  else {
-    $actions['help']->run($input);
-    return 1;
-  }
-}
-
-pogo_main(\Pogo\PogoInput::create($argv));
+exit(\Pogo\Application::main($argv));
