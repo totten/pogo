@@ -64,12 +64,12 @@ For example, if you wanted to inspect or debug the dependencies, you might expli
 pogo -f -D=/tmp/depdebug my-script.php`
 ```
 
-Similarly, suppose you have an executable in `$HOME/bin/my-script` and you want
-to ensure that it places dependencies in `$HOME/src/my-script.dbg`. Set the
+Similarly, suppose you have an executable in `/home/me/bin/my-script` and you want
+to ensure that it places dependencies in `/home/me/src/my-script.dbg`. Set the
 first line accordingly:
 
 ```bash
-#!/usr/bin/env pogo -D="$HOME/src/my-script.dbg"
+#!/usr/bin/env pogo -D /home/me/src/my-script.dbg
 <?php
 echo "Hello world\n";
 ```
