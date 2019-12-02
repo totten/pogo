@@ -49,8 +49,13 @@ class ScriptMetadata {
    * @return static
    */
   public static function parse($file) {
-    $code = file_get_contents($file);
+    $metadata = new static();
+    $metadata->file = $file;
+    $metadata->parseCode(file_get_contents($file), $file);
+    return $metadata;
+  }
 
+  public function parseCode($code, $fileName = '') {
     $pragmas = array_filter(
       token_get_all($code),
       function ($entry) {
@@ -58,42 +63,39 @@ class ScriptMetadata {
         && preg_match(';#!;', $entry[1]);
       });
 
-    $metadata = new static();
-    $metadata->file = $file;
     foreach ($pragmas as $pragma) {
       if (preg_match(';#!\s*require \s*(.*)$;', $pragma[1], $m)) {
         $yaml = Yaml::parse(trim($m[1]));
         if (is_array($yaml)) {
-          $metadata->require = array_merge($metadata->require, $yaml);
+          $this->require = array_merge($this->require, $yaml);
         }
         else {
-          self::error(sprintf("Malformed pragma \"%s\" on line %d of %s", trim($pragma[1]), $pragma[2], $file));
+          self::error(sprintf("Malformed pragma \"%s\" on line %d of %s", trim($pragma[1]), $pragma[2], $fileName));
         }
       }
       elseif (preg_match(';#!\s*ttl \s*(\d+\s+(sec|min|hour|day|week|month|year)s?)$;', $pragma[1], $m)) {
-        $metadata->ttl = trim($m[1]);
+        $this->ttl = trim($m[1]);
       }
       elseif (preg_match(';#!\s*run \s*(.*)$;', $pragma[1], $m)) {
         $yaml = Yaml::parse(trim($m[1]));
         if (is_string($yaml)) {
-          $metadata->runner = ['with' => $yaml];
+          $this->runner = ['with' => $yaml];
         }
         else {
-          $metadata->runner = $yaml;
+          $this->runner = $yaml;
         }
       }
       elseif (preg_match(';#!\s*ini (.*)$;', $pragma[1], $m)) {
         $yaml = Yaml::parse(trim($m[1]));
-        $metadata->ini = array_merge($metadata->ini, $yaml);
+        $this->ini = array_merge($this->ini, $yaml);
       }
       else {
-        self::warn(sprintf("Unrecognized pragma \"%s\" on line %d of %s", trim($pragma[1]), $pragma[2], $file));
+        self::warn(sprintf("Unrecognized pragma \"%s\" on line %d of %s", trim($pragma[1]), $pragma[2], $fileName));
       }
     }
 
-    ksort($metadata->require);
-
-    return $metadata;
+    ksort($this->require);
+    return $this;
   }
 
   public function getDigest() {
