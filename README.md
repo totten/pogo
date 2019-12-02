@@ -1,4 +1,4 @@
-# pogo: Run PHP with inline dependencies (v0.1)
+# pogo: Run PHP scripts with inline dependencies (v0.1)
 
 Pogo allows you to write small PHP scripts which use PHP libraries (courtesy
 of `composer`/`packagist`)...  but it *doesn't* require you setup a
@@ -11,7 +11,7 @@ libraries when:
 
 ## Example
 
-Let's pick some small task that requires a few libraries -- suppose we want
+Let's pick a small task that requires a few libraries -- suppose we want
 to generate a pretty PDF from a source-code file (`.php`, `*.json`, etc).
 We'll need a pretty-printer ([scrivo/highlight.php](https://github.com/scrivo/highlight.php))
 and a PDF generator ([dompdf/dompdf](https://github.com/dompdf/dompdf)).
@@ -44,6 +44,14 @@ pogo code2pdf.php < myfile.yml > myfile.pdf
 ```
 
 That's it!
+
+## Motivation
+
+Most of my day-to-day work is in PHP, JS, and bash.  From time-to-time, one
+needs a bit of glue-code for one-offs, and I find myself avoiding PHP for
+that task...  because using *any* PHP library requires setting up various
+bits of boilerplate/administration.  `pogo` is an experiment to reduce that
+boilerplate.  Just create a `.php` file and run it.
 
 ## More information
 
