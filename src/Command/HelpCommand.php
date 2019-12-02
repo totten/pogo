@@ -18,7 +18,7 @@ class HelpCommand extends \Symfony\Component\Console\Command\HelpCommand {
 
     $output->writeln("$name");
     $output->writeln("<comment>Usage:</comment>");
-    $output->writeln("  $cmd [<action>] [action-options] <script-file> [--] [script-options]");
+    $output->writeln("  $cmd [<action>] [action-options] [--] <script-file> [script-options]");
     $output->writeln("");
     $output->writeln("<comment>Example: Run a script</comment>");
     $output->writeln("  $cmd my-script.php");
@@ -34,8 +34,8 @@ class HelpCommand extends \Symfony\Component\Console\Command\HelpCommand {
     //    $output->writeln("  $cmd --clean");
     //    $output->writeln("");
     $output->writeln("<comment>Actions:</comment>");
-    $output->writeln("  <info>--get</info>       Download dependencies, but do not execute.");
     $output->writeln("  <info>--run</info>       Run the script. Download anything necessary. (<comment>default</comment>)");
+    $output->writeln("  <info>--get</info>       Download dependencies, but do not execute.");
     $output->writeln("  <info>--parse</info>     Extract any pragmas or metadata from the script.");
     $output->writeln("  <info>--up</info>        Update dependencies (in current directory).");
     $output->writeln("  <info>--help</info>      Show help screen.");

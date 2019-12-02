@@ -19,12 +19,12 @@ class Application extends \Symfony\Component\Console\Application {
     $version = '@package_version@';
 
     // FIXME: this handles "-D=foo script.php" but not "-D foo script.php"
-    $pogoInput = PogoInput::create($args);
-    $input = new ArgvInput($pogoInput->encode());
+    $input = new ArgvInput(PogoInput::filter($args));
 
     $application = new Application('pogo', ($version{0} === '@') ? '(local version)' : $version);
     $application->setAutoExit(FALSE);
     $application->setCatchExceptions(TRUE);
+    $application->setDefaultCommand('the-input-filter-should-prevent-using-this');
     return $application->run($input);
   }
 

@@ -27,140 +27,70 @@ namespace Pogo;
  * Observe that file-name `./myscript` is a demarcation point - before that, all
  * args should go to the interpreter. After that, all args should go to
  * the script.
- *
- * Ex: '/usr/bin/pogo --get -a --bee -c=123 --dee=456 myfile --extra'
- *   interpreter: '/usr/bin/pogo'
- *   interpreterOptions: ['a'=>TRUE,'bee'=>TRUE, 'c'=>123, 'dee'=>456]
- *   action: 'get'
- *   script: 'myfile'
- *   scriptArgs: ['--extra']
  */
 class PogoInput {
 
   /**
-   * @var string
-   *   The name of the current program being run.
-   */
-  public $interpreter;
-
-  /**
-   * @var array
-   *   Key-value pairs for each '--foo' or '-f' style option.
-   *   If the option specifies a value, it is given here.
-   *   Otherwise, the value defaults to TRUE.
-   */
-  public $interpreterOptions;
-
-  /**
-   * @var string
-   *   The sub-action; the first non-optional
-   */
-  public $action;
-
-  /**
-   * @var string
-   *   The PHP file to scan/execute.
-   */
-  public $script;
-
-  /**
-   * @var array
-   *   Any/all items being passed to the downstream script.
-   */
-  public $scriptArgs;
-
-  /**
+   * Convert from Pogo argv to Symfony argv. Key differences:
+   *  - Pogo takes actions with `--`. Symfony omits the `--`.
+   *  - Pogo commands only accept one *argument*, i.e. *the target script*.
+   *  - Everything after the script will be treated as *arguments*, not as *options*.
+   *  - If there is a script, the default action is 'run'. If no script, then 'help.
+   *
    * @param array $args
-   * @return static
+   *   Argv input, as expected by Pogo
+   * @return array
+   *   Argv input, as expected by Symfony Console
    */
-  public static function create($args) {
-    $actions = ['run', 'get', 'parse', 'up', 'list'];
-    // 'help'
-    return new static($args, $actions, $actions);
-  }
+  public static function filter($args) {
+    // Usage: pogo [<action>] [action-options] [--] <script-file> [script-options]
 
-  public function __construct($args = [], $actions = []) {
-    $this->parse($args, $actions);
-  }
+    $actionRegex = '/^--(run|get|parse|up)(=.*)?$/';
 
-  public function parse($args, $actions) {
-    $this->interpreter = $this->action = $this->script = NULL;
-    $this->interpreterOptions = $this->scriptArgs = [];
+    $interpreter = NULL;
+    $action = NULL;
+    $script = NULL;
+    $result = [];
     $isScriptArg = FALSE;
 
-    $this->interpreter = array_shift($args);
     foreach ($args as $arg) {
+      $isOpt = $arg{0} === '-';
       if ($isScriptArg) {
-        $this->scriptArgs[] = $arg;
+        $result[] = $arg;
       }
-      elseif ('--' === $arg) {
+      elseif ($interpreter === NULL) {
+        $interpreter = $arg;
+        $result[] = $interpreter;
+      }
+      elseif ($action === NULL && preg_match($actionRegex, $arg, $m)) {
+        $action = $m[1];
+      }
+      elseif ($arg === '--') {
+        $isScriptArg = TRUE;
+        $result[] = $arg;
+      }
+      elseif ($script === NULL && !$isOpt) {
+        $script = $arg;
+        if (empty($action)) {
+          $action = 'run';
+        }
+        if (!in_array('--', $args)) {
+          $result[] = '--';
+        }
+        $result[] = $script;
         $isScriptArg = TRUE;
       }
-      elseif (preg_match('/^--([^=]+)$/', $arg, $m)) {
-        if (in_array($m[1], $actions)) {
-          if ($this->action === NULL) {
-            $this->action = $m[1];
-          }
-          else {
-            throw new \Exception("Too many actions specified: {$this->action} " . $m[1]);
-          }
-        }
-        else {
-          $this->interpreterOptions[] = $arg;
-        }
-      }
-      elseif (preg_match('/^-/', $arg, $m)) {
-        $this->interpreterOptions[] = $arg;
-      }
-      elseif ($this->script === NULL) {
-        $this->script = $arg;
-        $isScriptArg = !in_array('--', $args);
-      }
       else {
-        throw new \Exception("Failed to parse argument: $arg");
+        $result[] = $arg;
       }
     }
 
-    if (empty($this->action)) {
-      if (array_intersect($this->interpreterOptions, ['-h', '--help'])) {
-        $this->action = 'help';
-      }
-      else {
-        // For piped mode, switch to 'run'... and implement support...
-        $this->action = 'help';
-      }
+    if (empty($action)) {
+      $action = 'help';
     }
-  }
+    array_splice($result, 1, 0, [$action]);
 
-  public function encode() {
-    $fakeArgv = [$this->interpreter, $this->action];
-    if ($this->script) {
-      $fakeArgv[] = $this->script;
-    }
-    $fakeArgv = array_merge($fakeArgv, $this->interpreterOptions);
-    if (!empty($this->scriptArgs)) {
-      // $fakeArgv[] = base64_encode(json_encode($pogoInput->scriptArgs));
-      $fakeArgv[] = '--';
-      $fakeArgv = array_merge($fakeArgv, $this->scriptArgs);
-    }
-    return $fakeArgv;
-  }
-
-  /**
-   * @param string|array $names
-   *   List of option-names to check. The first extant one will be returned.
-   * @param string|NULL $default
-   *   The value to return if none of the `$names` are defined.
-   * @return string
-   */
-  public function getOption($names, $default = NULL) {
-    $names = (array) $names;
-    foreach ($names as $name) {
-      if (isset($this->interpreterOptions[$name])) {
-        return $this->interpreterOptions[$name];
-      }
-    }
-    return $default;
+    return $result;
   }
 
 }

@@ -6,4 +6,5 @@
 #!ini variables_order: ES
 #!ini {upload_max_filesize: 1m, memory_limit: 1g}
 
-print_r(ini_get_all());
+//print_r(ini_get_all());
+echo "hello\n";
