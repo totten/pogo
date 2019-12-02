@@ -103,7 +103,7 @@ Hello Bob!
 ```
 
 Of course, if you accept a lot of options, then you'll want an easier way to parse `$argv`.  Fortunately, you can get a PHP
-library for that~  One nice library is [mnapoli/silly](https://github.com/mnapoli/silly); you can just copy an example and
+library for that!  One nice library is [mnapoli/silly](https://github.com/mnapoli/silly); you can just copy an example and
 include the pragma:
 
 ```php
