@@ -19,8 +19,8 @@ downloads, as in any of these:
 
 ```bash
 ## Download dependencies to a specific folder -- and run the script.
-pogo --run -D=<dep-dir> <script-file>
+pogo --run --dl=<dep-dir> <script-file>
 
 ## Download dependencies to a specific folder -- without running the script.
-pogo --get -D=<dep-dir> <script-file>
+pogo --get --dl=<dep-dir> <script-file>
 ```

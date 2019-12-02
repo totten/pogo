@@ -37,7 +37,7 @@ class UpdateCommand extends BaseCommand {
       $argv[0],
       '--get',
       '-f',
-      '-D=' . Pwd::getPwd(),
+      '--dl=' . Pwd::getPwd(),
       $target,
     ]);
   }

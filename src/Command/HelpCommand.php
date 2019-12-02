@@ -24,7 +24,7 @@ class HelpCommand extends \Symfony\Component\Console\Command\HelpCommand {
     $output->writeln("  $cmd my-script.php");
     $output->writeln("");
     $output->writeln("<comment>Example: Download dependencies for a script to a specific location</comment>");
-    $output->writeln("  $cmd --get -D=/tmp/deps my-script.php");
+    $output->writeln("  $cmd --get --dl=/tmp/deps my-script.php");
     $output->writeln("");
     $output->writeln("<comment>Example: Update dependencies in an existing project directory</comment>");
     $output->writeln("  cd <out-dir>");
@@ -42,7 +42,7 @@ class HelpCommand extends \Symfony\Component\Console\Command\HelpCommand {
     $output->writeln("");
     $output->writeln("<comment>Action-Options:</comment>");
     $output->writeln("  <info>-f</info>          Force; recreate project, even if it appears current");
-    $output->writeln("  <info>-D=DIR</info>      Output dependencies in this directory");
+    $output->writeln("  <info>--dl=DIR</info>    Output dependencies in this directory");
     $output->writeln("");
     $output->writeln("<comment>Environment:</comment>");
     $output->writeln("  <info>POGO_BASE</info>   Default location for output folders");

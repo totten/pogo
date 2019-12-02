@@ -18,7 +18,6 @@ class Application extends \Symfony\Component\Console\Application {
   public static function main($args) {
     $version = '@package_version@';
 
-    // FIXME: this handles "-D=foo script.php" but not "-D foo script.php"
     $input = new ArgvInput(PogoInput::filter($args));
 
     $application = new Application('pogo', ($version{0} === '@') ? '(local version)' : $version);

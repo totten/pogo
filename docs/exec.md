@@ -55,13 +55,13 @@ my-script
 
 Whether you call `pogo` directly or indirectly, it accepts a few options, such as:
 
-* `-D=<DIR>` - Explicitly store dependencies in the given directory
+* `--dl=<DIR>` - Explicitly store dependencies in the given directory
 * `-f` - Forcibly download fresh dependencies, even the dependencies are currently available
 
 For example, if you wanted to inspect or debug the dependencies, you might explicitly call:
 
 ```bash
-pogo -f -D=/tmp/depdebug my-script.php`
+pogo -f --dl=/tmp/depdebug my-script.php`
 ```
 
 Similarly, suppose you have an executable in `/home/me/bin/my-script` and you want
@@ -69,7 +69,7 @@ to ensure that it places dependencies in `/home/me/src/my-script.dbg`. Set the
 first line accordingly:
 
 ```bash
-#!/usr/bin/env pogo -D /home/me/src/my-script.dbg
+#!/usr/bin/env pogo --dl=/home/me/src/my-script.dbg
 <?php
 echo "Hello world\n";
 ```
