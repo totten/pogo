@@ -1,5 +1,5 @@
 {
-    "file": "example/conflict.phpex",
+    "file": "example/conflict.php",
     "ini": [],
     "require": {
         "php/version": "<5"

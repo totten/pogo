@@ -1,5 +1,5 @@
 {
-    "file": "example/pragmas.phpex",
+    "file": "example/pragmas.php",
     "ini": {
         "variables_order": "ES",
         "upload_max_filesize": "1m",

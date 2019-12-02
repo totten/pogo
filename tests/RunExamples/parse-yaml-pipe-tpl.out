@@ -1,5 +1,5 @@
 {
-    "file": "example/yaml-pipe-tpl.phpex",
+    "file": "example/yaml-pipe-tpl.php",
     "ini": [],
     "require": {
         "symfony/yaml": "~3.0"

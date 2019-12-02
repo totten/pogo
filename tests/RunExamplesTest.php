@@ -19,61 +19,61 @@ class RunExamplesTest extends TestCase {
     $exs = [];
 
     $exs['pragmas-parse'] = [
-      'pogo --parse example/pragmas.phpex',
+      'pogo --parse example/pragmas.php',
       file_get_contents(self::getTestDir('parse-pragmas.out')),
     ];
 
     $exs['pragmas-explicit-cmd'] = [
-      "pogo example/pragmas.phpex",
+      "pogo example/pragmas.php",
       "hello\n",
     ];
 
     $exs['pragmas-eval'] = [
-      "pogo --run-mode=eval example/pragmas.phpex",
+      "pogo --run-mode=eval example/pragmas.php",
       "hello\n",
     ];
 
-    // This is OK because "pragmas.phpex" does not use piped input.
+    // This is OK because "pragmas.php" does not use piped input.
     $exs['pragmas-dashb'] = [
-      "pogo --run-mode=dash-b example/pragmas.phpex",
+      "pogo --run-mode=dash-b example/pragmas.php",
       "hello\n",
     ];
 
     $exs['tpl-parse'] = [
-      'pogo --parse example/yaml-pipe-tpl.phpex',
+      'pogo --parse example/yaml-pipe-tpl.php',
       file_get_contents(self::getTestDir('parse-yaml-pipe-tpl.out')),
     ];
 
     $exs['tpl-implicit-cmd'] = [
-      'echo \'{name: Alice, color: purple}\' | ./example/yaml-pipe-tpl.phpex -d dum -D dee --dum=deedeedoo',
+      'echo \'{name: Alice, color: purple}\' | ./example/yaml-pipe-tpl.php -d dum -D dee --dum=deedeedoo',
       file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
     ];
 
     $exs['tpl-explicit-cmd'] = [
-      'echo \'{name: Alice, color: purple}\' | pogo example/yaml-pipe-tpl.phpex -d dum -D dee --dum=deedeedoo',
+      'echo \'{name: Alice, color: purple}\' | pogo example/yaml-pipe-tpl.php -d dum -D dee --dum=deedeedoo',
       file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
     ];
 
     $exs['tpl-eval'] = [
-      'echo \'{name: Alice, color: purple}\' | pogo --run-mode=eval example/yaml-pipe-tpl.phpex -d dum -D dee --dum=deedeedoo',
+      'echo \'{name: Alice, color: purple}\' | pogo --run-mode=eval example/yaml-pipe-tpl.php -d dum -D dee --dum=deedeedoo',
       file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
     ];
 
     // Using piped-input with dash-b requires buffering.
     $exs['tpl-dashb-buf'] = [
-      sprintf('echo \'{name: Alice, color: purple}\' | pogo --run-mode=%s example/yaml-pipe-tpl.phpex -d dum -D dee --dum=deedeedoo',
+      sprintf('echo \'{name: Alice, color: purple}\' | pogo --run-mode=%s example/yaml-pipe-tpl.php -d dum -D dee --dum=deedeedoo',
         escapeshellarg('{with:dash-b,buffer:1}')),
       file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
     ];
 
     // Known bad: 'include' mode outputs shebangs. But otherwise it works.
     $exs['tpl-include'] = [
-      'echo \'{name: Bob, color: green}\' | pogo --run-mode=include example/yaml-pipe-tpl.phpex foo',
+      'echo \'{name: Bob, color: green}\' | pogo --run-mode=include example/yaml-pipe-tpl.php foo',
       file_get_contents(self::getTestDir('yaml-pipe-tpl-shebang.out')),
     ];
 
     $exs['conflict-parse'] = [
-      'pogo --parse example/conflict.phpex',
+      'pogo --parse example/conflict.php',
       file_get_contents(self::getTestDir('parse-conflict.out')),
     ];
 
@@ -95,7 +95,7 @@ class RunExamplesTest extends TestCase {
   }
 
   public function testConflict() {
-    $result = $this->runCmd('pogo example/conflict.phpex');
+    $result = $this->runCmd('pogo example/conflict.php');
     $this->assertRegExp(';The requested package php/version could not be found in any version;', $result['stderr']);
     $this->assertRegExp(';Composer failed to complete;', $result['stderr']);
     $this->assertNotEquals(0, $result['exit']);
