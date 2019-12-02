@@ -9,7 +9,7 @@ For web-apps, you may want to divide the world into:
 * Traditional PHP environments -- nginx/apache plus php-fpm/php-cgi, etc
 * Async PHP environments -- [amphp](https://amphp.org/amp/), [reactphp](https://reactphp.org/), etc
 
-You may find it easier to use `pogo` for micro-services in async environments, as in [example/reactphp.php](https://github.com/totten/pogo/blob/master/example/reactphp.php)
+You may find it easier to use `pogo` for micro-services in async environments, as in [examples/reactphp.php](https://github.com/totten/pogo/blob/master/examples/reactphp.php)
 (*trivially adapted from [reactphp/http:01-hello-world.php](https://github.com/reactphp/http/blob/v0.8.5/examples/01-hello-world.php)*).
 
 ### The examples are mostly single-page scripts/apps. Does it work with includes?
@@ -27,6 +27,14 @@ There are a few things you can use to mitigate this:
 
 1. Configure the ["ttl" pragma](/docs/pragmas.md) with a very long TTL.
 2. Work on a patch to generate statically-linked PHARs (e.g. `pogo --compile --out=/usr/local/bin/my-script my-script.php`).
+
+### How does it cleanup old (previously-downloaded) dependencies?
+
+Welcome to v0.1! It doesn't clean them up.
+
+You can just `rm -rf ~/.cache/pogo` periodically.  Or maybe use `find ... -delete` to delete things after a certain number of days.
+
+We should add a command (e.g. `pogo --cleanup`) for that which respects the `ttl` pragma.
 
 ### Are my scripts locked into a funky format?
 
@@ -51,3 +59,7 @@ git commit
 ```
 
 Then refactor to taste.
+
+### What's the difference between a FAQ and a [TODO](todo.md]?
+
+Eh, semantics.
