@@ -98,15 +98,7 @@ class PogoProject {
       unlink("$path/composer.lock");
     }
 
-    $cmd = sprintf('cd %s && composer install -n', escapeshellarg($path));
-    $process = proc_open($cmd, [['pipe', 'r'], STDERR, STDERR], $pipes);
-    if (is_resource($process)) {
-      fclose($pipes[0]);
-    }
-    $result = proc_close($process);
-    if ($result !== 0) {
-      throw new \RuntimeException("Composer failed to complete.");
-    }
+    Composer::create($path)->run('install -n --prefer-dist');
   }
 
   /**
