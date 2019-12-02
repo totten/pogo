@@ -11,6 +11,9 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
+      - name: Set env
+        run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:11})
+
       - name: Checkout code
         uses: actions/checkout@v1
 
@@ -26,6 +29,7 @@ jobs:
       - name: Build PHAR
         run: php -d phar.readonly=0 "$HOME/.composer/vendor/bin/box" build -v
         continue-on-error: false
+
 
       - name: Create Release
         id: create_release
@@ -50,5 +54,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./bin/pogo.phar
-          asset_name: pogo-${{ github.ref }}.phar
+          asset_name: pogo-${{ env.RELEASE_VERSION }}.phar
           asset_content_type: application/octet-stream
