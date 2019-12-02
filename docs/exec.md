@@ -62,7 +62,7 @@ Whether you call `pogo` directly or indirectly, it accepts a few options, such a
 For example, if you wanted to inspect or debug the dependencies, you might explicitly call:
 
 ```bash
-pogo -f --dl=/tmp/depdebug my-script.php`
+pogo -f --dl=/tmp/depdebug my-script.php
 ```
 
 Similarly, suppose you have an executable in `/home/me/bin/my-script` and you want

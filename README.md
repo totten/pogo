@@ -16,7 +16,9 @@ to generate a pretty PDF from a source-code file (`.php`, `*.json`, etc).
 We'll need a pretty-printer ([scrivo/highlight.php](https://github.com/scrivo/highlight.php))
 and a PDF generator ([dompdf/dompdf](https://github.com/dompdf/dompdf)).
 
-Create the standalone script `code2pdf.php`:
+Skimming the README for each library, one finds a few introductory snippets.
+I took these, added the `#!require` pragams, and improvised a little on the
+`$html` variable. This becomes a small script, `code2pdf.php`:
 
 ```php
 <?php
@@ -47,11 +49,9 @@ That's it!
 
 ## Motivation
 
-Most of my day-to-day work is in PHP, JS, and bash.  From time-to-time, one
-needs a bit of glue-code for one-offs, and I find myself avoiding PHP for
-that task...  because using *any* PHP library requires setting up various
-bits of boilerplate/administration.  `pogo` is an experiment to reduce that
-boilerplate.  Just create a `.php` file and run it.
+Most of my day-to-day work is in PHP, JS, and bash.  From time-to-time, one needs a bit of glue-code for one-offs, and
+I find myself avoiding PHP for that task...  because using a library in PHP still requires bits of administrativa.
+`pogo` is an experiment to reduce that administrativa.  Just create a `.php` file and run it.
 
 ## More information
 
