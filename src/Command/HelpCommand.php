@@ -17,7 +17,7 @@ class HelpCommand {
     echo "  $cmd my-script.php\n";
     echo "\n";
     echo "Example: Download dependencies for a script to a specific location\n";
-    echo "  $cmd --get -d=/tmp/deps my-script.php\n";
+    echo "  $cmd --get -D=/tmp/deps my-script.php\n";
     echo "\n";
     echo "Example: Update dependencies in an existing project directory\n";
     echo "  cd <out-dir>\n";
@@ -35,7 +35,7 @@ class HelpCommand {
     echo "\n";
     echo "Action-Options:\n";
     echo "  -f          Force; recreate project, even if it appears current\n";
-    echo "  -d=<out>    Output dependencies in this directory\n";
+    echo "  -D=<out>    Output dependencies in this directory\n";
     echo "\n";
     echo "Environment:\n";
     echo "  POGO_BASE   Default location for output folders\n";

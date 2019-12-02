@@ -29,7 +29,7 @@ class UpdateCommand {
       $input->interpreter,
       '--get',
       '-f',
-      '-d=' . Pwd::getPwd(),
+      '-D=' . Pwd::getPwd(),
       $target,
     ]);
     return pogo_main($subInput);

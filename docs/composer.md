@@ -20,14 +20,13 @@ downloads, as in any of these:
 
 ```bash
 ## Download dependencies to a specific folder - and run the script.
-pogo --run -d=<dep-dir> <script-file>
+pogo --run -D=<dep-dir> <script-file>
 
 ## Download dependencies to a specific folder.
-pogo --get <script-file> -d=<dep-dir>
+pogo --get -D=<dep-dir> <script-file>
 
 ## Update dependencies in a previously downloaded folder
-## Equivalent to re-running "pogo dl <same-script> -d=<same-output>"
+## Equivalent to re-running "pogo --get -D=<same-dep-dir> <same-script-file>"
 cd <dep-dir>
 pogo --up
 ```
-
