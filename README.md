@@ -47,7 +47,7 @@ That's it!
 
 ## More information
 
-* [Installation](docs/install.md): System requirements along with download/install steps
+* [Installation](docs/install.md): System requirements and install steps
 * [Composer integration](docs/composer.md): How `pogo` works with `composer`
 * [Execution](docs/exec.md): Ways to invoke scripts via `pogo`
 * [Pragmas](docs/pragmas.md): List of all supported pragmas
