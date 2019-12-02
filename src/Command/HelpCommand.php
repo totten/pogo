@@ -7,7 +7,10 @@ class HelpCommand {
 
   public function run(PogoInput $input) {
     $cmd = basename($input->interpreter);
+    $version = '@package_version@';
+    $name = ($version{0} === '@') ? 'pogo (local version)' : 'pogo @package_version@';
 
+    echo "$name\n";
     echo "Usage: $cmd [--<action>] [action-options] <script-file> [--] [script-options]\n";
     echo "\n";
     echo "Example: Run a script\n";
