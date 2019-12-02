@@ -11,15 +11,16 @@ namespace Pogo;
  * A key issue is the DX-norm of calling an interpreter with
  * '#!/usr/bin/env my-interp'. This produces two levels of options.
  *
- * For example, suppose we have
+ * For example, suppose we have two programs:
  * - `/usr/local/bin/my-interp' which accepts argument `--interp-arg'
  * - `/home/me/myscript` which accepts argument `--script-arg`
  *
- * Inside of `myscript, you can use a declaration like:
+ * Inside of `myscript`, you can use a declaration like:
  *
  * #!/usr/bin/env my-interp --interp-arg
  *
- * When the user calls `./myscript --script-arg`, the full command will be:
+ * When the user calls `./myscript --script-arg`, it reads the `#!`, and
+ * the full command becomes:
  *
  * /usr/local/bin/my-interp --interp-arg ./myscript --script-arg
  *
