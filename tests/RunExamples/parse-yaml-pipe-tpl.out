@@ -6,7 +6,6 @@
     },
     "ttl": "7 days",
     "runner": {
-        "with": "dash-b",
-        "buffer": true
+        "with": "auto"
     }
 }

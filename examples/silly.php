@@ -1,7 +1,9 @@
 #!/usr/bin/env pogo
 <?php
-## This example uses the "Silly" (https://github.com/mnapoli/silly) CLI framework to
-## rapidly prototype subcommands.
+
+## This example uses the "Silly" (https://github.com/mnapoli/silly) CLI framework.
+## It provides a very pithy way to declare and parse CLI arguments.
+
 #!require { mnapoli/silly: ~1.7, php: '>=7.0' }
 use Symfony\Component\Console\Style\SymfonyStyle;
 

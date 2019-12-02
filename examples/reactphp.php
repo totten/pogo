@@ -1,7 +1,12 @@
 #!/usr/bin/env pogo
 <?php
-#!require react/http: ^0.8.5
 
+## This example sets up an HTTP server (micro-service-style) using ReactPHP.
+## The server will run on a random port, unless you provide a CLI argument.
+##
+## Usage: pogo reactphp.php [portnum]
+
+#!require react/http: ^0.8.5
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Factory;
 use React\Http\Response;

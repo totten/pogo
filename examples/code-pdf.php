@@ -1,7 +1,10 @@
 #!/usr/bin/env pogo
 <?php
+
 ## This example reads source-code from STDIN then formats it and prints it as a PDF on STDOUT.
+##
 ## Usage: pogo code-pdf.php < mysource.php > mysource.pdf
+
 $code = file_get_contents('php://stdin');
 
 #!require scrivo/highlight.php: ~9.15

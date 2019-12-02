@@ -10,7 +10,7 @@
         "symfony/finder": "~3.2",
         "symfony/yaml": "~3.1"
     },
-    "ttl": "7 days",
+    "ttl": "1 month",
     "runner": {
         "with": "auto"
     }
