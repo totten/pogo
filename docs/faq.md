@@ -60,7 +60,3 @@ git commit
 ```
 
 Then refactor to taste.
-
-### What's the difference between a FAQ and a [TODO](todo.md]?
-
-Eh, semantics.
