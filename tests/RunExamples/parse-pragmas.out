@@ -1,0 +1,17 @@
+{
+    "file": "example/pragmas.phpex",
+    "ini": {
+        "variables_order": "ES",
+        "upload_max_filesize": "1m",
+        "memory_limit": "1g"
+    },
+    "require": {
+        "symfony/console": "~3.0",
+        "symfony/finder": "~3.2",
+        "symfony/yaml": "~3.1"
+    },
+    "ttl": "7 days",
+    "runner": {
+        "with": "auto"
+    }
+}

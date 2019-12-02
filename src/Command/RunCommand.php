@@ -52,8 +52,10 @@ class RunCommand extends BaseCommand {
         'file' => new FileRunner(),
         'include' => new IncludeRunner(),
       ];
-      $runMode = $input->getOption('run-mode');
-      $runMode = empty($runMode) ? $project->scriptMetadata->runner['with'] : $runMode;
+      if ($input->getOption('run-mode')) {
+        $project->scriptMetadata->parseCode("<?php\n#!run " . $input->getOption('run-mode'));
+      }
+      $runMode = $project->scriptMetadata->runner['with'];
       $runMode = ($runMode === 'auto') ? $this->pickRunner($target) : $runMode;
       if (!isset($runners[$runMode])) {
         throw new \Exception("Invalid run mode: $runMode");

@@ -1,0 +1,4 @@
+#!/usr/bin/env pogo
+Hello, Bob!!
+I hope you like the color green.
+Args: ["foo"]

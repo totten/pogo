@@ -1,0 +1,12 @@
+{
+    "file": "example/yaml-pipe-tpl.phpex",
+    "ini": [],
+    "require": {
+        "symfony/yaml": "~3.0"
+    },
+    "ttl": "7 days",
+    "runner": {
+        "with": "dash-b",
+        "buffer": true
+    }
+}

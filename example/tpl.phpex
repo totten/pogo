@@ -1,7 +1,0 @@
-#!/usr/bin/env pogo
-<?php
-## This example uses several ?php directives to show that it works with templates.
-#!require symfony/yaml ~3.0
-$parsed = Symfony\Component\Yaml\Yaml::parse("foo: bar");
-?>
-Hello <?php echo $parsed['foo']; ?>!!

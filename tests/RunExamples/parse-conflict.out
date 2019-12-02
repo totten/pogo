@@ -1,0 +1,11 @@
+{
+    "file": "example/conflict.phpex",
+    "ini": [],
+    "require": {
+        "php/version": "<5"
+    },
+    "ttl": "7 days",
+    "runner": {
+        "with": "auto"
+    }
+}
