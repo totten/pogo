@@ -27,8 +27,8 @@ pogo my-script.php
 
 Suppose you are creating an executable program `/usr/local/bin/my-script`.
 
-The first line needs an instruciton on how to execute the script.  For
-standard PHP, the file `my-script` would be:
+The first line needs an instruction on how to execute the script.  For
+standard PHP, the file `my-script` might be:
 
 ```php
 #!/usr/bin/env php
@@ -75,3 +75,39 @@ echo "Hello world\n";
 ```
 
 For more details about `pogo` command-line options, run `pogo -h`.
+
+## Script options
+
+Additionally, scripts may receive command-line options. These work in the
+same way that PHP normally handles them -- with the global `$argv` variable.
+For example, suppose we have a script named `greeter`:
+
+```php
+#!/usr/bin/env pogo
+<?php
+printf("Hello %s!\n", $argv[1]);
+```
+
+You can pass arguments in either style:
+
+```php
+$ pogo greeter Alice
+Hello Alice!
+```
+
+or:
+
+```php
+$ ./greeter Bob
+Hello Bob!
+```
+
+Of course, if you accept a lot of options, then you'll want an easier way to parse `$argv`.  Fortunately, you can get a PHP
+library for that~  One nice library is [mnapoli/silly](https://github.com/mnapoli/silly); you can just copy an example and
+include the pragma:
+
+```php
+#!require mnapoli/silly: ~1.7
+```
+
+(Full example: [example/silly.php](//github.com/totten/pogo/blob/master/example/silly.php))
