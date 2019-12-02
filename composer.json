@@ -23,5 +23,8 @@
     ],
     "config": {
         "bin-dir": "bin"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0"
     }
 }
