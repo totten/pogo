@@ -54,6 +54,9 @@ class PogoProject {
     if (!file_exists("{$this->path}/composer.json")) {
       return 'empty';
     }
+    if (!file_exists($this->getAutoloader())) {
+      return 'stale';
+    }
     $composerJson = json_decode(file_get_contents("{$this->path}/composer.json"), 1);
     if (isset($composerJson['extra']['pogo']['expires']) && $composerJson['extra']['pogo']['expires'] < time()) {
       return 'stale';
@@ -104,6 +107,14 @@ class PogoProject {
     if ($result !== 0) {
       throw new \RuntimeException("Composer failed to complete.");
     }
+  }
+
+  /**
+   * @return string
+   *   The path to the autoloader for this project.
+   */
+  public function getAutoloader() {
+    return $this->path . '/vendor/autoload.php';
   }
 
 }

@@ -63,7 +63,12 @@ class ScriptMetadata {
     foreach ($pragmas as $pragma) {
       if (preg_match(';#!\s*require \s*(.*)$;', $pragma[1], $m)) {
         $yaml = Yaml::parse(trim($m[1]));
-        $metadata->require = array_merge($metadata->require, $yaml);
+        if (is_array($yaml)) {
+          $metadata->require = array_merge($metadata->require, $yaml);
+        }
+        else {
+          self::error(sprintf("Malformed pragma \"%s\" on line %d of %s", trim($pragma[1]), $pragma[2], $file));
+        }
       }
       elseif (preg_match(';#!\s*ttl \s*(\d+\s+(sec|min|hour|day|week|month|year)s?)$;', $pragma[1], $m)) {
         $metadata->ttl = trim($m[1]);
@@ -102,6 +107,16 @@ class ScriptMetadata {
   private static function warn($msg) {
     // trigger_error($msg, E_USER_NOTICE);
     fwrite(STDERR, "WARNING: $msg\n");
+  }
+
+  /**
+   * @param $msg
+   */
+  private static function error($msg) {
+    // trigger_error($msg, E_USER_ERROR);
+    // fwrite(STDERR, "ERROR: $msg\n");
+    // exit(1);
+    throw new \Exception($msg);
   }
 
 }

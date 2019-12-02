@@ -26,7 +26,7 @@ class RunCommand {
     if (!empty($target) && file_exists($target)) {
       $project = $this->initProject($input, $target);
 
-      $autoloader = $project->path . '/vendor/autoload.php';
+      $autoloader = $project->getAutoloader();
       if (!file_exists($autoloader)) {
         throw new \RuntimeException("Failed to generate autoloader: $autoloader");
       }
