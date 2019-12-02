@@ -110,4 +110,4 @@ include the pragma:
 #!require mnapoli/silly: ~1.7
 ```
 
-(Full example: [example/silly.php](//github.com/totten/pogo/blob/master/example/silly.php))
+(Full example: [examples/silly.php](//github.com/totten/pogo/blob/master/examples/silly.php))
