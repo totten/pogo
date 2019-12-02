@@ -6,6 +6,7 @@
     * Do NOT update dependencies after editing a script (same requirement list)
     * Run a standalone download
     * Ini handling
+    * With/without the --allow-stale option
 * Add more verbosity options. Cleanup output.
 * Make signature more like `php`
     * Accept code via stdin (if no files given)

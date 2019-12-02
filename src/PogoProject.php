@@ -55,7 +55,7 @@ class PogoProject {
       return 'empty';
     }
     if (!file_exists($this->getAutoloader())) {
-      return 'stale';
+      return 'broken';
     }
     $composerJson = json_decode(file_get_contents("{$this->path}/composer.json"), 1);
     if (isset($composerJson['extra']['pogo']['expires']) && $composerJson['extra']['pogo']['expires'] < time()) {

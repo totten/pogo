@@ -56,7 +56,8 @@ my-script
 Whether you call `pogo` directly or indirectly, it accepts a few options, such as:
 
 * `--dl=<DIR>` - Explicitly store dependencies in the given directory
-* `-f` - Forcibly download fresh dependencies, even the dependencies are currently available
+* `-f`/`--force` - Forcibly download fresh dependencies, even the dependencies are currently available
+* `--allow-stale` - The opposite of `-f`; do not expire/redownload dependencies
 
 For example, if you wanted to inspect or debug the dependencies, you might explicitly call:
 
@@ -70,6 +71,14 @@ first line accordingly:
 
 ```bash
 #!/usr/bin/env pogo --dl=/home/me/src/my-script.dbg
+<?php
+echo "Hello world\n";
+```
+
+Or if you wanted to lock deps into a read-only mode for multiuser systems:
+
+```php
+#!/usr/bin/env pogo --dl=/var/cache/pogo/my-script --allow-stale
 <?php
 echo "Hello world\n";
 ```

@@ -16,12 +16,28 @@ trait DownloadCommandTrait {
     $path = $this->pickBaseDir($input, $scriptMetadata);
     $project = new PogoProject($scriptMetadata, $path);
 
-    $project->buildHelpers();
-    if ($input->getOption('force')
-      || in_array($project->getStatus(), ['empty', 'stale'])
-    ) {
+    $status = $project->getStatus();
+    $allowStale = $input->hasOption('allow-stale') && $input->getOption('allow-stale');
+
+    if ($input->getOption('force')) {
+      $project->buildHelpers();
       $project->buildComposer();
-      return $project;
+    }
+    elseif ($status === 'empty' || $status === 'broken') {
+      $project->buildHelpers();
+      $project->buildComposer();
+    }
+    elseif ($status === 'stale' && !$allowStale) {
+      $project->buildHelpers();
+      $project->buildComposer();
+    }
+    elseif ($status === 'stale' && $allowStale) {
+      // null op
+    }
+    elseif ($status === 'current') {
+      // This is handy in dev (when tweaking helper code), but maybe it shouldn't be here...
+      $project->buildHelpers();
+
     }
     return $project;
   }

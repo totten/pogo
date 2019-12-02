@@ -23,6 +23,7 @@ class RunCommand extends BaseCommand {
       ->addArgument('script-args', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Arguments to pass through ')
       ->addOption('dl', 'D', InputOption::VALUE_REQUIRED, 'Dependency download directory')
       ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force download of any dependencies')
+      ->addOption('allow-stale', NULL, InputOption::VALUE_NONE, 'Do not attempt automatic updates. Reuse previous download, even if stale')
       ->addOption('run-mode', NULL, InputOption::VALUE_REQUIRED, 'How to launch PHP subscripts (ex: include, eval)');
   }
 

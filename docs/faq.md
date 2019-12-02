@@ -25,8 +25,9 @@ That's a security precaution - to make sure we don't run stale libraries.
 
 There are a few things you can use to mitigate this:
 
-1. Configure the ["ttl" pragma](/docs/pragmas.md) with a very long TTL.
-2. Work on a patch to generate statically-linked PHARs (e.g. `pogo --compile --out=/usr/local/bin/my-script my-script.php`).
+1. When calling `pogo`, set the `--allow-stale` option.
+2. Configure the ["ttl" pragma](/docs/pragmas.md) with a very long TTL.
+3. Work on a patch to generate statically-linked PHARs (e.g. `pogo --compile --out=/usr/local/bin/my-script my-script.php`).
 
 ### How does it cleanup old (previously-downloaded) dependencies?
 
