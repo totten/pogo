@@ -8,8 +8,9 @@ namespace Pogo;
  *
  * Represents command-line input.
  *
- * A key issue is the DX-norm of calling an interpreter with
- * '#!/usr/bin/env my-interp'. This produces two levels of options.
+ * A key issue is the DX convention of calling an interpreter with
+ * '#!/usr/bin/env my-interp'. This produces two levels of options which
+ * require care to parse.
  *
  * For example, suppose we have two programs:
  * - `/usr/local/bin/my-interp' which accepts argument `--interp-arg'
@@ -27,8 +28,27 @@ namespace Pogo;
  * Observe that file-name `./myscript` is a demarcation point - before that, all
  * args should go to the interpreter. After that, all args should go to
  * the script.
+ *
+ * The PogoInput class maps options from this format into a form that works
+ * better with Symfony's parser, i.e.
+ *
+ * /usr/local/bin/my-interp myaction --interp-arg -- ./myscript --script-arg
  */
 class PogoInput {
+  /**
+   * These options are actually actions.
+   */
+  const ACTION_REGEX = '/^--(get|parse|run|up)$/';
+
+  /**
+   * These options accept inputs, e.g. '--dl VALUE'.
+   */
+  const ACTION_OPTION_REGEX = '/^--(dl|run-mode)$/';
+
+  /**
+   * These options accept inputs, e.g. '-D VALUE'.
+   */
+  const ACTION_SHORTCUT_REGEX = '/^-(D)$/';
 
   /**
    * Convert from Pogo argv to Symfony argv. Key differences:
@@ -45,15 +65,16 @@ class PogoInput {
   public static function filter($args) {
     // Usage: pogo [<action>] [action-options] [--] <script-file> [script-options]
 
-    $actionRegex = '/^--(run|get|parse|up)(=.*)?$/';
-
     $interpreter = NULL;
     $action = NULL;
     $script = NULL;
     $result = [];
     $isScriptArg = FALSE;
 
-    foreach ($args as $arg) {
+    $todos = $args;
+    while (!empty($todos)) {
+      $arg = array_shift($todos);
+
       $isOpt = $arg{0} === '-';
       if ($isScriptArg) {
         $result[] = $arg;
@@ -62,7 +83,7 @@ class PogoInput {
         $interpreter = $arg;
         $result[] = $interpreter;
       }
-      elseif ($action === NULL && preg_match($actionRegex, $arg, $m)) {
+      elseif ($action === NULL && preg_match(self::ACTION_REGEX, $arg, $m)) {
         $action = $m[1];
       }
       elseif ($arg === '--') {
@@ -79,6 +100,14 @@ class PogoInput {
         }
         $result[] = $script;
         $isScriptArg = TRUE;
+      }
+      elseif (
+        (preg_match(self::ACTION_OPTION_REGEX, $arg) || preg_match(self::ACTION_SHORTCUT_REGEX, $arg))
+        && !empty($todos)
+      ) {
+        // These are options which accept inputs
+        $result[] = $arg;
+        $result[] = array_shift($todos);
       }
       else {
         $result[] = $arg;

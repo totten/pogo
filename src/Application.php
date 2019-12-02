@@ -43,4 +43,13 @@ class Application extends \Symfony\Component\Console\Application {
     ];
   }
 
+  /**
+   * Gets the default commands that should always be available.
+   *
+   * @return \Symfony\Component\Console\Command\Command[] An array of default Command instances
+   */
+  public function getAllCommands() {
+    return $this->getDefaultCommands();
+  }
+
 }
