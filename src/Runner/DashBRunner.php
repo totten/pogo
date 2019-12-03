@@ -31,6 +31,8 @@ class DashBRunner {
     // WISHLIST: When buffering, use FIFO instead of regular temp file.
     // WISHLIST: Probe input (non-blocking read) to decide whether to buffer.
 
+    // TODO Maybe use this? http://docs.php.net/manual/en/function.posix-isatty.php
+
     $doAutoload = sprintf('require_once %s;', var_export($autoloader, 1));
     if (empty($scriptMetadata->runner['buffer'])) {
       $cmd = sprintf('echo | php -B %s -F %s', escapeshellarg($doAutoload), escapeshellarg($script));
