@@ -43,6 +43,7 @@ class HelpCommand extends \Symfony\Component\Console\Command\HelpCommand {
     $output->writeln("<comment>Action-Options:</comment>");
     $output->writeln("  <info>-f</info>          Force; recreate project, even if it appears current");
     $output->writeln("  <info>--dl=DIR</info>    Output dependencies in this directory");
+    $output->writeln("              Use constant _SCRIPTDIR_ to start relative to the target script.");
     $output->writeln("");
     $output->writeln("<comment>Environment:</comment>");
     $output->writeln("  <info>POGO_BASE</info>   Default location for output folders");

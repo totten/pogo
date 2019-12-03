@@ -1,6 +1,7 @@
 <?php
 namespace Pogo\Command;
 
+use Pogo\PathUtil;
 use Pogo\PogoProject;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -48,9 +49,10 @@ trait DownloadCommandTrait {
    * @return string
    */
   public function pickBaseDir(InputInterface $input, $scriptMetadata) {
-    $result = $input->getOption('dl');
-    if ($result) {
-      return $result;
+    $dl = $input->getOption('dl');
+    if ($dl) {
+      $dl = preg_replace('/^_SCRIPTDIR_/', dirname($scriptMetadata->file), $dl);
+      return PathUtil::evaluateDots(PathUtil::makeAbsolute($dl));
     }
 
     // Pick a base and calculate a hint/digested name.

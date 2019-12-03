@@ -75,6 +75,16 @@ first line accordingly:
 echo "Hello world\n";
 ```
 
+The `--dl` can be relative. By default, it's relative to the CWD (which is
+more intuitive for direct invocations), but you may make it relative to the
+script with the constant `_SCRIPTDIR_`.
+
+```bash
+#!/usr/bin/env pogo --dl='_SCRIPTDIR_/.my-script.deps'
+<?php
+echo "Hello world\n";
+```
+
 Or if you wanted to lock deps into a read-only mode for multiuser systems:
 
 ```php
