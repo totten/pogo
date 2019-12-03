@@ -27,7 +27,7 @@ class Composer {
     $this->pwd = $pwd;
 
     foreach (['composer', 'composer.phar'] as $cmd) {
-      $composerPath = self::findCommand($cmd);
+      $composerPath = PathUtil::findCommand($cmd);
       if ($composerPath) {
         $this->composerPath = $composerPath;
         break;
@@ -56,22 +56,6 @@ class Composer {
     if ($result !== 0) {
       throw new \RuntimeException("Composer failed to complete.");
     }
-  }
-
-  /**
-   * Determine full path to an external command (by searching PATH).
-   *
-   * @param string $name
-   * @return null|string
-   */
-  protected static function findCommand($name) {
-    $paths = explode(PATH_SEPARATOR, getenv('PATH'));
-    foreach ($paths as $path) {
-      if (file_exists("$path/$name")) {
-        return "$path/$name";
-      }
-    }
-    return NULL;
   }
 
 }

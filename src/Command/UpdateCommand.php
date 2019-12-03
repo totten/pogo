@@ -1,7 +1,7 @@
 <?php
 namespace Pogo\Command;
 
-use Pogo\Pwd;
+use Pogo\PathUtil;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -37,7 +37,7 @@ class UpdateCommand extends BaseCommand {
       $argv[0],
       '--get',
       '-f',
-      '--dl=' . Pwd::getPwd(),
+      '--dl=' . PathUtil::getPwd(),
       $target,
     ]);
   }
