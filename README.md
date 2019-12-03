@@ -17,7 +17,7 @@ We'll need a pretty-printer ([scrivo/highlight.php](https://github.com/scrivo/hi
 and a PDF generator ([dompdf/dompdf](https://github.com/dompdf/dompdf)).
 
 Skimming the README for each library, one finds a few introductory snippets.
-I took these, added the `#!require` pragams, and improvised a little on the
+I took these, added the `#!require` pragmas, and improvised a little on the
 `$html` variable. This becomes a small script, `code2pdf.php`:
 
 ```php
