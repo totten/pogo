@@ -9,6 +9,14 @@ function pogo_script() {
 }
 
 /**
+ * @return string
+ *   The folder in which the script was originally stored
+ */
+function pogo_script_dir() {
+  return dirname(getenv('POGO_SCRIPT'));
+}
+
+/**
  * @param string $c
  *   PHP code, which may begin with a shebang
  * @return string

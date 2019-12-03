@@ -14,10 +14,12 @@ You may find it easier to use `pogo` for micro-services in async environments, a
 
 ### The examples are mostly single-page scripts/apps. Does it work with includes?
 
-Yes... `include`, `require`, `include_once`, and `require_once` still work as normal.
+Yes... `include`, `require`, `include_once`, and `require_once` still work.
 
 But no... dependencies are not determined transitively through included files. The
 scanner currently has no specific support for multi-file projects.
+
+Note: For the main script, the content of `__DIR__` will depend in on the runner. Use `pogo_script_dir()` if you need a consistent value across all runners.
 
 ### Why does it redownload dependencies after a week?
 
