@@ -17,4 +17,6 @@
 * When updating deps, be thread-safe/multi-process-safe
 * Add some kind of pseudo requirement for the pogo version, e.g.`#!require {php: ~7.0, pogo: ~0.1}`
 * If there are no `require` pragmas, then don't run `composer`. (Use a placeholder for `vendor/autoload.php`?)
+* Figure out a way to use `composer` to resolve dependency graph and download URLs *without* using its autoloader/downloader. Instead, use a new autoloader and downloader to track packages in reusable folder (`~/.cache/pogo/symfony/yaml-3.3.3/`).
+* Implement a composer plugin which supplements `composer.json:require` with info from scanned files (`{$psr0}/**.php`, `{$psr4}/**.php`)
 * Windows...
