@@ -39,7 +39,7 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
 * __Options__:
     * `auto`: Let `pogo` pick a mechanism. Generally, it will use `include` or `eval` (depending on whether the
       script begins with `#!/usr/bin/env pogo...` (or similar).
-    * `include`: Loosely, this runs `php -r 'require_once $autoloader; include $your_script;'. Among these runners,
+    * `include`: Loosely, this runs `php -r 'require_once $autoloader; include $your_script;`. Among these runners,
       it should behave the most intuitively with respect to debugging, avoiding unnecessary file IO/duplication, CLI
       inputs/outputs, etc. However, if `$your_script` is a standalone program (`#!/usr/bin/env pogo`), then
       it will erroneously output the first line.
