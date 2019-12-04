@@ -114,7 +114,10 @@ class PogoInput {
       }
     }
 
-    if (empty($action)) {
+    if (empty($action) && in_array('--', $result)) {
+      $action = 'run';
+    }
+    elseif (empty($action)) {
       $action = 'help';
     }
     array_splice($result, 1, 0, [$action]);

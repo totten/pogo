@@ -64,6 +64,16 @@ class PogoInputTest extends TestCase {
     // Variations on --run. The SCRIPT is always the dividing line.
 
     $exs[] = [
+      // This would be executing a file named 'get'.
+      'pogo -v SCRIPT',
+      'symfony run -v -- SCRIPT',
+    ];
+    $exs[] = [
+      // This would be executing a file named 'get'.
+      'pogo -v -- SCRIPT',
+      'symfony run -v -- SCRIPT',
+    ];
+    $exs[] = [
       'pogo --dl=DIR SCRIPT wakka wakka --get --help yo',
       'symfony run --dl=DIR -- SCRIPT wakka wakka --get --help yo',
     ];
