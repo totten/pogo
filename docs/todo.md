@@ -1,5 +1,8 @@
 # TODO
 
+* Linux cannot pass more than one arg, so `/usr/bin/env pogo --foo' doesn't work.
+    * Workaround: All CLI options should be accessible as pragmas
+    * Reportedly, newer versions of coreutils may have an option `-S` that helps, but that version wasn't handy on a Xenial box, and it wouldn't be portable anyway. Better to rework for LCD.
 * Add a command to cleanup stale data from POGO_BASE.
 * Add more test-cases, esp:
     * Update dependencies after editing a script (`#!require:...`)
