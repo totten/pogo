@@ -31,7 +31,7 @@ class GetCommand extends BaseCommand {
       throw new \Exception("[get] Non-existent file: {$script}");
     }
 
-    $this->initProject($input, $script);
+    $this->initProject($input, $output, $script);
 
     return 0;
   }

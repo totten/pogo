@@ -33,13 +33,15 @@ class RunCommand extends BaseCommand {
       throw new \Exception("[run] Missing required file name");
     }
 
+    $output->writeln("<info>Running <comment>$target</comment></info>", OutputInterface::VERBOSITY_VERBOSE);
+
     // TODO: realpath($target) but using getenv(PWD) or `pwd` to preserve symlink structure
     if (!file_exists($target)) {
       throw new \Exception("[run] Non-existent file: $target");
     }
 
     if (!empty($target) && file_exists($target)) {
-      $project = $this->initProject($input, $target);
+      $project = $this->initProject($input, $output, $target);
 
       $autoloader = $project->getAutoloader();
       if (!file_exists($autoloader)) {
@@ -63,6 +65,9 @@ class RunCommand extends BaseCommand {
       }
 
       $scriptArgs = $input->getArgument('script-args');
+      $output->writeln(sprintf("<info>Calling runner <comment>%s</comment> with args \"<comment>%s</comment>\"</info>",
+        $runMode, implode(' ', $scriptArgs)), OutputInterface::VERBOSITY_VERBOSE);
+
       return $runners[$runMode]->run($autoloader, $project->scriptMetadata, $scriptArgs);
     }
     else {
