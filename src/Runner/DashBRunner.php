@@ -35,7 +35,7 @@ class DashBRunner {
 
     $doAutoload = sprintf('require_once %s;', var_export($autoloader, 1));
     if (empty($scriptMetadata->runner['buffer'])) {
-      $cmd = sprintf('echo | php -B %s -F %s', escapeshellarg($doAutoload), escapeshellarg($script));
+      $cmd = sprintf('echo | POGO_SCRIPT=%s php -B %s -F %s', escapeshellarg($script), escapeshellarg($doAutoload), escapeshellarg($script));
     }
     else {
       $buffer = tempnam(sys_get_temp_dir(), 'pogo-buffer');
