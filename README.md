@@ -39,13 +39,13 @@ $dompdf->render();
 $dompdf->stream();
 ```
 
-To run a script in the CLI, just use:
+To run this script in the CLI, just use:
 
 ```bash
 pogo code2pdf.php
 ```
 
-Of course, this script expecst some data as input (e.g. `myfile.yml`) and produces a PDF as output (e.g. `myfile.pdf`), so a more realistic command would be
+Of course, this script expects some content as input (e.g. `myfile.yml`) and produces a PDF as output (e.g. `myfile.pdf`), so a more realistic command would be
 
 ```bash
 cat myfile.yml | pogo code2pdf.php > myfile.pdf
