@@ -1,6 +1,6 @@
 {
     "name": "totten/pogo",
-    "description": "TODO",
+    "description": "Run PHP scripts with inline dependencies",
     "license": "MIT",
     "authors": [
         {
