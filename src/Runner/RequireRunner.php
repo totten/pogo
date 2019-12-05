@@ -3,18 +3,19 @@
 namespace Pogo\Runner;
 
 /**
- * Class DataRunner
+ * Class IncludeRunner
  * @package Pogo\Runner
  *
- * Execute via 'eval(...cleanup($code)...)'
+ * Execute via 'require $script'
  *
  * Pro:
+ *  - Executes the original file; good for xdebug and i/o
  *  - Supports pipes/cli arguments intuitively
- *  - Hides shebang
+ *  - Works with pure-logic and with templates/interploated-text
  * Con:
- *  - Does not run the original file; weaker for xdebug and i/o
+ *  - If file has a shebang, it's displayed as output
  */
-class EvalRunner {
+class RequireRunner {
 
   /**
    * @param string $autoloader
@@ -32,8 +33,7 @@ class EvalRunner {
     global $argv;
     $oldArgv = $argv;
     $argv = array_merge([$scriptMetadata->file], $cliArgs);
-    $code = "?" . ">" . pogo_script();
-    eval($code);
+    require $scriptMetadata->file;
     $argv = $oldArgv;
 
     // FIXME: how to detect exit code?

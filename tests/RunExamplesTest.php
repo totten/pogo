@@ -58,9 +58,9 @@ class RunExamplesTest extends TestCase {
       file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
     ];
 
-    // Known bad: 'include' mode outputs shebangs. But otherwise it works.
-    $exs['tpl-include'] = [
-      'echo \'{name: Bob, color: green}\' | pogo --run-mode=include examples/yaml-pipe-tpl.php foo',
+    // Known bad: 'require' mode outputs shebangs. But otherwise it works.
+    $exs['tpl-require'] = [
+      'echo \'{name: Bob, color: green}\' | pogo --run-mode=require examples/yaml-pipe-tpl.php foo',
       file_get_contents(self::getTestDir('yaml-pipe-tpl-shebang.out')),
     ];
 

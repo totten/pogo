@@ -4,7 +4,7 @@ namespace Pogo\Command;
 use Pogo\Runner\PrependRunner;
 use Pogo\Runner\EvalRunner;
 use Pogo\Runner\DataRunner;
-use Pogo\Runner\IncludeRunner;
+use Pogo\Runner\RequireRunner;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -50,7 +50,7 @@ class RunCommand extends BaseCommand {
       $runners = [
         'data' => new DataRunner(),
         'eval' => new EvalRunner(),
-        'include' => new IncludeRunner(),
+        'require' => new RequireRunner(),
         'prepend' => new PrependRunner(),
       ];
       if ($input->getOption('run-mode')) {

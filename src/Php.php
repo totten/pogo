@@ -19,4 +19,20 @@ class Php {
     }
     return $buf;
   }
+
+  /**
+   * @param array $ini
+   *   Ex: ['memory_limit'=>'256m']
+   */
+  public static function applyIni($ini) {
+    if (empty($ini)) {
+      // OK
+      return;
+    }
+
+    // FIXME: we could actually do ini_set() for some directives, but should
+    // still warn about unsupported directives.
+    fwrite(STDERR, "WARNING: EvalRunner does not implement ini support");
+  }
+
 }
