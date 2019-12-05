@@ -1,4 +1,4 @@
-# pogo: Run PHP scripts with inline dependencies (v0.1)
+# pogo: Run PHP scripts with inline dependencies
 
 Pogo allows you to write small PHP scripts which use PHP libraries (courtesy
 of `composer`/`packagist`)...  but it *doesn't* require you setup a

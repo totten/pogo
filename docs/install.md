@@ -7,7 +7,7 @@
 
 * Navigate to the [Github: pogo: Releases](https://github.com/totten/pogo/releases)
 * Download the latest PHAR
-* Move it in your path (e.g. `sudo mv pogo-0.1.0.phar /usr/local/bin/pogo`)
+* Move it in your path (e.g. `sudo mv pogo-0.2.0.phar /usr/local/bin/pogo`)
 * Mark it executable (`chmod +x /usr/local/bin/pogo`)
 
 # Install (Git, Unix)

@@ -33,7 +33,7 @@ There are a few things you can use to mitigate this:
 
 ### How does it cleanup old (previously-downloaded) dependencies?
 
-Welcome to v0.1! It doesn't clean them up.
+Welcome to v0! It doesn't clean them up.
 
 You can just `rm -rf ~/.cache/pogo` periodically.  Or maybe use `find ... -delete` to delete things after a certain number of days.
 
