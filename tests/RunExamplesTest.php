@@ -53,10 +53,12 @@ class RunExamplesTest extends TestCase {
       file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
     ];
 
-    $exs['tpl-eval'] = [
-      'echo \'{name: Alice, color: purple}\' | pogo --run-mode=eval examples/yaml-pipe-tpl.php -d dum -D dee --dum=deedeedoo',
-      file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
-    ];
+    foreach (['eval', 'isolate', 'local'] as $runMode) {
+      $exs["tpl-$runMode"] = [
+        "echo '{name: Alice, color: purple}' | pogo --run-mode=$runMode examples/yaml-pipe-tpl.php -d dum -D dee --dum=deedeedoo",
+        file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
+      ];
+    }
 
     // Known bad: 'require' mode outputs shebangs. But otherwise it works.
     $exs['tpl-require'] = [

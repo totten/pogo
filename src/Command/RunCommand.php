@@ -47,26 +47,16 @@ class RunCommand extends BaseCommand {
         throw new \RuntimeException("Failed to generate autoloader: $autoloader");
       }
 
-      $runners = [
-        'data' => new DataRunner(),
-        'eval' => new EvalRunner(),
-        'require' => new RequireRunner(),
-        'prepend' => new PrependRunner(),
-      ];
       if ($input->getOption('run-mode')) {
         $project->scriptMetadata->parseCode("<?php\n#!run " . $input->getOption('run-mode'));
       }
-      $runMode = $project->scriptMetadata->runner['with'];
-      $runMode = ($runMode === 'auto') ? $this->pickRunner($target) : $runMode;
-      if (!isset($runners[$runMode])) {
-        throw new \Exception("Invalid run mode: $runMode");
-      }
+      list($runnerName, $runner) = $this->pickRunner($project->scriptMetadata);
 
       $scriptArgs = $input->getArgument('script-args');
       $output->writeln(sprintf("<info>Calling runner <comment>%s</comment> with args \"<comment>%s</comment>\"</info>",
-        $runMode, implode(' ', $scriptArgs)), OutputInterface::VERBOSITY_VERBOSE);
+        $runnerName, implode(' ', $scriptArgs)), OutputInterface::VERBOSITY_VERBOSE);
 
-      return $runners[$runMode]->run($autoloader, $project->scriptMetadata, $scriptArgs);
+      return $runner->run($autoloader, $project->scriptMetadata, $scriptArgs);
     }
     else {
       fwrite(STDERR, "[run] Script not found ($target)");
@@ -74,8 +64,40 @@ class RunCommand extends BaseCommand {
     }
   }
 
-  public function pickRunner($file) {
-    return 'prepend';
+  /**
+   * @param \Pogo\ScriptMetadata $scriptMetadata
+   * @return array
+   * @throws \Exception
+   */
+  protected function pickRunner($scriptMetadata) {
+    $runners = [
+      'data' => new DataRunner(),
+      'eval' => new EvalRunner(),
+      'require' => new RequireRunner(),
+      'prepend' => new PrependRunner(),
+    ];
+
+    switch ($scriptMetadata->runner['with']) {
+      case 'auto':
+      case 'isolate':
+        $runMode = 'prepend';
+        break;
+
+      case 'local':
+        $code = file_get_contents($scriptMetadata->file);
+        $runMode = (substr($code, 0, 3) === '#!/') ? 'eval' : 'require';
+        break;
+
+      default:
+        $runMode = $scriptMetadata->runner['with'];
+        break;
+    }
+
+    $runMode = ($runMode === 'auto') ? 'prepend' : $runMode;
+    if (!isset($runners[$runMode])) {
+      throw new \Exception("Invalid run mode: $runMode");
+    }
+    return array($runMode, $runners[$runMode]);
   }
 
 }

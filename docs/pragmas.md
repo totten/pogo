@@ -34,17 +34,21 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
   support for *nice backtraces* might be compromised if you use a `#!/usr/bin/env pogo...` header. In that case, you might want to
   try a different mode.
 * __Signature__: `#!run <yaml-string|yaml-key-value>`
-* __Example__: `#!run eval`
-* __Example__: `#!run {with: eval, extraStuff: true}`
+* __Example__: `#!run local`
+* __Example__: `#!run {with: prepend, extraStuff: true}`
 * __Options__:
-    * `auto`: Let `pogo` pick a mechanism. Generally, this is `prepend`.
-    * `prepend`: Loosely, this runs `php -d auto_prepend_file=$autoloader $your_script`. Better than all other existing runners.
-    * `include`: Loosely, this runs `php -r 'require_once $autoloader; include $your_script;`. Almost as good as `prepend;
-      however, if `$your_script` is a standalone program (`#!/usr/bin/env pogo`), then  it will erroneously output the first line.
-    * `eval`: Loosely, this runs `php -r 'require_once $autoloader; eval(cleanup($your_script))'`. This fixes the
-      erroneous output, but backtraces and debugging may not be as pleasant.
-    * `data`: This is very similar to `eval`, but it replaces `eval(...)` with `include 'data://text/...'`.
-      At the moment, I don't think it has any real advantage over `eval`, but I've kept it as potential inspiration.
+    * Abstract runners: Use these to indicate loosely *what you want* without committing to a specific *implementation*
+        * `auto`: Let `pogo` pick a mechanism.
+        * `isolate`: Let `pogo` pick a mechanism, as long as the mechanism is guaranteed to launch in an isolated sub-process.
+          (Current implementation: use `prepend`)
+        * `local`: Let `pogo` pick a mechanism, as long as the mechanism is guaranteed to launch in the same PHP process as pogo.
+          (Current implementation: check for `#!` line, then pick either `require` or `eval`)
+    * Concrete runners:
+        * `prepend` (isolate): Loosely, this runs `php -d auto_prepend_file=$autoloader $your_script`.
+        * `require` (local): Loosely, this runs `require "$your_script";`. This provides better backtraces and debugging because
+          it references the original PHP file on disk; however, if the file has a `#!` on the first line, it'll erroneously display it.
+        * `eval` (local): Loosely, this runs `eval(cleanup($your_script));`. This may not work as nicely for debugging, but it won't
+          display the extraneous `#!`.
 
 # YAML (Subset)
 
