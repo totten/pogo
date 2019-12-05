@@ -1,6 +1,7 @@
 <?php
 namespace Pogo\Command;
 
+use Pogo\Runner\PrependRunner;
 use Pogo\Runner\EvalRunner;
 use Pogo\Runner\FileRunner;
 use Pogo\Runner\DashBRunner;
@@ -54,6 +55,7 @@ class RunCommand extends BaseCommand {
         'eval' => new EvalRunner(),
         'file' => new FileRunner(),
         'include' => new IncludeRunner(),
+        'prepend' => new PrependRunner(),
       ];
       if ($input->getOption('run-mode')) {
         $project->scriptMetadata->parseCode("<?php\n#!run " . $input->getOption('run-mode'));
@@ -77,13 +79,7 @@ class RunCommand extends BaseCommand {
   }
 
   public function pickRunner($file) {
-    $code = file_get_contents($file);
-    if (substr($code, 0, 3) === '#!/') {
-      return 'eval';
-    }
-    else {
-      return 'include';
-    }
+    return 'prepend';
   }
 
 }

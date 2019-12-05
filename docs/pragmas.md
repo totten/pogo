@@ -37,12 +37,10 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
 * __Example__: `#!run dash-b`
 * __Example__: `#!run {with: dash-b, buffer: true}`
 * __Options__:
-    * `auto`: Let `pogo` pick a mechanism. Generally, it will use `include` or `eval` (depending on whether the
-      script begins with `#!/usr/bin/env pogo...` (or similar).
-    * `include`: Loosely, this runs `php -r 'require_once $autoloader; include $your_script;`. Among these runners,
-      it should behave the most intuitively with respect to debugging, avoiding unnecessary file IO/duplication, CLI
-      inputs/outputs, etc. However, if `$your_script` is a standalone program (`#!/usr/bin/env pogo`), then
-      it will erroneously output the first line.
+    * `auto`: Let `pogo` pick a mechanism. Generally, this is `prepend`.
+    * `prepend`: Loosely, this runs `php -d auto_prepend_file=$autoloader $your_script`. Better than all other existing runners.
+    * `include`: Loosely, this runs `php -r 'require_once $autoloader; include $your_script;`. Almost as good as `prepend;
+      however, if `$your_script` is a standalone program (`#!/usr/bin/env pogo`), then  it will erroneously output the first line.
     * `eval`: Loosely, this runs `php -r 'require_once $autoloader; eval(cleanup($your_script))'`. This fixes the
       erroneous output, but backtraces and debugging may not be as pleasant.
     * `dash-b`: Loosely, this runs `echo | php -B 'require_once $autoloader;' -F $your_script`. This avoids the

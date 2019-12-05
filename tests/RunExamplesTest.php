@@ -29,6 +29,11 @@ class RunExamplesTest extends TestCase {
     ];
 
     $exs['pragmas-eval'] = [
+      "pogo --run-mode=prepend examples/pragmas.php",
+      "hello\n",
+    ];
+
+    $exs['pragmas-eval'] = [
       "pogo --run-mode=eval examples/pragmas.php",
       "hello\n",
     ];
