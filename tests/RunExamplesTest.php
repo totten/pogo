@@ -38,12 +38,6 @@ class RunExamplesTest extends TestCase {
       "hello\n",
     ];
 
-    // This is OK because "pragmas.php" does not use piped input.
-    $exs['pragmas-dashb'] = [
-      "pogo --run-mode=dash-b examples/pragmas.php",
-      "hello\n",
-    ];
-
     $exs['tpl-parse'] = [
       'pogo --parse examples/yaml-pipe-tpl.php',
       file_get_contents(self::getTestDir('parse-yaml-pipe-tpl.out')),
@@ -61,13 +55,6 @@ class RunExamplesTest extends TestCase {
 
     $exs['tpl-eval'] = [
       'echo \'{name: Alice, color: purple}\' | pogo --run-mode=eval examples/yaml-pipe-tpl.php -d dum -D dee --dum=deedeedoo',
-      file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
-    ];
-
-    // Using piped-input with dash-b requires buffering.
-    $exs['tpl-dashb-buf'] = [
-      sprintf('echo \'{name: Alice, color: purple}\' | pogo --run-mode=%s examples/yaml-pipe-tpl.php -d dum -D dee --dum=deedeedoo',
-        escapeshellarg('{with:dash-b,buffer:1}')),
       file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
     ];
 

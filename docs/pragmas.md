@@ -34,8 +34,8 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
   support for *nice backtraces* might be compromised if you use a `#!/usr/bin/env pogo...` header. In that case, you might want to
   try a different mode.
 * __Signature__: `#!run <yaml-string|yaml-key-value>`
-* __Example__: `#!run dash-b`
-* __Example__: `#!run {with: dash-b, buffer: true}`
+* __Example__: `#!run eval`
+* __Example__: `#!run {with: eval, extraStuff: true}`
 * __Options__:
     * `auto`: Let `pogo` pick a mechanism. Generally, this is `prepend`.
     * `prepend`: Loosely, this runs `php -d auto_prepend_file=$autoloader $your_script`. Better than all other existing runners.
@@ -43,15 +43,6 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
       however, if `$your_script` is a standalone program (`#!/usr/bin/env pogo`), then  it will erroneously output the first line.
     * `eval`: Loosely, this runs `php -r 'require_once $autoloader; eval(cleanup($your_script))'`. This fixes the
       erroneous output, but backtraces and debugging may not be as pleasant.
-    * `dash-b`: Loosely, this runs `echo | php -B 'require_once $autoloader;' -F $your_script`. This avoids the
-      erroneous output and gives decent backtraces, but it will not handle STDIN normally.
-        * If want to use `dash-b` and you *know* that there will be piped input, then set `buffer:true`.
-          The input will be available in an alternate location:
-          ```php
-          #!run {with: dash-b, buffer: true}
-          $data = file_get_contents(pogo_stdin()));
-          printf("Received input %s:\n%s\n", md5($data), $data);
-          ```
     * `data`: This is very similar to `eval`, but it replaces `eval(...)` with `include 'data://text/...'`.
       At the moment, I don't think it has any real advantage over `eval`, but I've kept it as potential inspiration.
 

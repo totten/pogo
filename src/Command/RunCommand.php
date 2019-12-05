@@ -3,8 +3,6 @@ namespace Pogo\Command;
 
 use Pogo\Runner\PrependRunner;
 use Pogo\Runner\EvalRunner;
-use Pogo\Runner\FileRunner;
-use Pogo\Runner\DashBRunner;
 use Pogo\Runner\DataRunner;
 use Pogo\Runner\IncludeRunner;
 use Symfony\Component\Console\Input\InputArgument;
@@ -50,10 +48,8 @@ class RunCommand extends BaseCommand {
       }
 
       $runners = [
-        'dash-b' => new DashBRunner(),
         'data' => new DataRunner(),
         'eval' => new EvalRunner(),
-        'file' => new FileRunner(),
         'include' => new IncludeRunner(),
         'prepend' => new PrependRunner(),
       ];
