@@ -20,16 +20,9 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --no-dev
-
-      - name: Install box2
-        run: composer global require kherge/box:~2.7
-
       - name: Build PHAR
-        run: php -d phar.readonly=0 "$HOME/.composer/vendor/bin/box" build -v
+        run: ./build.sh
         continue-on-error: false
-
 
       - name: Create Release
         id: create_release

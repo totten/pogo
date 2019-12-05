@@ -1,4 +1,6 @@
 /.idea/
 /bin/phpunit
 /bin/pogo.phar
+/bin/box
 /vendor/
+.composer-downloads

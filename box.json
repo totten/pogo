@@ -7,12 +7,13 @@
     "finder": [
         {
             "name": "*.php",
-            "exclude": ["Tests", "tests", "phpunit"],
+            "exclude": ["Tests", "tests", "phpunit", "composer-downloads-plugin", "gitignore"],
             "in": "vendor"
         }
     ],
     "git-version": "package_version",
     "main": "bin/pogo",
+    "compactors": ["KevinGH\\Box\\Compactor\\Php", "KevinGH\\Box\\Compactor\\PhpScoper"],
     "output": "bin/pogo.phar",
     "stub": true
 }
