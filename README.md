@@ -59,7 +59,7 @@ Most of my day-to-day work is in PHP, JS, and bash.  From time-to-time, one need
 I find myself avoiding PHP for that task...  because using a library in PHP still requires bits of administrativa.
 `pogo` is an experiment to reduce that administrativa.  Just create a `.php` file and run it.
 
-## More information
+## Documentation
 
 * [Installation](docs/install.md): System requirements and install steps
 * [Composer integration](docs/composer.md): How `pogo` works with `composer`
@@ -67,3 +67,7 @@ I find myself avoiding PHP for that task...  because using a library in PHP stil
 * [FAQ](docs/faq.md): Frequently asked questions
 * [Pragmas](docs/pragmas.md): List of all supported pragmas
 * [Todo](docs/todo.md): Misc things that should be done
+
+## Related
+
+* [Clippy](https://github.com/clippy-php/std): A variant of `symfony/console` optimized for scripting.
