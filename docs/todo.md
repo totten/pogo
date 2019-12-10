@@ -1,5 +1,7 @@
 # TODO
 
+General ideas to consider/implement/discard before v1.0:
+
 * Reconsider configuration heirarchy (i.e. general relationship among CLI options/notations (`--run-mode`/`--dl`), pragmas/notations (`#!run`/`#!download`), env-vars, and `~/.config`)
     * Why / Reasons / Examples
         * Linux and macOS don't pass shebang args the same way, so `/usr/bin/env pogo --foo' doesn't work on Linux. Allowing all CLI options to be accessible as pragmas would mitigate this limit.
@@ -10,10 +12,12 @@
         * Maybe assimilate more `composer` options into the config heirarchy (prefer-source/prefer-dist/repositories/minimum-stability)
     * Proposed hierarchy: "Built-in default << Global dot-file << User dot-file << Env-var << Inline pragma << CLI arg"
     * Possible organizing principles/conceits
-        * PHP DX-first - Primary notation should be something easy to type/read in the context of a PHP comment-line.
-        * CLI-first - Notation should match closest-corresponding CLI cmd (ex: not `#!require {package: "ver"}` but `#!composer require foo:ver`)
+        * PHP DX-first - Primary goal should be that inline-pragmas are easy to read/write. All other notations can be compromised.
+        * CLI-first - Primary goal should be consistency w/existing CLI cmds (ex: not `#!require {package: "ver"}` but `#!composer require foo:ver`)
         * YAML/JSON-first - Define a config tree, and all other options are mapped by convention into it
         * php.ini - This cfg mechanism already has universal buy-in; make everything else match it (ex: `pogo -d memory_limit=123 -d pogo.runner=isolate ... myscript.php`)
+        * Stability-first - Whatever the previous version did, the next version should do. (*Generally valid, but in `v0.x`... it's probably ample to deprecate+remove over a couple `0.{x+1}` increments.*)
+        * Bespoke - The notation for each directive in each medium should be considered separately.
 * Add a mechanism to cleanup stale data from POGO_BASE.
 * Add more test-cases, esp:
     * Update dependencies after editing a script (if the requirements changed)
