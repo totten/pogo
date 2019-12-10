@@ -12,7 +12,7 @@ libraries when:
 ## Example
 
 Let's pick a small task that requires a few libraries -- suppose we want
-to generate a pretty PDF from a source-code file (`.php`, `*.json`, etc).
+to generate a pretty PDF from a source-code file (`*.php`, `*.json`, etc).
 We'll need a pretty-printer ([scrivo/highlight.php](https://github.com/scrivo/highlight.php))
 and a PDF generator ([dompdf/dompdf](https://github.com/dompdf/dompdf)).
 
