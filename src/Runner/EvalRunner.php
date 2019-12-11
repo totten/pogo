@@ -31,10 +31,10 @@ class EvalRunner {
     putenv('POGO_AUTOLOAD=' . $autoloader);
     global $argv;
     $oldArgv = $argv;
-    $argv = array_merge([$scriptMetadata->file], $cliArgs);
-    $code = "?" . ">" . pogo_script();
+    $argv = $_SERVER['argv'] = array_merge([$scriptMetadata->file], $cliArgs);
+    $code = "?" . ">" . \pogo_script();
     eval($code);
-    $argv = $oldArgv;
+    $argv = $_SERVER['argv'] = $oldArgv;
 
     // FIXME: how to detect exit code?
     return 0;

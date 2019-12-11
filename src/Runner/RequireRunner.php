@@ -32,9 +32,9 @@ class RequireRunner {
     putenv('POGO_AUTOLOAD=' . $autoloader);
     global $argv;
     $oldArgv = $argv;
-    $argv = array_merge([$scriptMetadata->file], $cliArgs);
+    $argv = $_SERVER['argv'] = array_merge([$scriptMetadata->file], $cliArgs);
     require $scriptMetadata->file;
-    $argv = $oldArgv;
+    $argv = $_SERVER['argv'] = $oldArgv;
 
     // FIXME: how to detect exit code?
     return 0;
