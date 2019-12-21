@@ -1,5 +1,6 @@
 {
     "file": "examples/pragmas.php",
+    "dir": "/tmp/pragma-deps",
     "ini": {
         "variables_order": "ES",
         "upload_max_filesize": "1m",

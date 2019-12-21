@@ -1,5 +1,6 @@
 {
     "file": "examples/yaml-pipe-tpl.php",
+    "dir": null,
     "ini": [],
     "require": {
         "symfony/yaml": "~3.0"

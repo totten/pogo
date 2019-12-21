@@ -8,8 +8,15 @@ class ScriptMetadata {
 
   /**
    * @var string
+   *   The PHP source-file.
    */
   public $file = NULL;
+
+  /**
+   * @var string
+   *   The directory where generated files are stored.
+   */
+  public $dir = NULL;
 
   /**
    * @var array
@@ -84,6 +91,10 @@ class ScriptMetadata {
         else {
           $this->runner = $yaml;
         }
+      }
+      elseif (preg_match(';#!\s*depdir \s*(.*)$;', $pragma[1], $m)) {
+        $dir = Yaml::parse(trim($m[1]));
+        $this->dir = PathUtil::isAbsolute($dir) ? $dir : '_SCRIPTDIR_/' . $dir;
       }
       elseif (preg_match(';#!\s*ini (.*)$;', $pragma[1], $m)) {
         $yaml = Yaml::parse(trim($m[1]));
