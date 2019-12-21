@@ -32,7 +32,8 @@ class EvalRunner {
     global $argv;
     $oldArgv = $argv;
     $argv = $_SERVER['argv'] = array_merge([$scriptMetadata->file], $cliArgs);
-    $code = "?" . ">" . \pogo_script();
+    // call_user_func() - Bypass php-scoper
+    $code = "?" . ">" . call_user_func('\pogo_script');
     eval($code);
     $argv = $_SERVER['argv'] = $oldArgv;
 
