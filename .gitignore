@@ -2,5 +2,6 @@
 /bin/phpunit
 /bin/pogo.phar
 /bin/box
+/tests/DownloadExamples/tmp/
 /vendor/
 .composer-downloads

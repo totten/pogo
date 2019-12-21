@@ -61,6 +61,9 @@ trait DownloadCommandTrait {
    */
   public function pickBaseDir(InputInterface $input, $scriptMetadata) {
     $dl = $input->getOption('dl');
+    if (!$dl && $scriptMetadata->dir) {
+      $dl = $scriptMetadata->dir;
+    }
     if ($dl) {
       $dl = preg_replace('/^_SCRIPTDIR_/', dirname($scriptMetadata->file), $dl);
       return PathUtil::evaluateDots(PathUtil::makeAbsolute($dl));

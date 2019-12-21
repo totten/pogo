@@ -10,6 +10,14 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
 * __Example__: `#!require {symfony/yaml: ~3.0, symfony/finder: ~3.0}`
 * __Comment__: The `<package>` and `<version>` notations match [composer's `require`](https://getcomposer.org/doc/04-schema.md#require).
 
+## dl
+
+* __Description__: Specify the location for automatically downloaded packages
+* __Signature__: `#!depdir <yaml-string>`
+* __Example__: `#!depdir '/tmp'
+* __Example__: `#!depdir '../var/cache'
+* __Comment__: If the path is relative, it is interpreted as relative to the script file. (This differs from the CLI option `--dl` which defaults to the PWD.)
+
 ## ini
 
 * __Description__: Set the value of `php.ini` option *before* launching the script.
