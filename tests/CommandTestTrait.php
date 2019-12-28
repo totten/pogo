@@ -3,8 +3,10 @@ namespace Pogo;
 
 trait CommandTestTrait {
 
-  abstract function markTestIncomplete();
-  abstract function assertTrue($condition, $message = '');
+  // Would be nice to declare these, but we run tests on multiple combinations
+  // of PHP+PHPUnit.
+  // abstract function markTestIncomplete();
+  // abstract function assertTrue($condition, $message = '');
 
   public function getPrjDir($suffix = NULL) {
     $base = dirname(__DIR__);

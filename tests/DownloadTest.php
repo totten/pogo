@@ -18,6 +18,14 @@ class DownloadTest extends TestCase {
 
   use CommandTestTrait;
 
+  public function tearDown() {
+    parent::tearDown();
+    $tmp = $this->getTestDir('tmp');
+    if (file_exists($tmp)) {
+      $this->runCmd('rm -rf ' . escapeshellarg($tmp));
+    }
+  }
+
   public function getRunModes() {
     return [
       ['local'],
