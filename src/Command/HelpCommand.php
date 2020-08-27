@@ -35,6 +35,7 @@ class HelpCommand extends \Symfony\Component\Console\Command\HelpCommand {
     //    $output->writeln("");
     $output->writeln("<comment>Actions:</comment>");
     $output->writeln("  <info>--run</info>       Run the script. Download anything necessary. (<comment>default</comment>)");
+    $output->writeln("  <info>--dbg</info>       Same as run, but with defaults more appropriate to debugging.(<comment>default</comment>)");
     $output->writeln("  <info>--get</info>       Download dependencies, but do not execute.");
     $output->writeln("  <info>--parse</info>     Extract any pragmas or metadata from the script.");
     $output->writeln("  <info>--up</info>        Update dependencies (in current directory).");

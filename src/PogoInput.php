@@ -38,7 +38,7 @@ class PogoInput {
   /**
    * These options are actually actions.
    */
-  const ACTION_REGEX = '/^--(get|parse|run|up)$/';
+  const ACTION_REGEX = '/^--(dbg|get|parse|run|up)$/';
 
   /**
    * These options accept inputs, e.g. '--dl VALUE'.
