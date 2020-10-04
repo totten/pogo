@@ -78,3 +78,4 @@ pogo --phar -o /var/www/release/my-script-$(date 'Ymd').phar my-script.php
 * At runtime, files within the PHAR have special file-paths (eg `phar://<path-to-phar>/<path-within-phar>`). This tends to work fine
   if you access the files using the PHP constants and the PHP standard library (e.g. `fopen(__DIR__.'/default-data.txt', 'r')`).
   But it may require adaptation for other contexts.
+* The `#!ini` pragma is not currently implemented.

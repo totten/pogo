@@ -33,6 +33,7 @@ General ideas to consider/implement/discard before v1.0:
 * Enhancements for `pogo --phar`
     * If `pogo --phar` is called on a system with `phar.readonly=1`, then respawn subprocess with `phar.readonly=0`
     * Allow some pragmas/CLI options to fine-tune the PHAR (ex: include/exclude tests+docs from downstream packages)
+    * In the stub script, enforce any `#!ini` pragmas. If it needs to set any read-only properties, then respawn subprocess.
 * Add some kind of pseudo requirement for the pogo version, e.g.`#!require {php: ~7.0, pogo: ~0.1}`
 * If there are no `require` pragmas, then don't run `composer`. (Use a placeholder for `vendor/autoload.php`?)
 * Consider renaming `--dl=X`. `--lib-dir=X` or somesuch may adapt to cases where one wishes to handle download statically/upfront.
