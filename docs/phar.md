@@ -14,13 +14,16 @@ As we saw in the [Execution](exec.md) page, you can run this script through `pog
 
 ```
 $ pogo my-script.php dave
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+...
 good morning: dave
 ```
 
-But what if you want to run the script on another computer -- which may not have `pogo` or `symfony/yaml` installed? You could
+But what if you want to run the script on another computer -- which may not have `pogo`, `composer`, or `symfony/yaml` installed? You could
 generate a [PHAR file](https://www.php.net/manual/en/intro.phar.php). This is convenient for distributing PHP command-line tools.
 
-For example, we could could generate a PHAR file for `my-script.php`:
+The command `pogo --phar` will generate a PHAR executable:
 
 ```
 $ pogo --phar my-script.php
@@ -33,8 +36,7 @@ $ ./my-script.phar dave
 good morning: dave
 ```
 
-The generated file, `my-script.phar`, is a portable executable that combines `my-script.php` with its dependencies (such as `symfony/yaml`).
-
+The generated file, `my-script.phar`, is a portable executable that combines `my-script.php` with its dependencies.
 You can distribute this PHAR for use on other systems. Those systems will not need `pogo`, `composer`, or `symfony/yaml` pre-installed.
 
 ## phar.readonly
