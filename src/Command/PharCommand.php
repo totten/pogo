@@ -33,18 +33,16 @@ class PharCommand extends BaseCommand {
     }
 
     $project = $this->initProject($input, $output, $script);
+    $rand = bin2hex(random_bytes(6));
 
     $base = dirname($script) . '/' . preg_replace('/\.php$/', '', basename($script));
-    $out = str_replace('<BASE>', $base, $input->getOption('out'));
+    $pharFinal = str_replace('<BASE>', $base, $input->getOption('out'));
+    $pharTmp = preg_match(';\.phar;', $pharFinal) ? $pharFinal : (sys_get_temp_dir() . "/$pharFinal-$rand.phar");
 
-    $output->writeln(sprintf("<info>Generating <comment>%s</comment> from <comment>%s</comment></info>", $out, $script));
+    $output->writeln(sprintf("<info>Generating <comment>%s</comment> from <comment>%s</comment></info>", $pharFinal, $script));
 
     $fs = new Filesystem();
-    if ($fs->exists($out)) {
-      $fs->remove($out);
-    }
 
-    $rand = bin2hex(random_bytes(6));
     $logicalPhar = sprintf('pogo-export-%s.phar', $rand);
     $mainFile = sprintf('main-%s.php', $rand);
     $mainFullPath = $project->path . DIRECTORY_SEPARATOR . $mainFile;
@@ -52,15 +50,22 @@ class PharCommand extends BaseCommand {
       $output->writeln(sprintf(" - Main file: <comment>%s</comment>", $mainFile), OutputInterface::VERBOSITY_VERBOSE);
       $fs->dumpFile($mainFullPath, $this->createMain($script));
 
-      $output->writeln(sprintf(" - Starting: <comment>%s</comment>", $out), OutputInterface::VERBOSITY_VERBOSE);
-      $phar = new \Phar($out);
+      $output->writeln(sprintf(" - PHAR file: <comment>%s</comment>", $pharTmp), OutputInterface::VERBOSITY_VERBOSE);
+      $fs->remove($pharTmp);
+      $phar = new \Phar($pharTmp);
 
       $phar->setStub($this->createStub($logicalPhar, $mainFile));
       $phar->buildFromDirectory($project->path);
       $phar->compressFiles(\Phar::GZ);
-      $fs->chmod($out, 0777);
+      $fs->chmod($pharTmp, 0777);
 
-      $output->writeln(sprintf(" - Finished: <comment>%s</comment>", $out), OutputInterface::VERBOSITY_VERBOSE);
+      if ($pharTmp !== $pharFinal) {
+        $output->writeln(sprintf(" - Rename: <comment>%s</comment> => <comment>%s</comment>", $pharTmp, $pharFinal), OutputInterface::VERBOSITY_VERBOSE);
+        $fs->remove($pharFinal);
+        $fs->rename($pharTmp, $pharFinal);
+      }
+
+      $output->writeln(sprintf(" - Finished: <comment>%s</comment>", $pharFinal), OutputInterface::VERBOSITY_VERBOSE);
 
     } finally {
       $fs->remove($mainFullPath);
