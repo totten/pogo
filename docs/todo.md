@@ -29,7 +29,6 @@ General ideas to consider/implement/discard before v1.0:
 * Make signature more like `php`
     * Accept code via stdin (if no files given)
     * Add `--ini`, `-d`, `-i`, `-v`, `-S`/`-t`, `-m`, `-n`
-* Add command to compile/export a static binary in PHAR format (e.g. `pogo --compile --phar=my-script.phar my-script.php`)
 * When updating deps, be thread-safe/multi-process-safe
 * Add some kind of pseudo requirement for the pogo version, e.g.`#!require {php: ~7.0, pogo: ~0.1}`
 * If there are no `require` pragmas, then don't run `composer`. (Use a placeholder for `vendor/autoload.php`?)

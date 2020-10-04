@@ -64,6 +64,7 @@ I find myself avoiding PHP for that task...  because using a library in PHP stil
 * [Installation](docs/install.md): System requirements and install steps
 * [Composer integration](docs/composer.md): How `pogo` works with `composer`
 * [Execution](docs/exec.md): Ways to invoke scripts via `pogo`
+* [Compile to PHAR](docs/phar.md): How to create a `phar` using `pogo`
 * [FAQ](docs/faq.md): Frequently asked questions
 * [Pragmas](docs/pragmas.md): List of all supported pragmas
 * [Todo](docs/todo.md): Misc things that should be done
