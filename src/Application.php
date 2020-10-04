@@ -1,6 +1,7 @@
 <?php
 namespace Pogo;
 
+use Pogo\Command\DebugCommand;
 use Pogo\Command\GetCommand;
 use Pogo\Command\HelpCommand;
 use Pogo\Command\ParseCommand;
@@ -38,6 +39,7 @@ class Application extends \Symfony\Component\Console\Application {
       new ParseCommand(),
       new GetCommand(),
       new RunCommand(),
+      new DebugCommand(),
       new UpdateCommand(),
     ];
   }
