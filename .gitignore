@@ -5,3 +5,4 @@
 /tests/DownloadExamples/tmp/
 /vendor/
 .composer-downloads
+/tmp/

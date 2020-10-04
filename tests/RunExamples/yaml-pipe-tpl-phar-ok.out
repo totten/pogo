@@ -1,0 +1,4 @@
+Generating tmp/example.phar from examples/yaml-pipe-tpl.php
+Hello, Alice!!
+I hope you like the color purple.
+Args: ["-d","dum","-D","dee","--dum=deedeedoo"]

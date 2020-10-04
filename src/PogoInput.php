@@ -38,17 +38,17 @@ class PogoInput {
   /**
    * These options are actually actions.
    */
-  const ACTION_REGEX = '/^--(dbg|get|parse|run|up)$/';
+  const ACTION_REGEX = '/^--(dbg|get|parse|phar|run|up)$/';
 
   /**
    * These options accept inputs, e.g. '--dl VALUE'.
    */
-  const ACTION_OPTION_REGEX = '/^--(dl|run-mode)$/';
+  const ACTION_OPTION_REGEX = '/^--(dl|out|run-mode)$/';
 
   /**
    * These options accept inputs, e.g. '-D VALUE'.
    */
-  const ACTION_SHORTCUT_REGEX = '/^-(D)$/';
+  const ACTION_SHORTCUT_REGEX = '/^-(D|o)$/';
 
   /**
    * Convert from Pogo argv to Symfony argv. Key differences:

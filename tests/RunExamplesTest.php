@@ -50,6 +50,11 @@ class RunExamplesTest extends TestCase {
       file_get_contents(self::getTestDir('yaml-pipe-tpl-ok.out')),
     ];
 
+    $exs['tpl-phar'] = [
+      'mkdir -p tmp; php -d phar.readonly=0 `which pogo` --phar -o tmp/example.phar examples/yaml-pipe-tpl.php && echo \'{name: Alice, color: purple}\' | ./tmp/example.phar -d dum -D dee --dum=deedeedoo',
+      file_get_contents(self::getTestDir('yaml-pipe-tpl-phar-ok.out')),
+    ];
+
     foreach (['eval', 'isolate', 'local'] as $runMode) {
       $exs["tpl-$runMode"] = [
         "echo '{name: Alice, color: purple}' | pogo --run-mode=$runMode examples/yaml-pipe-tpl.php -d dum -D dee --dum=deedeedoo",
@@ -92,6 +97,5 @@ class RunExamplesTest extends TestCase {
     $this->assertNotEquals(0, $result['exit']);
     $this->assertEquals('', $result['stdout']);
   }
-
 
 }

@@ -5,6 +5,7 @@ use Pogo\Command\DebugCommand;
 use Pogo\Command\GetCommand;
 use Pogo\Command\HelpCommand;
 use Pogo\Command\ParseCommand;
+use Pogo\Command\PharCommand;
 use Pogo\Command\RunCommand;
 use Pogo\Command\UpdateCommand;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -37,6 +38,7 @@ class Application extends \Symfony\Component\Console\Application {
     return [
       new HelpCommand(),
       new ParseCommand(),
+      new PharCommand(),
       new GetCommand(),
       new RunCommand(),
       new DebugCommand(),
