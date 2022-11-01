@@ -75,7 +75,7 @@ class PogoInput {
     while (!empty($todos)) {
       $arg = array_shift($todos);
 
-      $isOpt = $arg{0} === '-';
+      $isOpt = $arg[0] === '-';
       if ($isScriptArg) {
         $result[] = $arg;
       }
