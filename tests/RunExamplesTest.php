@@ -62,10 +62,13 @@ class RunExamplesTest extends TestCase {
       ];
     }
 
-    // Known bad: 'require' mode outputs shebangs. But otherwise it works.
     $exs['tpl-require'] = [
       'echo \'{name: Bob, color: green}\' | pogo --run-mode=require examples/yaml-pipe-tpl.php foo',
-      file_get_contents(self::getTestDir('yaml-pipe-tpl-shebang.out')),
+      file_get_contents(self::getTestDir(
+        // Known bad: on php7, 'require' mode outputs shebangs. But otherwise it works.
+        // On php8, there's no probelmatic output. It just works.
+        version_compare(PHP_VERSION, '8', '<') ? 'yaml-pipe-tpl-shebang-7x.out' :  'yaml-pipe-tpl-shebang-8x.out'
+      )),
     ];
 
     $exs['conflict-parse'] = [
