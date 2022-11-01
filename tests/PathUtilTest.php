@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 class PathUtilTest extends TestCase {
 
-  public function getDotExamples() {
+  public function getDotExamples(): array {
     $exs = [
       ["/", "/unix/abs", "/unix/abs"],
       ["/", "unix/rel", "unix/rel"],
@@ -33,7 +33,7 @@ class PathUtilTest extends TestCase {
    * @param string $expectPath
    * @dataProvider getDotExamples
    */
-  public function testEvaluateDots($sep, $inputPath, $expectPath) {
+  public function testEvaluateDots($sep, $inputPath, $expectPath): void {
     $origSep = PathUtil::$SEP;
     PathUtil::$SEP = $sep;
     $this->assertEquals($expectPath, PathUtil::evaluateDots($inputPath));

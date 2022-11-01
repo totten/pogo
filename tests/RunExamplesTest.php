@@ -7,12 +7,12 @@ class RunExamplesTest extends TestCase {
 
   use CommandTestTrait;
 
-  public function getTestDir($suffix = NULL) {
+  public function getTestDir($suffix = NULL): string {
     $base = __DIR__ . DIRECTORY_SEPARATOR . 'RunExamples';
     return $suffix ? $base . DIRECTORY_SEPARATOR . $suffix : $base;
   }
 
-  public function getExamples() {
+  public function getExamples(): array {
     $exs = [];
 
     $exs['pragmas-parse'] = [
@@ -81,7 +81,7 @@ class RunExamplesTest extends TestCase {
    * @param $expectOutput
    * @dataProvider getExamples
    */
-  public function testExamples($cmd, $expectOutput) {
+  public function testExamples($cmd, $expectOutput): void {
     // Tempting to rework this using Symfony command tester, because that
     // can make debugging easier, but pogo will always spawn subprocesses anyway,
     // so we won't actually get that benefit.
@@ -90,7 +90,7 @@ class RunExamplesTest extends TestCase {
     $this->assertEquals(0, $result['exit']);
   }
 
-  public function testConflict() {
+  public function testConflict(): void {
     $result = $this->runCmd('pogo examples/conflict.php');
     $this->assertRegExp(';The requested package php/version could not be found in any version;', $result['stderr']);
     $this->assertRegExp(';Composer failed to complete;', $result['stderr']);

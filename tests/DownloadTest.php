@@ -11,14 +11,14 @@ use PHPUnit\Framework\TestCase;
  */
 class DownloadTest extends TestCase {
 
-  public function getTestDir($suffix = NULL) {
+  public function getTestDir($suffix = NULL): string {
     $base = __DIR__ . DIRECTORY_SEPARATOR . 'DownloadExamples';
     return $suffix ? $base . DIRECTORY_SEPARATOR . $suffix : $base;
   }
 
   use CommandTestTrait;
 
-  public function tearDown() {
+  public function tearDown(): void {
     parent::tearDown();
     $tmp = $this->getTestDir('tmp');
     if (file_exists($tmp)) {
@@ -26,7 +26,7 @@ class DownloadTest extends TestCase {
     }
   }
 
-  public function getRunModes() {
+  public function getRunModes(): array {
     return [
       ['local'],
       ['isolate'],
@@ -36,7 +36,7 @@ class DownloadTest extends TestCase {
   /**
    * @dataProvider getRunModes
    */
-  public function testCliOption($runMode) {
+  public function testCliOption($runMode): void {
     $script = $this->getTestDir('dl-via-pragma.php');
     $depDirRel = 'tmp/dl-via-cli';
     $depDirAbs = $this->getTestDir($depDirRel);
@@ -54,7 +54,7 @@ class DownloadTest extends TestCase {
   /**
    * @dataProvider getRunModes
    */
-  public function testPragmaOption($runMode) {
+  public function testPragmaOption($runMode): void {
     $script = $this->getTestDir('dl-via-pragma.php');
     $depDirAbs = $this->getTestDir('tmp/dl-via-pragma');
 

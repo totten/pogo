@@ -2,5 +2,5 @@
 
 return [
   'prefix' => 'PogoPhar',
-  'files-whitelist' => ['templates/pogolib.php'],
+  'exclude-files' => ['templates/pogolib.php'],
 ];
