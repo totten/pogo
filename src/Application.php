@@ -1,6 +1,7 @@
 <?php
 namespace Pogo;
 
+use LesserEvil\ShellVerbosityIsEvil;
 use Pogo\Command\DebugCommand;
 use Pogo\Command\GetCommand;
 use Pogo\Command\HelpCommand;
@@ -9,6 +10,8 @@ use Pogo\Command\PharCommand;
 use Pogo\Command\RunCommand;
 use Pogo\Command\UpdateCommand;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class Application extends \Symfony\Component\Console\Application {
 
@@ -53,6 +56,12 @@ class Application extends \Symfony\Component\Console\Application {
    */
   public function getAllCommands() {
     return $this->getDefaultCommands();
+  }
+
+  protected function configureIO(InputInterface $input, OutputInterface $output) {
+    ShellVerbosityIsEvil::doWithoutEvil(function() use ($input, $output) {
+      parent::configureIO($input, $output);
+    });
   }
 
 }
