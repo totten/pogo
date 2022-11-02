@@ -14,7 +14,7 @@ class HelpCommand extends \Symfony\Component\Console\Command\HelpCommand {
     global $argv;
     $cmd = basename($argv[0]);
     $version = '@package_version@';
-    $name = ($version{0} === '@') ? 'pogo (local version)' : 'pogo @package_version@';
+    $name = ($version[0] === '@') ? 'pogo (local version)' : 'pogo @package_version@';
 
     $output->writeln("$name");
     $output->writeln("<comment>Usage:</comment>");

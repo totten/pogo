@@ -7,12 +7,12 @@ class RunExamplesTest extends TestCase {
 
   use CommandTestTrait;
 
-  public function getTestDir($suffix = NULL) {
+  public function getTestDir($suffix = NULL): string {
     $base = __DIR__ . DIRECTORY_SEPARATOR . 'RunExamples';
     return $suffix ? $base . DIRECTORY_SEPARATOR . $suffix : $base;
   }
 
-  public function getExamples() {
+  public function getExamples(): array {
     $exs = [];
 
     $exs['pragmas-parse'] = [
@@ -62,10 +62,13 @@ class RunExamplesTest extends TestCase {
       ];
     }
 
-    // Known bad: 'require' mode outputs shebangs. But otherwise it works.
     $exs['tpl-require'] = [
       'echo \'{name: Bob, color: green}\' | pogo --run-mode=require examples/yaml-pipe-tpl.php foo',
-      file_get_contents(self::getTestDir('yaml-pipe-tpl-shebang.out')),
+      file_get_contents(self::getTestDir(
+        // Known bad: on php7, 'require' mode outputs shebangs. But otherwise it works.
+        // On php8, there's no probelmatic output. It just works.
+        version_compare(PHP_VERSION, '8', '<') ? 'yaml-pipe-tpl-shebang-7x.out' :  'yaml-pipe-tpl-shebang-8x.out'
+      )),
     ];
 
     $exs['conflict-parse'] = [
@@ -81,7 +84,7 @@ class RunExamplesTest extends TestCase {
    * @param $expectOutput
    * @dataProvider getExamples
    */
-  public function testExamples($cmd, $expectOutput) {
+  public function testExamples($cmd, $expectOutput): void {
     // Tempting to rework this using Symfony command tester, because that
     // can make debugging easier, but pogo will always spawn subprocesses anyway,
     // so we won't actually get that benefit.
@@ -90,9 +93,9 @@ class RunExamplesTest extends TestCase {
     $this->assertEquals(0, $result['exit']);
   }
 
-  public function testConflict() {
+  public function testConflict(): void {
     $result = $this->runCmd('pogo examples/conflict.php');
-    $this->assertRegExp(';The requested package php/version could not be found in any version;', $result['stderr']);
+    $this->assertRegExp(';(The requested package php/version could not be found in any version|composer.json requires php/version, it could not be found in any version);', $result['stderr']);
     $this->assertRegExp(';Composer failed to complete;', $result['stderr']);
     $this->assertNotEquals(0, $result['exit']);
     $this->assertEquals('', $result['stdout']);

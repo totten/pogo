@@ -22,7 +22,7 @@ class Application extends \Symfony\Component\Console\Application {
 
     $input = new ArgvInput(PogoInput::filter($args));
 
-    $application = new Application('pogo', ($version{0} === '@') ? '(local version)' : $version);
+    $application = new Application('pogo', ($version[0] === '@') ? '(local version)' : $version);
     $application->setAutoExit(FALSE);
     $application->setCatchExceptions(TRUE);
     $application->setDefaultCommand('the-input-filter-should-prevent-using-this');

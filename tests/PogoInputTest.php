@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 class PogoInputTest extends TestCase {
 
-  public function getExamples() {
+  public function getExamples(): array {
     // POGO: pogo [--<action>] [action-options] [--] <script-file> [script-options]
     // SYMFONY: symfony <action> [action-options] -- <script-file> [script-options]
     //
@@ -120,7 +120,7 @@ class PogoInputTest extends TestCase {
    *   The command line, as formatted in Symfony's convention.
    * @dataProvider getExamples
    */
-  public function testFilter($inputPogo, $expectSymfony) {
+  public function testFilter($inputPogo, $expectSymfony): void {
     // We could've written these tests as array-inputs (since all the classes
     // work with arrays canonically), but it's easier to grok if the examples
     // are written in string notation.
@@ -138,7 +138,7 @@ class PogoInputTest extends TestCase {
    *
    * Just keep the constant up-to-date.
    */
-  public function testFreshness_actionsRegex() {
+  public function testFreshness_actionsRegex(): void {
     $a = new Application();
     $actions = [];
 
@@ -165,7 +165,7 @@ class PogoInputTest extends TestCase {
    *
    * Just keep the constant up-to-date.
    */
-  public function testFreshness_actionOptionsRegex() {
+  public function testFreshness_actionOptionsRegex(): void {
     $a = new Application();
 
     $options = [];
