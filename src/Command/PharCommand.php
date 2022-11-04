@@ -37,7 +37,7 @@ class PharCommand extends BaseCommand {
 
     $base = dirname($script) . '/' . preg_replace('/\.php$/', '', basename($script));
     $pharFinal = str_replace('<BASE>', $base, $input->getOption('out'));
-    $pharTmp = preg_match(';\.phar;', $pharFinal) ? $pharFinal : (sys_get_temp_dir() . "/$pharFinal-$rand.phar");
+    $pharTmp = preg_match(';\.phar;', $pharFinal) ? $pharFinal : (sys_get_temp_dir() . "/" . basename("$pharFinal-$rand.phar"));
 
     $output->writeln(sprintf("<info>Generating <comment>%s</comment> from <comment>%s</comment></info>", $pharFinal, $script));
 
