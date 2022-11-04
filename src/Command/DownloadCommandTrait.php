@@ -65,28 +65,12 @@ trait DownloadCommandTrait {
       $dl = $scriptMetadata->dir;
     }
     if ($dl) {
-      $dl = preg_replace('/^_SCRIPTDIR_/', dirname($scriptMetadata->file), $dl);
+      $dl = $this->evalPathExpr($dl, $scriptMetadata);
       return PathUtil::evaluateDots(PathUtil::makeAbsolute($dl));
     }
 
     // Pick a base and calculate a hint/digested name.
-    $hint = basename($scriptMetadata->file) . '-' . sha1($scriptMetadata->getDigest() . $this->getCodeDigest() . realpath($scriptMetadata->file));
-
-    if (getenv('POGO_BASE')) {
-      if (getenv('POGO_BASE') === '.') {
-        $base = dirname($scriptMetadata->file) . DIRECTORY_SEPARATOR . '.pogo';
-      }
-      else {
-        $base = getenv('POGO_BASE');
-      }
-    }
-    elseif (getenv('HOME')) {
-      $base = getenv('HOME') . DIRECTORY_SEPARATOR . '.cache' . DIRECTORY_SEPARATOR . 'pogo';
-    }
-    else {
-      $base = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'pogo';
-    }
-    return $base . DIRECTORY_SEPARATOR . $hint;
+    return $this->evalPathExpr('{POGO_BASE}/{SCRIPT_FILE}-{SCRIPT_DIGEST}', $scriptMetadata);
   }
 
   /**
@@ -105,6 +89,77 @@ trait DownloadCommandTrait {
       $value = sha1(implode('', $digests));
     }
     return $value;
+  }
+
+  /**
+   * Evaluate the path-expression.
+   *
+   * @param string $pathExpr
+   *   A path expression as used by `--dl` or `#!depdir`.
+   *   Ex: '{SCRIPT_DIR}/.cache-{SCRIPT_FILE}'
+   * @param \Pogo\ScriptMetadata $scriptMetadata
+   * @return string
+   */
+  protected function evalPathExpr($pathExpr, \Pogo\ScriptMetadata $scriptMetadata) {
+    return preg_replace_callback('/(_SCRIPTDIR_|{[A-Z0-9_]+}|{ENV\[[^\]]+\]})/',
+      function ($m) use ($scriptMetadata) {
+        $var = substr($m[1], 1, -1);
+
+        if (preg_match('/^ENV\[([^\]]+)\]/', $var, $envParse)) {
+          return getenv($envParse[1]);
+        }
+
+        switch ($var) {
+          case 'CODE_DIGEST':
+            return $this->getCodeDigest();
+
+          case 'PHP_X':
+            [$major, $minor, $patch] = explode('.', PHP_VERSION);
+            return $major;
+
+          case 'PHP_XY':
+            [$major, $minor, $patch] = explode('.', PHP_VERSION);
+            return "{$major}.{$minor}";
+
+          case 'PHP_XYZ':
+            [$major, $minor, $patch] = explode('.', PHP_VERSION);
+            return "{$major}.{$minor}.{$patch}";
+
+          case 'POGO_BASE':
+            if (getenv('POGO_BASE')) {
+              if (getenv('POGO_BASE') === '.') {
+                return dirname($scriptMetadata->file) . DIRECTORY_SEPARATOR . '.pogo';
+              }
+              else {
+                return getenv('POGO_BASE');
+              }
+            }
+            elseif (getenv('HOME')) {
+              return getenv('HOME') . DIRECTORY_SEPARATOR . '.cache' . DIRECTORY_SEPARATOR . 'pogo';
+            }
+            else {
+              return sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'pogo';
+            }
+
+          case 'REQUIRE_DIGEST':
+            return $scriptMetadata->getDigest();
+
+          case 'SCRIPTDIR':
+          case 'SCRIPT_DIR':
+            return dirname($scriptMetadata->file);
+
+          case 'SCRIPT_FILE':
+            return basename($scriptMetadata->file);
+
+          case 'SCRIPT_NAME':
+            return preg_replace('/\.php$/', '', basename($scriptMetadata->file));
+
+          case 'SCRIPT_DIGEST':
+            return sha1($scriptMetadata->getDigest() . $this->getCodeDigest() . realpath($scriptMetadata->file));
+        }
+      },
+      $pathExpr
+    );
   }
 
 }

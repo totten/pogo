@@ -10,13 +10,29 @@ Pogo accepts instructions using a `#!foo` notation. The following are supported:
 * __Example__: `#!require {symfony/yaml: ~3.0, symfony/finder: ~3.0}`
 * __Comment__: The `<package>` and `<version>` notations match [composer's `require`](https://getcomposer.org/doc/04-schema.md#require).
 
-## dl
+## depdir
 
 * __Description__: Specify the location for automatically downloaded packages
 * __Signature__: `#!depdir <yaml-string>`
 * __Example__: `#!depdir '/tmp'
 * __Example__: `#!depdir '../var/cache'
 * __Comment__: If the path is relative, it is interpreted as relative to the script file. (This differs from the CLI option `--dl` which defaults to the PWD.)
+    The path may use the following variables:
+    * Environment:
+        * `{POGO_BASE}`: This is either env-var POGO_BASE or fallback (such as `$HOME/.cache/pogo` or `/tmp/pogo`)
+        * `{PHP_X}`: PHP version (MAJOR part)
+        * `{PHP_XY}`:PHP version (MAJOR.MINOR parts)
+        * `{PHP_XYZ}`:PHP version (MAJOR.MINOR.PATCH parts)
+        * `{ENV[...]}`: Reference any environment variable
+    * Script location
+        * `{SCRIPT_DIR}`: The folder containing the main script
+        * `{SCRIPT_FILE}`: The filename of the main script
+        * `{SCRIPT_NAME}`: The filename of the main script, but with file-extensions removed
+        * `_SCRIPTDIR_` (*deprecated*): The folder containing the main script
+    * Script content
+        * `{CODE_DIGEST}`: A checksum based on the raw code of the script
+        * `{REQUIRE_DIGEST}`: A checksum based on the `#!require` directives of the script
+        * `{SCRIPT_DIGEST}`: A checksum based on the content and location of the script
 
 ## ini
 
