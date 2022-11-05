@@ -89,6 +89,43 @@ class PogoProject {
     foreach (['pogolib'] as $helper) {
       file_put_contents("$path/.{$helper}.php", file_get_contents(dirname(__DIR__) . "/templates/{$helper}.php"));
     }
+
+    $realScript = realpath($this->scriptMetadata->file);
+    $this->createLinkOrCopy($realScript, "$path/script.php");
+
+    file_put_contents("$path/run.sh", implode("\n", [
+      '#!/usr/bin/env bash',
+      'export POGO_SCRIPT=' . escapeshellarg($realScript),
+      'export POGO_AUTOLOAD=' . escapeshellarg($this->getAutoloader()),
+      'export POGO_STDIN=',
+      sprintf('[ -e %s ] && RUN_SCRIPT=%s || RUN_SCRIPT="$POGO_SCRIPT"', escapeshellarg("$path/script.php"), escapeshellarg("$path/script.php")),
+      sprintf('exec php %s "$RUN_SCRIPT" "$@"',
+        \Pogo\Php::iniToArgv($this->scriptMetadata->ini + ['auto_prepend_file' => $this->getAutoloader()])
+      ),
+      '',
+    ]));
+    chmod("$path/run.sh", 0755);
+
+    file_put_contents("$path/run.php", implode("\n", [
+      '#!/usr/bin/env php',
+      '<' . '?php',
+      $this->scriptMetadata->ini ? ('/' . '/ WARNING: ini_set() may not work with all variables') : '',
+      \Pogo\Php::iniToCode($this->scriptMetadata->ini),
+      sprintf('$_SERVER["POGO_SCRIPT"] = $_ENV["POGO_SCRIPT"] = %s;', var_export($realScript, TRUE)),
+      'putenv("POGO_SCRIPT=" . $_ENV["POGO_SCRIPT"]);',
+      '',
+      '$_SERVER["POGO_AUTOLOAD"] = $_ENV["POGO_AUTOLOAD"] =  __DIR__ . "/vendor/autoload.php";',
+      'putenv("POGO_AUTOLOAD=" . $_ENV["POGO_AUTOLOAD"]);',
+      '',
+      'unset($_SERVER["POGO_STDIN"]);',
+      'unset($_ENV["POGO_STDIN"]);',
+      'putenv("POGO_STDIN");',
+      '',
+      'require_once __DIR__ . "/vendor/autoload.php";',
+      'require_once file_exists(__DIR__ . "/script.php") ? __DIR__ . "/script.php" : $_ENV["POGO_SCRIPT"];',
+      '',
+    ]));
+    chmod("$path/run.php", 0755);
   }
 
   public function buildComposer() {
@@ -107,6 +144,18 @@ class PogoProject {
    */
   public function getAutoloader() {
     return $this->path . '/vendor/autoload.php';
+  }
+
+  private function createLinkOrCopy($in, $out) {
+    if (file_exists($out)) {
+      unlink($out);
+    }
+    if (preg_match('/(linux|darwin)/i', php_uname())) {
+      symlink($in, $out);
+    }
+    else {
+      copy($in, $out);
+    }
   }
 
 }

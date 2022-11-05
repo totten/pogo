@@ -2,6 +2,7 @@
 
 namespace Pogo\Command;
 
+use Pogo\FilteredDirectoryIterator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -55,7 +56,14 @@ class PharCommand extends BaseCommand {
       $phar = new \Phar($pharTmp);
 
       $phar->setStub($this->createStub($logicalPhar, $mainFile));
-      $phar->buildFromDirectory($project->path);
+      $fileIter = new FilteredDirectoryIterator($project->path, function(string $relPath, \SplFileInfo $file) {
+        // These are debug-files. Not needed in the PHAR.
+        $ignore = ['run.php', 'run.sh', 'script.php'];
+        $result = !in_array($relPath, $ignore) && !$file->isDir();
+        return $result;
+      });
+
+      $phar->buildFromIterator($fileIter, $project->path);
       $phar->compressFiles(\Phar::GZ);
       $fs->chmod($pharTmp, 0777);
 

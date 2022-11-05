@@ -21,6 +21,22 @@ class Php {
   }
 
   /**
+   * Convert a list of PHP INI values to PHP code.
+   *
+   * @param array $ini
+   *   Ex: ['memory_limit'=>'256m']
+   * @return string
+   *   Ex: 'ini_set("memory_limit", "256m");'
+   */
+  public static function iniToCode($ini) {
+    $buf = '';
+    foreach ($ini as $k => $v) {
+      $buf .= sprintf("ini_set(%s, %s);\n", var_export($k, TRUE), var_export($v, TRUE));
+    }
+    return $buf;
+  }
+
+  /**
    * @param array $ini
    *   Ex: ['memory_limit'=>'256m']
    */
