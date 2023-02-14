@@ -53,7 +53,9 @@ my-script
 
 ## Interpreter options
 
-Whether you call `pogo` directly or indirectly, it accepts a few options, such as:
+> __TIP__: Most interpreter options can also be specified as in-file [pragmas](pragmas.md).
+
+When you call `pogo` directly, it accepts a few options, such as:
 
 * `--dl=<DIR>` - Explicitly store dependencies in the given directory
 * `-f`/`--force` - Forcibly download fresh dependencies, even the dependencies are currently available
@@ -65,32 +67,12 @@ For example, if you wanted to inspect or debug the dependencies, you might expli
 pogo -f --dl=/tmp/depdebug my-script.php
 ```
 
-Similarly, suppose you have an executable in `/home/me/bin/my-script` and you want
-to ensure that it places dependencies in `/home/me/src/my-script.dbg`. Set the
-first line accordingly:
-
-```bash
-#!/usr/bin/env pogo --dl=/home/me/src/my-script.dbg
-<?php
-echo "Hello world\n";
-```
-
 The `--dl` can be relative. By default, it's relative to the CWD (which is
 more intuitive for direct invocations), but you may make it relative to the
 script with the variable `{SCRIPT_DIR}`.
 
 ```bash
-#!/usr/bin/env pogo --dl='{SCRIPT_DIR}/.my-script.deps'
-<?php
-echo "Hello world\n";
-```
-
-Or if you wanted to lock deps into a read-only mode for multiuser systems:
-
-```php
-#!/usr/bin/env pogo --dl=/var/cache/pogo/my-script --allow-stale
-<?php
-echo "Hello world\n";
+pogo --dl='{SCRIPT_DIR}/.my-script.deps' my-script.php
 ```
 
 For more details about `pogo` command-line options, run `pogo -h`.
