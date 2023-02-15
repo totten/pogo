@@ -1,13 +1,15 @@
-# pogo: Run PHP scripts with inline dependencies
+# PHP On the Go (`pogo`)
 
 Pogo allows you to write small PHP scripts which use PHP libraries (courtesy
 of `composer`/`packagist`)...  but it *doesn't* require you setup a
 special-purpose folder, project, or repository.  To use a dependency, simply
-add a small pragma into your script.  This makes it easier to use PHP
-libraries when:
+add a small pragma into your script. For example:
 
-* Experimenting or learning
-* Writing random system-automation scripts and one-off scripts
+```php
+#!require symfony/yaml: ~4.4
+```
+
+This makes it easier to use PHP libraries for glue-scripts, throw-away scripts, quick experiments, etc.
 
 ## Example
 
@@ -52,6 +54,10 @@ cat myfile.yml | pogo code2pdf.php > myfile.pdf
 ```
 
 That's it!
+
+## More examples
+
+The [examples](./examples) folder has several examples of pulling in other libraries frameworks, such as [ReactPHP](examples/httpd-react.php), [Symfony Console](examples/cli-symfony.php), [Clippy](examples/cli-clippy.php), and [Robo](examples/cli-robo.php).
 
 ## Motivation
 
