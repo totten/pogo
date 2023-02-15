@@ -111,4 +111,4 @@ include the pragma:
 #!require mnapoli/silly: ~1.7
 ```
 
-(Full example: [examples/cli-parsing.php](//github.com/totten/pogo/blob/master/examples/cli-parsing.php))
+(Full example: [examples/cli-silly.php](//github.com/totten/pogo/blob/master/examples/cli-silly.php))
