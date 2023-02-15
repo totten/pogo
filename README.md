@@ -57,7 +57,7 @@ That's it!
 
 ## More examples
 
-The [examples](./examples) folder has several examples of pulling in other libraries frameworks, such as [ReactPHP](examples/httpd-react.php), [Symfony Console](examples/cli-symfony.php), [Clippy](examples/cli-clippy.php), and [Robo](examples/cli-robo.php).
+The [examples](./examples) folder has several examples of using other libraries and frameworks, such as [ReactPHP](examples/httpd-react.php), [Symfony Console](examples/cli-symfony.php), [Clippy](examples/cli-clippy.php), and [Robo](examples/cli-robo.php). Each example is an executable program.
 
 ## Motivation
 
