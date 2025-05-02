@@ -95,8 +95,8 @@ class RunExamplesTest extends TestCase {
 
   public function testConflict(): void {
     $result = $this->runCmd('pogo examples/conflict.php');
-    $this->assertRegExp(';(The requested package php/version could not be found in any version|composer.json requires php/version, it could not be found in any version);', $result['stderr']);
-    $this->assertRegExp(';Composer failed to complete;', $result['stderr']);
+    $this->assertMatchesRegularExpression(';(The requested package php/version could not be found in any version|composer.json requires php/version, it could not be found in any version);', $result['stderr']);
+    $this->assertMatchesRegularExpression(';Composer failed to complete;', $result['stderr']);
     $this->assertNotEquals(0, $result['exit']);
     $this->assertEquals('', $result['stdout']);
   }
