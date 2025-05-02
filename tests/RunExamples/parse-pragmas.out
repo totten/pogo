@@ -7,9 +7,9 @@
         "memory_limit": "1g"
     },
     "require": {
-        "symfony/console": "~3.0",
+        "symfony/console": "~5.4",
         "symfony/finder": "~3.2",
-        "symfony/yaml": "~3.1"
+        "symfony/yaml": "~5.4"
     },
     "ttl": "1 month",
     "runner": {

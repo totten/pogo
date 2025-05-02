@@ -1,6 +1,6 @@
 #!/usr/bin/env pogo
 <?php
-#!require symfony/console: ~4.4
+#!require symfony/console: ~5.4
 
 $io = new Symfony\Component\Console\Style\SymfonyStyle(
   new Symfony\Component\Console\Input\ArgvInput($argv),
