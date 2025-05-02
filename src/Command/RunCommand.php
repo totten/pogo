@@ -26,7 +26,7 @@ class RunCommand extends BaseCommand {
       ->addOption('run-mode', NULL, InputOption::VALUE_REQUIRED, 'How to launch PHP subscripts (ex: include, eval)');
   }
 
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     $target = $input->getArgument('script');
     if (empty($target)) {
       throw new \Exception("[run] Missing required file name");

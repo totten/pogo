@@ -23,7 +23,7 @@ class PharCommand extends BaseCommand {
       ->addOption('out', 'o', InputOption::VALUE_REQUIRED, 'Output file', '<BASE>.phar');
   }
 
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     $script = $input->getArgument('script');
     if (empty($script)) {
       throw new \Exception("[get] Missing required file name");

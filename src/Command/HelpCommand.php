@@ -6,7 +6,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class HelpCommand extends \Symfony\Component\Console\Command\HelpCommand {
 
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     if (!empty($input->getArgument('command')) && $input->getArgument('command') !== 'help') {
       return parent::execute($input, $output);
     }
