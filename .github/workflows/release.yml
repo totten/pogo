@@ -31,7 +31,7 @@ jobs:
         run: composer validate
 
       - name: Build PHAR
-        run: ./scripts/build.sh && mv dist/pogo.phar dist/pogo-${{ env.RELEASE_VERSION }}.phar
+        run: ./build.sh && mv dist/pogo.phar dist/pogo-${{ env.RELEASE_VERSION }}.phar
         continue-on-error: false
 
       - name: Create release
