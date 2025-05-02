@@ -3,6 +3,7 @@
 /bin/phpunit
 /bin/pogo.phar
 /bin/box
+/bin/yaml-lint
 /tests/DownloadExamples/tmp/
 /vendor/
 .composer-downloads
