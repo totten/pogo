@@ -16,9 +16,6 @@
         "civicrm/composer-downloads-plugin": "~3.0",
         "symfony/filesystem": "~4.0"
     },
-    "require-dev": {
-        "phpunit/phpunit": "~5.0"
-    },
     "autoload": {
         "psr-4": {
             "Pogo\\": "src/"
