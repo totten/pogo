@@ -4,7 +4,7 @@
 ## This example uses the "Silly" (https://github.com/mnapoli/silly) CLI framework.
 ## It provides a very pithy way to declare and parse CLI arguments.
 
-#!require { mnapoli/silly: ~1.7, php: '>=7.0' }
+#!require { mnapoli/silly: ~1.9, php: '>=7.4' }
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 $app = new Silly\Application();

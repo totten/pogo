@@ -9,7 +9,7 @@
 ##
 ## Usage: echo '{name: Alice, color: cyan}' | pogo yaml-pipe-tpl.php foo bar
 
-#!require symfony/yaml: ~3.0
+#!require symfony/yaml: ~5.4
 $parsed = Symfony\Component\Yaml\Yaml::parse(file_get_contents(pogo_stdin()));
 ?>
 Hello, <?php echo $parsed['name']; ?>!!

@@ -13,7 +13,7 @@ class UpdateCommand extends BaseCommand {
       ->setDescription('Get dependencies for a PHP script');
   }
 
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     if (!empty($input->script)) {
       throw new \Exception("[up] Unexpected file argument.");
     }

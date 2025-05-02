@@ -3,7 +3,7 @@
     "dir": null,
     "ini": [],
     "require": {
-        "symfony/yaml": "~3.0"
+        "symfony/yaml": "~5.4"
     },
     "ttl": "7 days",
     "runner": {

@@ -14,7 +14,7 @@ class ParseCommand extends BaseCommand {
       ->addArgument('script', InputArgument::REQUIRED, 'PHP script');
   }
 
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     $script = $input->getArgument('script');
 
     if (empty($script)) {

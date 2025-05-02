@@ -19,7 +19,7 @@ class GetCommand extends BaseCommand {
       ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force download of any dependencies');
   }
 
-  protected function execute(InputInterface $input, OutputInterface $output) {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     $script = $input->getArgument('script');
     if (empty($script)) {
       throw new \Exception("[get] Missing required file name");
