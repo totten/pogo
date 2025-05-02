@@ -4,6 +4,7 @@
 /bin/pogo.phar
 /bin/box
 /bin/yaml-lint
+/dist/
 /tests/DownloadExamples/tmp/
 /vendor/
 .composer-downloads

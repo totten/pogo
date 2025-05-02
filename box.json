@@ -14,6 +14,6 @@
     "git-version": "package_version",
     "main": "bin/pogo",
     "compactors": ["KevinGH\\Box\\Compactor\\Php", "KevinGH\\Box\\Compactor\\PhpScoper"],
-    "output": "bin/pogo.phar",
+    "output": "dist/pogo.phar",
     "stub": true
 }
